@@ -16,11 +16,13 @@ Data4Help is a system that can allow the joining of two typologies of users:
 \end{itemize}
 The system should also provide another service, built on top of Data4Help, called AutomatedSOS.
 \newline
- This service monitors the health status of the subscribed user and when some parameters are below certain tresholds, sends to the customer and ambulance.
+ This service monitors the health status of the subscribed user and when some parameters are below certain thresholds, sends to the customer and ambulance.
 \newline
 Improving the health status of the users and helping to analyze their health status will be the key driver of Data4Help features.
 \newline
 In the following chapters more details will be presented.
+
+
 \section{Scope}
 \subsection{Description of the given problem}
 Data4Help aims to collect and gather in one place all the data related to the health condition of a registered user (steps taken daily, average heart beat, possible activities done in a day) from any device capable of collecting at least one of these kind of data.
@@ -44,23 +46,32 @@ This is not the only purpose of Data4Help, indeed the AutomatedSOS service enabl
 
 
 \subsection{Goals}
-G1 - The users eHealth data is  correctly gathered from their device and uploaded to the system.
- \newline
-G2 - Registered third-parties can access anonimized data.
- \newline
-G3 - A registered third party can ask for permission to access an individual data.
- \newline
-G4 - A registered third party can access the data of an individual who gave permission to it
- \newline
-G5 - The system is able to start automatically a rescue procedure.
- \newline
-G6 - The system is able to mantain the desired privacy level of each user (?).
- \newline
-G7 - The system updates the third-party when new data of accepted requests is available
+
+\begin{goal}
+The users' eHealth data are correctly gathered from their device and uploaded to the system.
+\end{goal}
+\begin{goal}
+Registered third-parties can access anonimized data.
+\end{goal}
+\begin{goal}
+A registered third party can ask for permission to access an individual data.
+\end{goal}
+\begin{goal}
+A registered third party can access the data of an individual who gave permission to it
+\end{goal}
+\begin{goal}
+The system is able to start automatically a rescue procedure.
+\end{goal}
+\begin{goal}
+The system is able to mantain the desired privacy level of each user (?).
+\end{goal}
+\begin{goal}
+The system updates the third-party when new data of accepted requests is available
+\end{goal}
 \section{Definitions, Acronyms, Abbreviations}
 \subsection{Definitions}
 \begin{itemize}
-\item \textbf{Individual} : user that allows the acquisition of the data. He can't use the data request feature of the application
+\item \textbf{Individual} : user that allows the acquisition of the data. He can't use the data request feature of the application.
 \item \textbf{Third party}: user that can request data from the application.
 \item \textbf{eHealth Data}: all the data that can the related to the general health of the user, for example steps taken daily, hearth beat, blood pressure, activity level
 \end{itemize}
