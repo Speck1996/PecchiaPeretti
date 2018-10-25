@@ -1,28 +1,6 @@
-\documentclass[a4paper,12pt]{article}
-\usepackage{graphicx}
-\newcommand*\Title{Requirements Analysis and Specification Document}
-\newcommand*\cpiType{CPI Template}
-\newcommand*\Date{October 2018}
-\newcommand*\Author{Stefano Pecchia \and Edoardo Peretti}
-\title{Requirements Analysis and Specification Document}
-\author{Stefano Pecchia \and Edoardo Peretti}
-\date{\today}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{document}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{titlepage}
-\maketitle
-\end{titlepage}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\tableofcontents
-\newpage
-\section{Introduction}
-\subsection{Purpose}
+\chapter{Introduction}
+\section{Purpose}
 
 \textbf{Data4Help} is a service whose aim is to collect eHealth data acquired from registered users and make it available for other particular users, called third parties.
 
@@ -31,7 +9,7 @@ The purpose of this document is to give an overview of Data4Help capabilities, s
 is essential to gather all the information needed for the software developing and testing, especially to distinguish  \textbf{what is assumed by the system} and what is \textbf{required} from it.
 
 \par \noindent \newline
-Data4Help is a sytem that can allow the joining of two tipologies of users:
+Data4Help is a system that can allow the joining of two typologies of users:
 \begin{itemize}
 \item Individuals that want their data to be acquired by Data4Help.
 \item Third-Parties that want to access the collected data.
@@ -43,29 +21,29 @@ The system should also provide another service, built on top of Data4Help, calle
 Improving the health status of the users and helping to analyze their health status will be the key driver of Data4Help features.
 \newline
 In the following chapters more details will be presented.
-\subsection{Scope}
-\subsubsection{Description of the given problem}
-Data4Help aims to collect and gather in one place all the data related to the health condition of a registred user (steps taken daily, average heart beat, possible activities done in a day) from any device capable of collecting at least one of these kind of data.
+\section{Scope}
+\subsection{Description of the given problem}
+Data4Help aims to collect and gather in one place all the data related to the health condition of a registered user (steps taken daily, average heart beat, possible activities done in a day) from any device capable of collecting at least one of these kind of data.
 The collected data can be accessed by third-parties in two different ways:
 \begin{itemize}
-\item Anonymized data: data of group of individuals, where the group can be identified by location, parameters on specific data (both on the user and the collected data). To mantain a certain level of privacy requests that select groups that count higher than 1000 individuals are allowed by the system.
+\item Anonymized data: data of group of individuals, where the group can be identified by location, parameters on specific data (both on the user and the collected data). To maintain a certain level of privacy requests that select groups that count higher than 1000 individuals are allowed by the system.
 \item Specific individual data: data of a specific user, this can be accessed only after the third-party sends a request to access the user data, and the user accepts it. The handling of the request for individual data is handled by the system.
 \end{itemize}
 The system also updates as soon as possible the third parties, when new accessible data is gathered.
 To distinguish between individuals account, and third parties account at the moment of registration the user must select what kind of account it is going to create.
-Third parties can also subscribe to another service, included in the application: AutomatedSOS. This service monitors the health status of an individual continuosly and if certain parameters go below a critical treshold the application starts automatically a rescue procedure in under 5 seconds from the crossing of the treshold sending an ambulance to the location of the user.
+Third parties can also subscribe to another service, included in the application: AutomatedSOS. This service monitors the health status of an individual continuously and if certain parameters go below a critical threshold the application starts automatically a rescue procedure in under 5 seconds from the crossing of the treshold sending an ambulance to the location of the user.
 \newline
 In a fragmented market like the wearables one, Data4Help focus on organizing all the data coming these devices and provide it easily while respecting user privacy.
  \newline
 This is not the only purpose of Data4Help, indeed the AutomatedSOS service enable the system to have an active role in the life of its users, monitoring their health constatly and providing them emergency support.
-\subsubsection{World and machine phenomena}
+\subsection{World and machine phenomena}
 \begin{figure}
 \centering
-\includegraphics[scale=0.75]{phenomena.png}
+\includegraphics[scale=0.7]{img/phenomena.png}
 \end{figure}
 
 
-\subsubsection{Goals}
+\subsection{Goals}
 G1 - The users eHealth data is  correctly gathered from their device and uploaded to the system.
  \newline
 G2 - Registered third-parties can access anonimized data.
@@ -79,19 +57,13 @@ G5 - The system is able to start automatically a rescue procedure.
 G6 - The system is able to mantain the desired privacy level of each user (?).
  \newline
 G7 - The system updates the third-party when new data of accepted requests is available
-\subsection{Definitions, Acronyms, Abbreviations}
-\subsubsection{Definitions}
+\section{Definitions, Acronyms, Abbreviations}
+\subsection{Definitions}
 \begin{itemize}
 \item \textbf{Individual} : user that allows the acquisition of the data. He can't use the data request feature of the application
 \item \textbf{Third party}: user that can request data from the application.
 \item \textbf{eHealth Data}: all the data that can the related to the general health of the user, for example steps taken daily, hearth beat, blood pressure, activity level
 \end{itemize}
-\subsection{Revision History}
-\subsection{Reference Documents}
-\subsection{Document Structure}
-\pagebreak
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\end{document}
-
+\section{Revision History}
+\section{Reference Documents}
+\section{Document Structure}
