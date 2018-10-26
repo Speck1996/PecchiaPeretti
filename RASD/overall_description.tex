@@ -1,7 +1,57 @@
 \chapter{Overall description}
 \section{Product perspective}
 \section{Product functions}
+
+
+\subsection{Access to specific data}
+A third party interested in monitoring a specific individual can send a request to the system specifying his SSN or FC.
+The system passes the request to the specific individual who can accept or refuse it.
+If the request is accepted, the third party can see daily or aggregate data of the individual. In this case the third party can also see name, surname and age of the individuals.
+
+
+\subsection{Access to group data}
+A third party can also request access to anonymized data of a group of individuals.
+To do so, it must specify some parameters concerning individuals. These parameters can regard geographical area, age range or level of education of the users of interest to the third party.
+Geographical area can be specified in term of country, region, province, town and district (only for big city).
+
+This type of requests are managed directly by the system. Because TrackMe holds in high regard the privacy of its users, it will satisfy the request only if the number of individuals whose data satisfy the request is higher than 1000.
+
+If the request is positively evaluated, the anonymized data is made available to the third party.
+Optionally, the third party can subscribe to new data with the same characteristics. If new data, matching the third party request, is produced it will be made available to the requester at most once a week.
+
+
+
+
+\subsection{SOS service}
+The service AutomatedSOS must exploit the real-time stream of eHealth data provided by the underlying Data4Help to offer a personalized and non-intrusive SOS service especially design for elderly people.
+Any individual, correctly registered to Data4Help, can optionally request to active this service
+
+
+If AutomatedSOS has been activated, the system should continuously monitor the parameters of the individuals and compare them using certain specific thresholds.
+If the parameters are below these thresholds, the system assumes that the individual is having a sudden illness and forwards a request to an emergency service for sending an ambulance to the location of the user.
+AutomatedSOS must ensure a reaction time of less than 5 seconds from the time the parameters are detected below the threshold.
+
+
+
+
+
+
+
+
+
+
 \section{User characteristics}
+The users of Data4Help and AutomatedSOS services are:
+
+\begin{itemize}
+\item \textit{Individual} : user that allows the acquisition of the data and can optionally activate AutomatedSOS. He can't use the data request feature of Data4Help.
+\item \textit{Third party}: user that can request data from the application.
+\end{itemize}
+
+
+
+
+
 \section{Assumptions, dependencies and constraints}
 
 \subsection{Domain assumptions}
