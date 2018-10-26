@@ -1,0 +1,27 @@
+\chapter{Overall description}
+\section{Product perspective}
+\section{Product functions}
+\section{User characteristics}
+\section{Assumptions, dependencies and constraints}
+
+\subsection{Domain assumptions}
+
+\begin{dom}
+Location and eHealth data are provided by individuals' devices and assumed to be correct.
+\end{dom}
+\begin{dom}
+A third party interested in monitoring a specific individual knows the SSN of the individual
+\end{dom}
+\begin{dom}
+Thresholds for health parameters are provided by medical experts.
+\end{dom}
+\begin{dom}
+An ambulance is always available when it is needed.
+\end{dom}
+
+\subsection{Privacy constraints}
+The system will collect and elaborate personal data of the individuals and, possibly, it will share them or part of them with third party.  For this reason, during the registration activity to the system, all the users must be informed of this practice and they must explicitly confirm their consensus.
+
+In particular, anonymized data can be shared with third parties who request it without the users being further advised. In order to protect its users' privacy and to prevent misuse of data, TrackMe won't shared data if the number of individuals whose data satisfy the request is lower than 1000.
+
+Moreover, a third party can request to fully access the data of some specific individual. In this case it is up to the individual to accept or not to share his data with that specific third party.
