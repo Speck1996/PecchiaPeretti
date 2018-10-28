@@ -1,10 +1,11 @@
 \chapter{Overall description}
 \section{Product perspective}
+Data4Help is a brand new service that will be built from the ground up. The user will interact with the system through the mobile application. An internet connection, GPS, and a wearable to collect eHealth data are required in order to use Data4Help fuctionalities and the optional additional service AutomatedSOS.
 \section{Product functions}
 
 
 \subsection{Access to specific data}
-A third party interested in monitoring a specific individual can send a request to the system specifying his SSN or FC.
+A third party interested in monitoring a specific individual can send a request to the system specifying his SSN or TC.
 The system passes the request to the specific individual who can accept or refuse it.
 If the request is accepted, the third party can see daily or aggregate data of the individual. In this case the third party can also see name, surname and age of the individuals.
 
@@ -23,7 +24,7 @@ Optionally, the third party can subscribe to new data with the same characterist
 
 
 \subsection{SOS service}
-The service AutomatedSOS must exploit the real-time stream of eHealth data provided by the underlying Data4Help to offer a personalized and non-intrusive SOS service especially design for elderly people.
+The service AutomatedSOS must exploit the real-time stream of eHealth data provided by the underlying Data4Help to offer a personalized and non-intrusive SOS service especially designed for elderly people.
 Any individual, correctly registered to Data4Help, can optionally request to active this service
 
 
@@ -68,10 +69,31 @@ Thresholds for health parameters are provided by medical experts.
 \begin{dom}
 An ambulance is always available when it is needed.
 \end{dom}
+\begin{dom}
+Registered users must keep their login credentials secret.
+\end{dom}
+\begin{dom}
+The ambulance driver can reach the user in critical condition.
+\end{dom}
+
+
 
 \subsection{Privacy constraints}
 The system will collect and elaborate personal data of the individuals and, possibly, it will share them or part of them with third party.  For this reason, during the registration activity to the system, all the users must be informed of this practice and they must explicitly confirm their consensus.
 
-In particular, anonymized data can be shared with third parties who request it without the users being further advised. In order to protect its users' privacy and to prevent misuse of data, TrackMe won't shared data if the number of individuals whose data satisfy the request is lower than 1000.
+In particular, anonymized data can be shared with third parties who request it without the users being further advised. In order to protect its users' privacy and to prevent misuse of data, TrackMe won't share data if the number of individuals whose data satisfy the request is lower than 1000.
 
 Moreover, a third party can request to fully access the data of some specific individual. In this case it is up to the individual to accept or not to share his data with that specific third party.
+
+\subsection{Hardware limitations}
+These are the devices that will first receive Data4Help app. 
+In the future other smartwatch operating systems may be considered.
+\begin{itemize}
+\item iOS or Android smartphone with following capabilities:
+\begin{itemize}
+\item 2G/3G/4G connection
+\item GPS
+\end{itemize}
+\item watchOS or wearOS smartwatch
+\end{itemize}
+
