@@ -41,3 +41,129 @@ Therefore FatBit's managers decide to register with a unique account as third-pa
 \subsection{Scenario 4}
 Wile is an engineering student who wants to get back in shape. He decides to join the gym and to buy a wearable to see its progress over time. Initially Wile is satisfied by his wearable and the built in application but later he starts noticing that more and more wearables with improved design and many new features are launching in the market. Wisely, he notice that the built in application collects the data only for the producer's devices and so if he wanted to change his wearable without losing data he were pratically forced to buy a new watch from the same company. Therefore he decides to use Data4Help, allowing him to change his wearable with the one he likes the most without losing data.
 
+\section{Functional Requirements}
+
+\begin{enumerate}
+
+\item[\textbf{[G1]}] \textbf{Individuals eHealth data is correctly gathered from their devices and uploaded to the system.}
+
+\begin{enumerate}
+
+\item[D1] Location and eHealth data are provided by individuals' devices and assumed to be correct.
+\item[R1] Data4Help is able to store the data provided by individuals.
+\item[R2] Users are able to login with the username and the password associated to their account.
+\item[R3] Data4Help is able to pair with the user wearable.
+\item[R4] Individuals can upload their data through Data4Help app.
+\item[R5] Data4Help is able to organize data provided by individuals.
+\item[D3] Users have access to internet.
+
+
+
+\end{enumerate}
+
+\item[\textbf{[G2]}] \textbf{Third parties can have access to data of accepted data of groups requests.}
+
+\begin{enumerate}
+
+\item[D3] Users have access to internet.
+\item[R1] Data4Help is able to store the data provided by individuals.
+\item[R2] Users are able to login with the username and the password associated to their account.
+\item[R5] Data4Help is able to organize data provided by individuals.
+\item[R6] Third parties can formulate requests to access anonimized data of groups.
+\item[R7] Third parties can apply filters on data while formulating their request for data of groups.
+\item[R8] The system checks if the number of individuals in the group detected by the third party request is higher than 1000.
+\item[R8.1] If the groups has 1000 or less individuals the system denies the request.
+\item[R9] The system is able to distribute the requested data to the third party.
+
+
+
+\end{enumerate}
+
+\item[\textbf{[G3]}] \textbf{Third parties can have access to data of specific individuals that gave permission to it.}
+
+\begin{enumerate}
+
+\item[D3] Users have access to internet.
+\item[D2] A third party interested in monitoring a specific individual knows the SSN of the individual.
+\item[R1] Data4Help is able to store the data provided by individuals.
+\item[R2] Users are able to login with the username and the password associated to their account.
+\item[R5] Data4Help is able to organize data provided by individuals.
+\item[R10] Data4Help is able to forward the request to the individual specified in the third party.
+\item[R11] The individual to whom the request will be forwarded is able to reply.
+\item[R12] The system notifies the third party about the individual reply.
+\item[R13] Data4Help can check if the individual has accepted the data access request by the third party.
+\item[R9] The system is able to distribute the requested data to the third party.
+
+
+\end{enumerate}
+
+\item[\textbf{[G4]}] \textbf{The system is able to notify third parties when new data of their observed groups or individuals is gathered.}
+
+\begin{enumerate}
+\item[D3] Users have access to internet.
+\item[R2] Users are able to login with the username and the password associated to their account.
+\item[R1] Data4Help is able to store the data provided by individuals.
+\item[R5] Data4Help is able to organize data provided by individuals.
+\item[R14] Third parties can specify to be updated whenever new data of groups detected by their data requests, or observerd individuals is gathered. The time interval between an update and the next one can be set by the third party, in a limit that goes from one hour to 1 year.
+\item[R15] The system is able to update third parties with new data, respecting their prefecerences on the interval timing.
+\end{enumerate}
+
+\item[\textbf{[G5]}] \textbf{The system is able to start automatically a rescue procedure.}
+\begin{enumerate}
+\item[D3] Users have access to internet.
+\item[R2] Users are able to login with the username and the password associated to their account.
+\item[R3] Data4Help is able to pair with the user wearable.
+\item[R16] Individual can subscribe to the AutomatedSOS service.
+\item[R17] The individual wearable can measure at least two vital parameters.
+\item[R18] The system is able to continuosly monitor individual vital parameters.
+\item[R19] If the wearable is disconnected the AutomatedSOS service is suspended, untill the individual connects his wearable again.
+\item[D4] Thresholds for health parameters are provided by medical experts.
+\item[D5] An ambulance is always available when it is needed.
+\item[D7] The ambulance driver can reach the user in critical condition.
+\item[D1] Location and eHealth data are provided by individuals' devices and assumed to be correct.
+\item[R20] Whenever a vital parameter cross its respective treshold, the system calls an ambulance in under 5 seconds, giving to the ambulance driver the location of the individual.
+\end{enumerate}
+
+\item[\textbf{[G6]}] \textbf{The system is able to mantain the desired privacy level of each individual.
+}
+
+\begin{enumerate}
+\item[D1] Registered users must keep their login credentials secret.
+\item[R21] The system doesn't allow third parties to access specific individuals data without first asking for their permission.
+\item[R22] The system stops to update third parties about new data whenever observed individuals decide to remove data access permissions, or whenever the number of individuals of an observed groups goes belove 1001.
+\end{enumerate}
+\end{enumerate}
+
+
+\subsubsection{Use case diagrams}
+
+
+\subsubsection{Sequence diagrams}
+
+\section{Performance Requirements}
+Data4Helps is a service that strongly depends on the amount of data gathered therefore the initial phase will focus on recruiting at least 100000 individuals while the number of third parties using the service in the initial phase it's expected to be around 500. In order to expand the user base and have from the start good feedbacks third parties data requests should have a response time of 1 second or less while the upload time of individuals data should be less than 500 milliseconds. Obviously these parameters are flexible, and under heavy loads may be crossed.Having a robust, persistent and fast database is of crucial importance.
+
+\section{Design constraints}
+\subsection{Standards compliance}
+\begin{itemize}
+\item The app only requests the minimum permissions in order to guarantee its core functionalities: storage access, location, access to wearable.
+\item The app only supports portrait mode.
+\item All the data gathered trhough individuals wearables will be uploaded and stored in the system database.
+Critical treshold for vital parameters will be stored in the user device in order to guarantee the AutomatedSOS even when the phone is offline.
+\end{itemize}
+
+
+\subsection{other costraints}
+
+\section{Software system costraints}
+\subsection{Reliability}
+For this tipology of application is necesessary to guarantee a 24/7 service.
+\subsection{Availability}
+The system is expected to be available 99.99% of the time.
+\subsection{Security}
+Users passwords will be cripted and stored in a specific database.
+\subsection{Mantainability}
+The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteing an high level of flexibility. AutomateSOS is a first, clear example of the expandability nature of Data4Help that will both analyze individual and third parties tips to improve its service.
+\subsection{Compatibility}
+Gathering the possible largest amount of eHealth data is the fundamental feature of the service. Although, due the fragmentation of the wearable market, only watchOS and wearOS smartwatches will be initially supported. TizenOS and wearOS smartwatches will get official support as soon as possible, not longer than 3 months after the app initial release.
+The app will support both Android and iOS smartphones. 
