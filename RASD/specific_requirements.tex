@@ -172,6 +172,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \end{tabular}
 
 
+
 \begin{tabular}{|l|p{13cm}|}
     \hline
     Name & Sign In
@@ -202,6 +203,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \hline
 \end{tabular}
 
+
 \begin{tabular}{|l|p{13cm}|}
     \hline
     Name & Wearable pairing
@@ -230,6 +232,8 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \hline
     Special Requirements & The pairing time limit is 10 seconds.
 \end{tabular}
+
+
 
 \begin{tabular}{|l|p{13cm}|}
     \hline
@@ -261,6 +265,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \end{tabular}
 
 
+
 \begin{tabular}{|l|p{13cm}|}
     \hline
     Name & Manage third parties data access requests.
@@ -285,7 +290,10 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The application notifies that the device is disconnected and temporally store offline the individual answer. The answer will be then uploaded as soon as the connection comes back
     \end{enumerate}
       \\
+    \hline
 \end{tabular}
+
+
 
 \begin{tabular}{|l|p{13cm}|}
     \hline
@@ -312,8 +320,11 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The connection goes down during the process. 
     \item The exception above is handled notifying the individual that there is no connection. The individual must repeat the whole procedure when the connection is back.
     \end{enumerate}
-      \\
+       \\
+    \hline
 \end{tabular}
+
+
 
 \begin{tabular}{|l|p{13cm}|}
     \hline
@@ -343,7 +354,9 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The exception above is handled notifying the individual that there is no connection. The individual must repeat the whole procedure when the connection is back.
     \end{enumerate}
       \\
+    \hline
 \end{tabular}
+
 
 
 \begin{tabular}{|l|p{13cm}|}
@@ -370,7 +383,134 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The procedure continues with the last saved location and vital parameters.
     \end{enumerate}
       \\
+      \hline
+    Special Requirements & The system must call the ambulance in under 5 seconds from the treshold crossing.
+      \\
+      \hline
 \end{tabular}
+
+
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Individual data request
+    \\ \hline
+    Actor & Third party
+    \\ \hline 
+    Entry condition & The third party is logged in and knows the individual's username or tax code
+        \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The third party selects the data request button
+	\item The third party insert the individual identifier (either his username or his tax code)
+	\item The system forwards the request to the individual.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & A notification of a new data access request is sento to the individual.
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item The individual identifier is not found in the system.
+    \item The exception above is notified to the third party, wich is sent back to the data request screen
+    \end{enumerate}
+        \\  \hline
+
+\end{tabular}
+
+
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Group data request
+    \\ \hline
+    Actor & Third party
+    \\ \hline 
+    Entry condition & The third party is logged in
+        \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The third party goes in the data request section.
+    \item The third party selects the group data request
+	\item The third party can apply filters on his request. To be precise it can filter data by individuals age, sex, location (country, city) and can specify wich data it is interested in (steps taken daily, daily sleep hours, average heart rate, average blood pressure)
+	\item The system analyzes the request and distributes the requested data to the third party.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & The requested data is visualized by the third party.
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item The group of individuals detected by the third party has a number of members of 1000 or less.
+    \item The exception above is notified to the third party, wich is sent back to the data request screen.
+     
+    \end{enumerate}
+	 \\
+    \hline
+\end{tabular}
+
+
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Data visualization
+    \\ \hline
+    Actor & Third party
+    \\ \hline 
+    Entry condition & The third party is logged in.
+        \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The third party goes in the data visualization section.
+    \item The third party is able to see
+	\item The third party can apply filters on his request. To be precise it can filter data by individuals age, sex, location (country, city) and can specify wich data it is interested in (steps taken daily, daily sleep hours, average heart rate, average blood pressure)
+	\item The system analyzes the request and distributes the requested data to the third party.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & The requested data is visualized by the third party.
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item The group of individuals detected by the third party has a number of members of 1000 or less.
+    \item The exception above is notified to the third party, wich is sent back to the data request screen.
+    \end{enumerate} 
+     \\
+    \hline
+\end{tabular}
+  
+
+   
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Data visualization
+    \\ \hline
+    Actor & Third party
+    \\ \hline 
+    Entry condition & The third party is logged in and has access to some data (either group or individual)
+        \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The third party goes in the data visualization section.
+    \item The third party click on the data it is interested to subscribe to.
+	\item The third party clicks on the subscribe button.
+	\item The system starts automatically updating the data to wich the third party is subscribed to.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & The application notifies the third party of the new subscription.
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item The number of individuals of the group detected by the data request wich the third party wants to subscribe to went belove 1001 members.
+    \item The individual removed the permission to access his data from the third party.
+        \item The exceptions above are notified to the third party, wich is sent back to the data visualization screen.
+    \end{enumerate}   
+  \\
+    \hline
+\end{tabular}
+
+
 
 
 
