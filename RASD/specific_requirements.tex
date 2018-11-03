@@ -138,6 +138,244 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \subsubsection{Use case diagrams}
 
 
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Sign Up
+    \\ \hline
+    Actor & Individual
+    \\ \hline 
+    Entry condition & The individual installed the application and is connected to the internet
+    \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item Open the application
+    \item Click on "Register account"
+    \item Fill all the mandatory fields with correct informations
+    \item Click on "Confirm".
+    \item The system correctly add individual credentials to the database
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & Individual credenials have successfully been added to the system,
+     the individual can now log in     
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item The individual username or his emai is already present in the system database.
+    \item Individual didn't fill all the mandatory fields.
+    \item Individual provided invalid data.
+    \item All the exceptions above are notifieed to the individual who is taken back to the registraton form
+    \end{enumerate}
+      \\
+    \hline
+\end{tabular}
+
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Sign In
+    \\ \hline
+    Actor & Individual
+    \\ \hline 
+    Entry condition & The individual has already signed up,has installed the application and is connected to the internet.
+    \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item Open the application
+    \item Fill the username and password field in the app homepage.
+    \item Click on "Log in".
+    \item The username and the password inserted are sent to the system.
+    \item The system checks if the credentials are 
+    \item The individual is successfully logged in and the app redirect him to the wearable pairing screen.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & Individual visualizes the wearable pairing screen
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item The inserted credentials are not found in the system database. 
+    \item The application notifies that the inserted credentials are wrong.
+    \end{enumerate}
+      \\
+    \hline
+\end{tabular}
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Wearable pairing
+    \\ \hline
+    Actor & Individual
+    \\ \hline 
+    Entry condition & The individual has logged in and both his wearable and his phone have bluetooth on.
+    \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The individual reaches the wearable pairing screen.
+    \item The individual taps on pair wearable.
+    \item The individual ensures that the wearable is on and close to the smartphone.
+    \item The application successfully recognize the wearable.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & Individual wearable is paired and the app is ready to gather individual eHealth data through it.
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item The application isn't able to recognize a wearable. 
+    \item The exception above is notified by the application. The individual can repeat the pairing procedure.
+    \end{enumerate}
+      \\
+    \hline
+    Special Requirements & The pairing time limit is 10 seconds.
+\end{tabular}
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Upload Data
+    \\ \hline
+    Actor & Individual
+    \\ \hline 
+    Entry condition & The individual is logged in and the wearable is paired.
+    \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The wearable has gathered some individual eHealth data.
+    \item The application download the data from the wearable.
+    \item The application uploads the data on the system.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & Individual eHealth data is successfully uploaded and stored in the system
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item Connection falls down during the upload phase.
+    \item The application fails the download of eHealth data from the individual's wearable.
+    \item The application notifies that there were problem during the upload phase. The application will automatically 
+    \end{enumerate}
+      \\
+    \hline
+    Special Requirements & EHealth data upload should take less than 500 milliseconds.
+\end{tabular}
+
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Manage third parties data access requests.
+    \\ \hline
+    Actor & Individual, Third party
+    \\ \hline 
+    Entry condition & The individual is logged in and a data access request notification from a third party is received.
+    \\ \hline
+    Events flow &
+    \begin{enumerate}
+	\item The individual goes to the third parties access app section.
+    \item The individual answers the data access request, giving or not giving the permission to the third party to access his data.
+    \item The application forward the individual response to third party.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & The third party is correctly notified with individual decision
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item Connection falls down while the individual is answering the request.
+    \item The application notifies that the device is disconnected and temporally store offline the individual answer. The answer will be then uploaded as soon as the connection comes back
+    \end{enumerate}
+      \\
+\end{tabular}
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Manage third parties data access
+    \\ \hline
+    Actor & Individual
+    \\ \hline 
+    Entry condition & The individual is logged in and wants to remove a third party data access.
+        \\ \hline
+    Events flow &
+    \begin{enumerate}
+	\item The individual goes to the third parties access app section.
+    \item The individual selects the third party he wants to remove.
+    \item The individual clicks on the remove button.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & The system correctly change data access permissions and notifies the third party of the change
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item No third party already has no access to individual's data.
+    \item The exception above is handled displaying "No third party has access to your data"
+    \item The connection goes down during the process. 
+    \item The exception above is handled notifying the individual that there is no connection. The individual must repeat the whole procedure when the connection is back.
+    \end{enumerate}
+      \\
+\end{tabular}
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Subscribe to AutomatedSOS service
+    \\ \hline
+    Actor & Individual
+    \\ \hline 
+    Entry condition & The individual is logged in and the wearable is paired.
+        \\ \hline
+    Events flow &
+    \begin{enumerate}
+	\item The individual goes to the AutomatedSOS app section.
+    \item The individual click the subscribe button.
+    \item The app checks if the wearable paired can gather the necesessary data for the AutomatedSOS service.
+    \item The app starts monitoring the indivudal.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & The wearable starts monitoring individuals vital parameters.
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item Wearable cannot monitors individuals vital parameters.
+    \item The exception above is notified to the individual.
+    \item Wearable unpairs during the procedure.
+    \item The app notifies the exception above to the individual.The individual must click on the subscribe button again.
+    \item The exception above is handled notifying the individual that there is no connection. The individual must repeat the whole procedure when the connection is back.
+    \end{enumerate}
+      \\
+\end{tabular}
+
+
+\begin{tabular}{|l|p{13cm}|}
+    \hline
+    Name & Ambulance automatic call
+    \\ \hline
+    Actor & Individual, Ambulance
+    \\ \hline 
+    Entry condition & One of the individual's vital parameters cross its critical treshold.
+        \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The application uses the individual's phone GPS to find his position
+	\item The application starts an automatic call to the emergency line.
+	\item The applcation gives the route and forward individual vital parameters values to the emergency line.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & The ambulance is dispatched.
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item Wearable unpairs during the procedure.
+    \item The procedure continues with the last saved location and vital parameters.
+    \end{enumerate}
+      \\
+\end{tabular}
+
+
+
+
+
 \subsubsection{Sequence diagrams}
 
 \section{Performance Requirements}
