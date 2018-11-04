@@ -1,12 +1,53 @@
 \documentclass[a4paper,12pt]{report}
 
 \usepackage{amsthm}
+\usepackage{amsmath}
 \usepackage{graphicx}
 
-\theoremstyle{definition}
-\newtheorem{goal}{G}
-\theoremstyle{definition}
-\newtheorem{dom}{D}
+%\theoremstyle{definition}
+%\newtheorem{goal}{G}
+%\theoremstyle{definition}
+%\newtheorem{dom}{D} 
+
+
+
+
+%counter for goals, domains and requirements
+\newcounter{goalnum}
+\newcounter{domnum}
+\newcounter{reqnum}
+\newcounter{subreqnum}[reqnum]
+
+
+\newcommand{\goal}[2]{
+\refstepcounter{goalnum}
+\label{g:#2}
+[G\thegoalnum]\; #1
+\global\expandafter\def\csname goal#2\endcsname {#1}
+}
+
+\newcommand{\dom}[2]{
+\refstepcounter{domnum}
+\label{d:#2}
+[D\thedomnum]\; #1
+\global\expandafter\def\csname dom#2\endcsname {#1}
+}
+
+\newcommand{\req}[2]{
+\refstepcounter{reqnum}
+\label{r:#2}
+[R\thereqnum]\; #1
+\global\expandafter\def\csname req#2\endcsname {#1}
+}
+
+\renewcommand{\thesubreqnum}{\thereqnum.\arabic{subreqnum}}
+
+\newcommand{\subreq}[2]{
+\refstepcounter[subreqnum]
+\label{sr:#2}
+[R\thesubreqnum]\; #1
+\global\expandafter\def\csname subreq#2\endcsname {#1}
+}
 
 
 \title{Requirements Analysis and Specification Document}
@@ -19,6 +60,7 @@
 
 \maketitle
 \tableofcontents
+
 
 %chapters
 \include{introduction}
