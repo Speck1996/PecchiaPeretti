@@ -1,19 +1,110 @@
 \chapter{Specific requirements}
 
 \section{External Interface Requirements}
+\subsection{User Interfaces}
+The following mockups serve as guideline for the application, used by individuals, and the webapp, used by third parties. The final product design may differ from these mockups but the functions provided has to be the same.
 
 
-\subsection{Hardware Interfaces}
-Data4Help is a software application, therefore no hardware interface is needed. However the application needs a smartphone with working bluetooth and internet in order to guarantee its primary services (collecting and updating eHealth data from user devices). 
-In addition, the AutomatedSOS service requires that the users' smartphone has location services enabled.
+\begin{figure}[H]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.89\linewidth]{resources/Screen/Individuallogin.png}
+  \captionof{figure}{App Login screen}
+  \label{fig:App Login}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.89\linewidth]{resources/Screen/RegistrationIndividual.png}
+  \captionof{figure}{Registration screen}
+  \label{fig:App Registration}
+\end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.89\linewidth]{resources/Screen/IndividualMyData.png}
+  \captionof{figure}{App My data screen}
+  \label{fig:App data homepage}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.89\linewidth]{resources/Screen/menuindividual.png}
+  \captionof{figure}{App side menu screen}
+  \label{fig:App Side menu}
+\end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.89\linewidth]{resources/Screen/ThirdPartyManagementIndividual.png}
+  \captionof{figure}{App Third Party management screen}
+  \label{fig:App ThirdParty Management}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.89\linewidth]{resources/Screen/AutomatedSOSIndividual.png}
+  \captionof{figure}{App AutomatedSOS screen}
+  \label{fig:App AutomatedSOS}
+\end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.79\linewidth]{resources/Screen/ThirdPartySignup.png}
+   \captionof{figure}{WebApp Sign Up screen}
+  \label{fig:WebApp SignUp}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.79\linewidth]{resources/Screen/DataVisualization.png}
+   \captionof{figure}{WebApp Data visualization screen}
+  \label{fig:WebApp data visualization}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.79\linewidth]{resources/Screen/Groupdatarequest.png}
+  \caption{WebApp Group data request}
+  \label{fig:WebApp GroupData Request}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.79\linewidth]{resources/Screen/individualdatarequest.png}
+  \caption{WebApp Individual data request}
+  \label{fig:WebApp Individual data request}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.79\linewidth]{resources/Screen/individualdatavisualization.png}
+  \caption{Specific Data screen}
+  \label{fig:WebApp Specific data screen}
+\end{figure}
 
 
 \subsection{Software Interfaces}
-In order to guarantee a quick development Data4Help system will use the following external services:
+In order to guarantee a quick development Data4Help system will use the following external software services:
 \begin{itemize}
-\item DataBase engine : this service will be used to manage all users data and satisfy third party queries
-\item Map: individuals with AutomatedSOS service will be able to see the live position of their ambulance whenever a rescue procedure is activated.
+\item DBMNS : this service will be used to manage all users data and satisfy third party queries.
+\item Location Services: these services will be used to pick the individual position. His position will be used to label the data and for the AutomatedSOS service.
+\item DDOS security services: these services will be used to protect the servers from DDOS attacks.
 \end{itemize}
+
+
+
 
 \section{Scenarios}
 \subsection{Scenario 1}
@@ -45,103 +136,103 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 
 \begin{enumerate}
 
-%\item[\textbf{[G1]}] \textbf{Individuals eHealth data is correctly gathered from their devices and uploaded to the system.}
-
 \item[\textbf{[G\ref{g:Data}]}] \textbf{\goalData}
 
 \begin{enumerate}
 
-\item[D1] Location and eHealth data are provided by individuals' devices and assumed to be correct.
-\item[R1] Data4Help is able to store the data provided by individuals.
-\item[R2] Users are able to login with the username and the password associated to their account.
-\item[R3] Data4Help is able to pair with the user wearable.
-\item[R4] Individuals can upload their data through Data4Help app.
-\item[R5] Data4Help is able to organize data provided by individuals.
-\item[D3] Users have access to internet.
+\item[][D\ref{d:ProvidingData}]{\domProvidingData}
+\item[][D\ref{d:Internet}]{\domInternet}
+\item[]\req{Users are able to login with the username and the password associated to their account.}{Login}
+\item[]\req{Data4Help is able to pair with the user wearable.}{Pairing}
+\item[]\req{Data4Help is able download eHealth data from the individual's wearable.}{DownloadData}
+\item[]\req{Individuals can upload their data through Data4Help app.}{Uploading}
+\item[]\subreq{Data4Help is able to store the data provided by individuals.}{Storing}
+\item[]\subreq{Data4Help is able to organize data provided by individuals.}{OrganizingData}
 
 
 
 \end{enumerate}
 
-\item[\textbf{[G2]}] \textbf{Third parties can have access to data of accepted data of groups requests.}
+\item[\textbf{[G\ref{g:GroupData}]}] \textbf{\goalGroupData}
+
+\begin{enumerate}
+\item[] [D\ref{d:Internet}] {\domInternet}
+\item[] [R\ref{sr:Storing}] {\subreqStoring}
+\item[] [R\ref{r:Login}]{\reqLogin}
+\item[] [R\ref{sr:OrganizingData}] {\subreqOrganizingData}
+\item[] \req{Third parties can formulate requests to access anonimized data of groups.}{Request}
+\item[] \req{Third parties can apply filters on data while formulating their request for data of groups.}{Filtering}
+\item[] \req{The system checks if the number of individuals in the group detected by the third party request is higher than 1000.}{PrivacyCheck}
+\item[] \subreq{If the groups has 1000 or less individuals the system denies the request.}{DenyRequest}
+\item[] \req{The system is able to distribute the requested data to the third party.}{Distribution}
+\end{enumerate}
+
+\item[\textbf{[G\ref{g:SpecData}]}] \textbf{\goalSpecData}
+\begin{enumerate}
+
+\item[] [D\ref{d:Internet}] {\domInternet}
+\item[] [D\ref{d:SSNknown}] {\domSSNknown}
+\item[] [R\ref{sr:Storing}] {\subreqStoring}
+\item[] [R\ref{r:Login}] {\reqLogin}
+\item[] [R\ref{sr:OrganizingData} {\subreqOrganizingData}
+\item[] \req {Data4Help is able to forward the request to the individual specified in the third party.}{ReqForward}
+\item[] \req{The individual to whom the request will be forwarded is able to reply.}{ReqReply}
+\item[] \subreq{The system notifies the third party about the individual reply.}{ReqReply}
+\item[] \req{The system can check if the individual has accepted the data access request by the third party.}{CheckReply}
+\item[] [R\ref{r:Distribution}] {\reqDistribution}
+
+
+\end{enumerate}
+
+\item[\textbf{[G\ref{g:Notify}]}] \textbf{\goalNotify}
+
+\begin{enumerate}
+\item[] [D\ref{d:Internet}] {\domInternet}
+\item[] [R\ref{r:Login}]{\reqLogin}
+\item[] [R\ref{sr:Storing}]{\subreqStoring}
+\item[] [R\ref{sr:OrganizingData}]{\subreqOrganizingData}
+\item[] \req{Third parties can specify to be updated whenever new data of groups detected by their data requests, or observerd individuals is gathered. The time interval between an update and the next one can be set by the third party, in a limit that goes from one hour to 1 year.}{DataSubscription}
+\item[] \req{The system is able to update third parties with new data, respecting their prefecerences on the interval timing.}{SubScriptionUpdate}
+\end{enumerate}
+
+\item[\textbf{[G\ref{g:Rescue}]}] \textbf{\goalRescue}
 
 \begin{enumerate}
 
-\item[D3] Users have access to internet.
-\item[R1] Data4Help is able to store the data provided by individuals.
-\item[R2] Users are able to login with the username and the password associated to their account.
-\item[R5] Data4Help is able to organize data provided by individuals.
-\item[R6] Third parties can formulate requests to access anonimized data of groups.
-\item[R7] Third parties can apply filters on data while formulating their request for data of groups.
-\item[R8] The system checks if the number of individuals in the group detected by the third party request is higher than 1000.
-\item[R8.1] If the groups has 1000 or less individuals the system denies the request.
-\item[R9] The system is able to distribute the requested data to the third party.
-
-
-
+\item[] [D\ref{d:Internet}] {\domInternet}
+\item[] [R\ref{r:Login}] {\reqLogin}
+\item[] \req{Individual can subscribe to the AutomatedSOS service.}{AutomatedSOS}
+\item[] [R\ref{r:Pairing}] {\reqPairing}
+\item[] \req{The system ensures that the individual's wearable can measure at least one vital parameters.}{ParametersCheck}
+\item[] \req{The system is able to continuosly monitor individual vital parameters.}{Monitoring}
+\item[] \req{If the wearable is disconnected the AutomatedSOS service is suspended, untill the individual connects his wearable again.}{Disconnect}
+\item[] [D\ref{d:Tresholds}]{\domTresholds}
+\item[] [D\ref{d:Ambulance}]{\domAmbulance}
+\item[] [D\ref{d:Reachability}]{\domReachability}
+\item[] [D\ref{d:ProvidingData}]{\domProvidingData}
+\item[] \req{Whenever a vital parameter cross its respective treshold, the system calls an ambulance in under 5 seconds, giving to the ambulance driver the location of the individual.}{AmbulanceCall}
 \end{enumerate}
 
-\item[\textbf{[G3]}] \textbf{Third parties can have access to data of specific individuals that gave permission to it.}
+\item[\textbf{[G\ref{g:Privacy}]}] \textbf{\goalPrivacy}
 
 \begin{enumerate}
-
-\item[D3] Users have access to internet.
-\item[D2] A third party interested in monitoring a specific individual knows the SSN of the individual.
-\item[R1] Data4Help is able to store the data provided by individuals.
-\item[R2] Users are able to login with the username and the password associated to their account.
-\item[R5] Data4Help is able to organize data provided by individuals.
-\item[R10] Data4Help is able to forward the request to the individual specified in the third party.
-\item[R11] The individual to whom the request will be forwarded is able to reply.
-\item[R12] The system notifies the third party about the individual reply.
-\item[R13] Data4Help can check if the individual has accepted the data access request by the third party.
-\item[R9] The system is able to distribute the requested data to the third party.
-
-
-\end{enumerate}
-
-\item[\textbf{[G4]}] \textbf{The system is able to notify third parties when new data of their observed groups or individuals is gathered.}
-
-\begin{enumerate}
-\item[D3] Users have access to internet.
-\item[R2] Users are able to login with the username and the password associated to their account.
-\item[R1] Data4Help is able to store the data provided by individuals.
-\item[R5] Data4Help is able to organize data provided by individuals.
-\item[R14] Third parties can specify to be updated whenever new data of groups detected by their data requests, or observerd individuals is gathered. The time interval between an update and the next one can be set by the third party, in a limit that goes from one hour to 1 year.
-\item[R15] The system is able to update third parties with new data, respecting their prefecerences on the interval timing.
-\end{enumerate}
-
-\item[\textbf{[G5]}] \textbf{The system is able to start automatically a rescue procedure.}
-\begin{enumerate}
-\item[D3] Users have access to internet.
-\item[R2] Users are able to login with the username and the password associated to their account.
-\item[R3] Data4Help is able to pair with the user wearable.
-\item[R16] Individual can subscribe to the AutomatedSOS service.
-\item[R17] The individual wearable can measure at least two vital parameters.
-\item[R18] The system is able to continuosly monitor individual vital parameters.
-\item[R19] If the wearable is disconnected the AutomatedSOS service is suspended, untill the individual connects his wearable again.
-\item[D4] Thresholds for health parameters are provided by medical experts.
-\item[D5] An ambulance is always available when it is needed.
-\item[D7] The ambulance driver can reach the user in critical condition.
-\item[D1] Location and eHealth data are provided by individuals' devices and assumed to be correct.
-\item[R20] Whenever a vital parameter cross its respective treshold, the system calls an ambulance in under 5 seconds, giving to the ambulance driver the location of the individual.
-\end{enumerate}
-
-\item[\textbf{[G6]}] \textbf{The system is able to mantain the desired privacy level of each individual.
-}
-
-\begin{enumerate}
-\item[D1] Registered users must keep their login credentials secret.
-\item[R21] The system doesn't allow third parties to access specific individuals data without first asking for their permission.
-\item[R22] The system stops to update third parties about new data whenever observed individuals decide to remove data access permissions, or whenever the number of individuals of an observed groups goes belove 1001.
+\item[] [D\ref{d:Credential}] {\domCredential}
+\item[] \req{The system doesn't allow third parties to access specific individuals data without first asking for their permission.}{Permission}
+\item[] \req{The system stops to update third parties about new data whenever observed individuals decide to remove data access permissions, or whenever the number of individuals of an observed groups goes belove 1001.}{StopUpdates}
+\item[] \req{Only users that know their username and password can access to their respective accounts}{AccountAccess}
 \end{enumerate}
 \end{enumerate}
 
 
-\subsubsection{Use case diagrams}
+\subsubsection{Use case diagram}
+\begin{figure}
+  \includegraphics[width=0.95\linewidth]{resources/UML/GeneralUseCase.png}
+  \caption{Data4Help Use case diagram}
+  \label{fig:Use case diagram}
+\end{figure}
 
 
-
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Sign Up
     \\ \hline
@@ -167,15 +258,16 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The individual username or his emai is already present in the system database.
     \item Individual didn't fill all the mandatory fields.
     \item Individual provided invalid data.
-    \item All the exceptions above are notifieed to the individual who is taken back to the registraton form
+  
     \end{enumerate}
+    All the exceptions above are notifieed to the individual who is taken back to the registraton form
       \\
     \hline
 \end{tabular}
 
 
 
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Sign In
     \\ \hline
@@ -199,14 +291,15 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Exceptions &
         \begin{enumerate}
     \item The inserted credentials are not found in the system database. 
-    \item The application notifies that the inserted credentials are wrong.
+    
     \end{enumerate}
+   The application notifies that the inserted credentials are wrong.
       \\
     \hline
 \end{tabular}
 
 
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Wearable pairing
     \\ \hline
@@ -228,16 +321,17 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Exceptions &
         \begin{enumerate}
     \item The application isn't able to recognize a wearable. 
-    \item The exception above is notified by the application. The individual can repeat the pairing procedure.
+   
     \end{enumerate}
+    The exception above is notified by the application. The individual can repeat the pairing procedure.
       \\
     \hline
-    Special Requirements & The pairing time limit is 10 seconds.
+
 \end{tabular}
 
 
 
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Upload Data
     \\ \hline
@@ -259,16 +353,16 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
         \begin{enumerate}
     \item Connection falls down during the upload phase.
     \item The application fails the download of eHealth data from the individual's wearable.
-    \item The application notifies that there were problem during the upload phase. The application will automatically 
+   
     \end{enumerate}
+  The application notifies that there were problem during the upload phase. The application will automatically 
       \\
     \hline
-    Special Requirements & EHealth data upload should take less than 500 milliseconds.
 \end{tabular}
 
 
 
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Manage third parties data access requests.
     \\ \hline
@@ -283,21 +377,22 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The application forward the individual response to third party.
     \end{enumerate}
      \\ \hline
-     Exit Condition & The third party is correctly notified with individual decision
+     Exit Condition & The third party is notified about the individual decision.
      \\
     \hline
     Exceptions &
         \begin{enumerate}
     \item Connection falls down while the individual is answering the request.
-    \item The application notifies that the device is disconnected and temporally store offline the individual answer. The answer will be then uploaded as soon as the connection comes back
+
     \end{enumerate}
+The application notifies that the device is disconnected and temporally store offline the individual answer. The answer will be then uploaded as soon as the connection comes back
       \\
     \hline
 \end{tabular}
 
 
 
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Manage third parties data access
     \\ \hline
@@ -307,8 +402,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
         \\ \hline
     Events flow &
     \begin{enumerate}
-	\item The individual goes to the third parties access app section.
-    \item The individual selects the third party he wants to remove.
+	\item The individual goes to the third parties management app section.
     \item The individual clicks on the remove button.
     \end{enumerate}
      \\ \hline
@@ -317,10 +411,8 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \hline
     Exceptions &
         \begin{enumerate}
-    \item No third party already has no access to individual's data.
-    \item The exception above is handled displaying "No third party has access to your data"
-    \item The connection goes down during the process. 
-    \item The exception above is handled notifying the individual that there is no connection. The individual must repeat the whole procedure when the connection is back.
+    \item No third party already has access to individual's data. The app notifies the individual about it.
+    \item The connection goes down during the process. The app notifies this to the individual, who will have to repeat the procedure when the connection is back.
     \end{enumerate}
        \\
     \hline
@@ -328,7 +420,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 
 
 
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Subscribe to AutomatedSOS service
     \\ \hline
@@ -350,50 +442,20 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Exceptions &
         \begin{enumerate}
     \item Wearable cannot monitors individuals vital parameters.
-    \item The exception above is notified to the individual.
     \item Wearable unpairs during the procedure.
-    \item The app notifies the exception above to the individual.The individual must click on the subscribe button again.
-    \item The exception above is handled notifying the individual that there is no connection. The individual must repeat the whole procedure when the connection is back.
+    \item The connecton falls down during the procedure.
     \end{enumerate}
+      The exception above are notified to the individuals. The individual must repeat the whole 
+      procedure.
       \\
     \hline
 \end{tabular}
 
 
 
-\begin{tabular}{|l|p{13cm}|}
-    \hline
-    Name & Ambulance automatic call
-    \\ \hline
-    Actor & Individual, Ambulance
-    \\ \hline 
-    Entry condition & One of the individual's vital parameters cross its critical treshold.
-        \\ \hline
-    Events flow &
-    \begin{enumerate}
-    \item The application uses the individual's phone GPS to find his position
-	\item The application starts an automatic call to the emergency line.
-	\item The applcation gives the route and forward individual vital parameters values to the emergency line.
-    \end{enumerate}
-     \\ \hline
-     Exit Condition & The ambulance is dispatched.
-     \\
-    \hline
-    Exceptions &
-        \begin{enumerate}
-    \item Wearable unpairs during the procedure.
-    \item The procedure continues with the last saved location and vital parameters.
-    \end{enumerate}
-      \\
-      \hline
-    Special Requirements & The system must call the ambulance in under 5 seconds from the treshold crossing.
-      \\
-      \hline
-\end{tabular}
 
 
-
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Individual data request
     \\ \hline
@@ -408,21 +470,21 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 	\item The system forwards the request to the individual.
     \end{enumerate}
      \\ \hline
-     Exit Condition & A notification of a new data access request is sento to the individual.
+     Exit Condition & A notification of a new data access request is sent to the individual.
      \\
     \hline
     Exceptions &
         \begin{enumerate}
     \item The individual identifier is not found in the system.
-    \item The exception above is notified to the third party, wich is sent back to the data request screen
     \end{enumerate}
+     The exception above is notified to the third party, wich is sent back to the data request screen
         \\  \hline
 
 \end{tabular}
 
 
 
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Group data request
     \\ \hline
@@ -443,47 +505,18 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \hline
     Exceptions &
         \begin{enumerate}
-    \item The group of individuals detected by the third party has a number of members of 1000 or less.
-    \item The exception above is notified to the third party, wich is sent back to the data request screen.
-     
+    \item The group of individuals detected by the third party has a number of members of 1000 or less.     
     \end{enumerate}
+      The exception above is notified to the third party, wich is sent back to the data request screen.
 	 \\
     \hline
 \end{tabular}
 
 
-
-\begin{tabular}{|l|p{13cm}|}
-    \hline
-    Name & Data visualization
-    \\ \hline
-    Actor & Third party
-    \\ \hline 
-    Entry condition & The third party is logged in.
-        \\ \hline
-    Events flow &
-    \begin{enumerate}
-    \item The third party goes in the data visualization section.
-    \item The third party is able to see
-	\item The third party can apply filters on his request. To be precise it can filter data by individuals age, sex, location (country, city) and can specify wich data it is interested in (steps taken daily, daily sleep hours, average heart rate, average blood pressure)
-	\item The system analyzes the request and distributes the requested data to the third party.
-    \end{enumerate}
-     \\ \hline
-     Exit Condition & The requested data is visualized by the third party.
-     \\
-    \hline
-    Exceptions &
-        \begin{enumerate}
-    \item The group of individuals detected by the third party has a number of members of 1000 or less.
-    \item The exception above is notified to the third party, wich is sent back to the data request screen.
-    \end{enumerate} 
-     \\
-    \hline
-\end{tabular}
   
 
    
-\begin{tabular}{|l|p{13cm}|}
+\begin{tabular}{|l|p{11cm}|}
     \hline
     Name & Data visualization
     \\ \hline
@@ -506,8 +539,9 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
         \begin{enumerate}
     \item The number of individuals of the group detected by the data request wich the third party wants to subscribe to went belove 1001 members.
     \item The individual removed the permission to access his data from the third party.
-        \item The exceptions above are notified to the third party, wich is sent back to the data visualization screen.
-    \end{enumerate}   
+\end{enumerate}  
+ The exceptions above are notified to the third party, wich is sent back to the data visualization screen.
+     
   \\
     \hline
 \end{tabular}
@@ -519,31 +553,54 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 
 
 \subsubsection{Sequence diagrams}
+The following diagrams model the main features of Data4Help: data uploading by individuals and data request by third parties.
+
+
+\begin{figure}[H]
+  \includegraphics[width=0.59\linewidth]{resources/UML/ThirdPartyDataRequest.png}
+  \caption{Third Party data request sequence diagram}
+  \label{fig: ThirdParty sequence diagram}
+\end{figure}
+
+
+\begin{figure}[H]
+  \includegraphics[width=0.79\linewidth]{resources/UML/IndividualInteraction.png}
+  \caption{Individual data upload screen}
+  \label{fig:Individual sequence diagram}
+\end{figure}
+
+
+
+
 
 \section{Performance Requirements}
-Data4Helps is a service that strongly depends on the amount of data gathered therefore the initial phase will focus on recruiting at least 100000 individuals while the number of third parties using the service in the initial phase it's expected to be around 500. In order to expand the user base and have from the start good feedbacks third parties data requests should have a response time of 1 second or less while the upload time of individuals data should be less than 500 milliseconds. Obviously these parameters are flexible, and under heavy loads may be crossed.Having a robust, persistent and fast database is of crucial importance.
+Data4Helps is a service that strongly depends on the amount of data gathered therefore the initial phase will focus on recruiting at least 100000 individuals while the number of third parties using the service in the initial phase it's expected to be lower than 500. In order to expand the user base and have from the start good feedbacks the development will be focused on providing a reliable and persistent service. 
+Regarding the AutomatedSOS service, the ambulance call should be done with a delay time from the crossing of the critical treshould that is under 5 seconds.
 
 \section{Design constraints}
 \subsection{Standards compliance}
 \begin{itemize}
 \item The app only requests the minimum permissions in order to guarantee its core functionalities: storage access, location, access to wearable.
 \item The app only supports portrait mode.
-\item All the data gathered trhough individuals wearables will be uploaded and stored in the system database.
-Critical treshold for vital parameters will be stored in the user device in order to guarantee the AutomatedSOS even when the phone is offline.
+\item All the data gathered through individuals wearables will be uploaded and stored in the system database.
 \end{itemize}
 
 
 \subsection{other costraints}
+The app must make clear that \textbf{AutomatedSOS service DOES NOT substitute} the manual emergency call since that the availability of the service rely on external factors such as internet connection, wearable hardware and so on and only a couple of vital parameters can be monitored.
+The Automated SOS service was born as an additional service that can anticipate the emergency call.
+
 
 \section{Software system costraints}
 \subsection{Reliability}
-For this tipology of application is necesessary to guarantee a 24/7 service.
+The application aims to provide a 24/7 service, but,especially in the initial phase, some time of unavailability for maintenance is expected.
 \subsection{Availability}
-The system is expected to be available 99.99% of the time.
+The initial target of availability will be a system that is up for the 95.00\% of the time. This value should improve over time as the service expands and more resources are available.
 \subsection{Security}
 Users passwords will be cripted and stored in a specific database.
+In order to prevent DDoS attacks an external security service on the servers will be enabled.
 \subsection{Mantainability}
-The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteing an high level of flexibility. AutomateSOS is a first, clear example of the expandability nature of Data4Help that will both analyze individual and third parties tips to improve its service.
+The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteing an high level of flexibility. AutomateSOS is a first, clear example of the expandability nature of Data4Help.
 \subsection{Compatibility}
-Gathering the possible largest amount of eHealth data is the fundamental feature of the service. Although, due the fragmentation of the wearable market, only watchOS and wearOS smartwatches will be initially supported. TizenOS and wearOS smartwatches will get official support as soon as possible, not longer than 3 months after the app initial release.
-The app will support both Android and iOS smartphones. 
+Gathering the possible largest amount of eHealth data is the fundamental feature of the service. Although, due the fragmentation of the wearable market, only watchOS and wearOS smartwatches will be initially supported. TizenOS and wearOS smartwatches will get official support in no longer than 3 months after the app initial release.
+The app will support both Android and iOS smartphones while the WebApp will be compatible with any browser that supports html5.

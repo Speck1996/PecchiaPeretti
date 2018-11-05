@@ -3,14 +3,14 @@
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
 
 %\theoremstyle{definition}
 %\newtheorem{goal}{G}
 %\theoremstyle{definition}
 %\newtheorem{dom}{D} 
-
-
-
 
 %counter for goals, domains and requirements
 \newcounter{goalnum}
@@ -23,9 +23,9 @@
 \refstepcounter{goalnum}
 \label{g:#2}
 [G\thegoalnum]\; #1
-\global\expandafter\def\csname goal#2\endcsname {#1}
+\global\expandafter\def\csname goal#2\endcsname {#1} 
 }
-
+  
 \newcommand{\dom}[2]{
 \refstepcounter{domnum}
 \label{d:#2}
@@ -43,11 +43,12 @@
 \renewcommand{\thesubreqnum}{\thereqnum.\arabic{subreqnum}}
 
 \newcommand{\subreq}[2]{
-\refstepcounter[subreqnum]
+\refstepcounter{subreqnum}
 \label{sr:#2}
 [R\thesubreqnum]\; #1
 \global\expandafter\def\csname subreq#2\endcsname {#1}
 }
+
 
 
 \title{Requirements Analysis and Specification Document}
