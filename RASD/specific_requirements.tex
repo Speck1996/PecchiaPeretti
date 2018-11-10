@@ -112,6 +112,7 @@ Data4Help doesn't need any specific hardware interface, all its features will be
 \subsection{Software Interfaces}
 In order to guarantee a quick development Data4Help system will use the following external software services:
 \begin{itemize}
+\item Ambulance call service API: for each country where the AutomatedSOS service will be enabled these APIs will be needed in order to implement the automatic call.
 \item DBMNS : this service will be used to manage all users data and satisfy third party queries.
 \item Location Services: these services will be used to pick the individual position. His position will be used to label the data and for the AutomatedSOS service.
 \item DDOS security services: these services will be used to protect the servers from DDOS attacks.
@@ -241,28 +242,28 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 
 
 \subsubsection{Use case diagram}
-\begin{figure}
-  \includegraphics[width=0.95\linewidth]{resources/UML/GeneralUseCase.png}
+\begin{figure}[H]
+  \includegraphics[width=1.10\linewidth]{resources/UML/GeneralUseCase.png}
   \caption{Data4Help Use case diagram}
   \label{fig:Use case diagram}
 \end{figure}
 
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
-    Name & Sign Up
+    Name & Smartphone application sign up
     \\ \hline
-    Actor & Guest
+    Actor & Individual
     \\ \hline 
     Entry condition & The individual installed the application and is connected to the internet
     \\ \hline
     Events flow &
     \begin{enumerate}
     \item Open the application
-    \item Click on "Register account"
+    \item Tap on "Register a new account"
     \item Fill all the mandatory fields with correct informations
-    \item Click on "Confirm".
-    \item The system correctly add individual credentials to the database
+    \item Click on "Register".
     \end{enumerate}
      \\ \hline
      Exit Condition & Individual credenials have successfully been added to the system,
@@ -274,18 +275,49 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The individual username or his emai is already present in the system database.
     \item Individual didn't fill all the mandatory fields.
     \item Individual provided invalid data.
-  
     \end{enumerate}
-    All the exceptions above are notifieed to the individual who is taken back to the registraton form
+    All the exceptions above are notified to the individual who is taken back to the registraton form.
       \\
     \hline
 \end{tabular}
 
-
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
-    Name & Sign In
+    Name & Web application sign up
+    \\ \hline
+    Actor & Third party
+    \\ \hline 
+    Entry condition & The third party downloaded the web application and is connected to the internet
+    \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item Click on "Register a new account"
+    \item Fill all the mandatory fields with correct informations
+    \item Click on "Sign up".
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & Third party credenials have successfully been added to the system,
+     the third party can now log in     
+     \\
+    \hline
+    Exceptions &
+        \begin{enumerate}
+    \item The third party username or his email is already present in the system database.
+    \item The third party didn't fill all the mandatory fields.
+    \item The third party provided invalid data.
+    \end{enumerate}
+    All the exceptions above are notified to the third party who is taken back to the registraton form.
+      \\
+    \hline
+\end{tabular}
+
+\givespace
+
+\begin{tabular}{|l|p{11cm}|}
+    \hline
+    Name & Smartphone sign In
     \\ \hline
     Actor & Individual
     \\ \hline 
@@ -293,15 +325,14 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \\ \hline
     Events flow &
     \begin{enumerate}
-    \item Open the application
-    \item Fill the username and password field in the app homepage.
-    \item Click on "Log in".
+    \item The individual opens the application
+    \item The individual fills the username and password field in the app homepage.
+    \item The individual taps on "Log in".
     \item The username and the password inserted are sent to the system.
-    \item The system checks if the credentials are 
-    \item The individual is successfully logged in and the app redirect him to the wearable pairing screen.
+    \item The system checks if the credentials are valid.
     \end{enumerate}
      \\ \hline
-     Exit Condition & Individual visualizes the wearable pairing screen
+     Exit Condition & The individual is successfully logged in and the app redirect him to the wearable pairing screen.
      \\
     \hline
     Exceptions &
@@ -313,6 +344,37 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \hline
 \end{tabular}
 
+\givespace
+
+\begin{tabular}{|l|p{11cm}|}
+    \hline
+    Name & Web application sign In
+    \\ \hline
+    Actor & Third party
+    \\ \hline 
+    Entry condition & The third party has already signed up,has downloaded the web application and is connected to the internet.
+    \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The third party fill the username and password field in the web application homepage
+    \item The third party clicks on "Log in".
+    \item The username and the password inserted are sent to the system.
+    \item The system checks if the credentials are valid.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & The third party is successfully logged in and can access his personal area.
+     \\
+    \hline
+    Exceptions &
+     \begin{enumerate}
+    \item The inserted credentials are not found in the system database.  
+    \end{enumerate}
+   The application notifies that the inserted credentials are wrong.
+      \\
+    \hline
+\end{tabular}
+
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -327,7 +389,6 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The individual reaches the wearable pairing screen.
     \item The individual ensures that the wearable is on and close to the smartphone.
     \item The individual taps on pair wearable.
-    \item The application successfully recognize the wearable.
     \end{enumerate}
      \\ \hline
      Exit Condition & Individual wearable is paired and the app is ready to gather individual eHealth data through it.
@@ -344,7 +405,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 
 \end{tabular}
 
-
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -375,7 +436,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \hline
 \end{tabular}
 
-
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -404,7 +465,7 @@ The application notifies that the device is disconnected.
     \hline
 \end{tabular}
 
-
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -432,7 +493,7 @@ The application notifies that the device is disconnected.
     \hline
 \end{tabular}
 
-
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -465,9 +526,7 @@ The application notifies that the device is disconnected.
     \hline
 \end{tabular}
 
-
-
-
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -475,12 +534,12 @@ The application notifies that the device is disconnected.
     \\ \hline
     Actor & Third party
     \\ \hline 
-    Entry condition & The third party is logged in and knows the individual's username, TC or SSN
+    Entry condition & The third party is logged in and knows the individual's username or TC
         \\ \hline
     Events flow &
     \begin{enumerate}
     \item The third party selects the data request button
-	\item The third party insert the individual identifier (either his username, his TC or his SSN)
+	\item The third party insert the individual identifier (either his username or his TC)
 	\item The system forwards the request to the individual.
     \end{enumerate}
      \\ \hline
@@ -496,7 +555,7 @@ The application notifies that the device is disconnected.
 
 \end{tabular}
 
-
+\givespace
 
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -526,9 +585,7 @@ The application notifies that the device is disconnected.
     \hline
 \end{tabular}
 
-
-  
-
+\givespace
    
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -568,11 +625,6 @@ The application notifies that the device is disconnected.
 The following diagrams model the main features of Data4Help: data uploading by individuals and data request by third parties.
 
 
-\begin{figure}[H]
-  \includegraphics[width=0.59\linewidth]{resources/UML/ThirdPartyDataRequest.png}
-  \caption{Third Party data request sequence diagram}
-  \label{fig: ThirdParty sequence diagram}
-\end{figure}
 
 
 \begin{figure}[H]
@@ -581,6 +633,11 @@ The following diagrams model the main features of Data4Help: data uploading by i
   \label{fig:Individual sequence diagram}
 \end{figure}
 
+\begin{figure}[H]
+  \includegraphics[width=0.70\linewidth]{resources/UML/ThirdPartyDataRequest.png}
+  \caption{Third Party data request sequence diagram}
+  \label{fig: ThirdParty sequence diagram}
+\end{figure}
 
 
 

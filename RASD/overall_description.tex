@@ -6,7 +6,7 @@ Data4Help will be a service accessible through a web application for third parti
 The following class diagram helps to visualize how Data4Help will try to provide services for both the individuals and the third parties by functioning as a central hub of eHealth data
 
 \begin{figure}[H]
-  \includegraphics[width=0.89\linewidth]{resources/UML/Data4HelpClassDiagram.png}
+  \includegraphics[width=1.05\linewidth]{resources/UML/Data4HelpClassDiagram.png}
   \caption{Data4Help Class Diagram}
   \label{fig: Data4Help Class diagram}
 \end{figure}
@@ -14,14 +14,14 @@ The following class diagram helps to visualize how Data4Help will try to provide
 Regarding the AutomatedSOS service, the following statechart diagram describes what are the main phases of this service
 
 \begin{figure}[H]
-  \includegraphics[width=0.89\linewidth]{resources/UML/AutomatedSOSstatechart.png}
+  \includegraphics[width=1.10\linewidth]{resources/UML/AutomatedSOSstatechart.png}
   \caption{AutomatedSOS statechart diagram}
   \label{fig: AutoamtedSOS statechart diagram}
 \end{figure}
 
 
 \subsection{Access to specific data}
-A third party interested in monitoring a specific individual can send a request to the system specifying his SSN, TC or his username.
+A third party interested in monitoring a specific individual can send a request to the system specifying his TC or his username.
 The system passes the request to the specific individual who can accept or refuse it.
 Once the individual has given an answer, the system notifies the third party about the answer: if the individual has given the consent to access his data the third party can then visualize the data.
 
@@ -93,7 +93,7 @@ The users of Data4Help and AutomatedSOS services are:
 Location and eHealth data are provided by individuals' devices and assumed to be correct.
 }{ProvidingData} 
 \item[]\dom{
-A third party interested in monitoring a specific individual knows the SSN of the individual
+A third party interested in monitoring a specific individual knows the TC or the username of the individual
 }{SSNknown}
 \item[]\dom{
 Users have access to internet.
