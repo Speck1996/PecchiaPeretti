@@ -9,13 +9,13 @@ The following mockups serve as guideline for the application, used by individual
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=0.89\linewidth]{resources/Screen/Individuallogin.png}
+  \includegraphics[width=5cm,height=9cm]{resources/Screen/Individuallogin.png}
   \captionof{figure}{App Login screen}
   \label{fig:App Login}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=0.89\linewidth]{resources/Screen/RegistrationIndividual.png}
+  \includegraphics[width=5cm,height=9cm]{resources/Screen/RegistrationIndividual.png}
   \captionof{figure}{Registration screen}
   \label{fig:App Registration}
 \end{minipage}
@@ -26,13 +26,13 @@ The following mockups serve as guideline for the application, used by individual
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=0.89\linewidth]{resources/Screen/IndividualMyData.png}
+  \includegraphics[width=5cm,height=9cm]{resources/Screen/IndividualMyData.png}
   \captionof{figure}{App My data screen}
   \label{fig:App data homepage}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=0.89\linewidth]{resources/Screen/menuindividual.png}
+  \includegraphics[width=5cm,height=9cm]{resources/Screen/menuindividual.png}
   \captionof{figure}{App side menu screen}
   \label{fig:App Side menu}
 \end{minipage}
@@ -43,13 +43,13 @@ The following mockups serve as guideline for the application, used by individual
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=0.89\linewidth]{resources/Screen/ThirdPartyManagementIndividual.png}
+  \includegraphics[width=5cm,height=9cm]{resources/Screen/ThirdPartyManagementIndividual.png}
   \captionof{figure}{App Third Party management screen}
   \label{fig:App ThirdParty Management}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=0.89\linewidth]{resources/Screen/AutomatedSOSIndividual.png}
+  \includegraphics[width=5cm,height=9cm]{resources/Screen/AutomatedSOSIndividual.png}
   \captionof{figure}{App AutomatedSOS screen}
   \label{fig:App AutomatedSOS}
 \end{minipage}
@@ -58,14 +58,14 @@ The following mockups serve as guideline for the application, used by individual
 
 \begin{figure}[H]
 \centering
-  \includegraphics[width=0.79\linewidth]{resources/Screen/ThirdPartySignup.png}
+  \includegraphics[width=12cm,height=9cm]{resources/Screen/ThirdPartySignup.png}
    \captionof{figure}{WebApp Sign Up screen}
   \label{fig:WebApp SignUp}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-  \includegraphics[width=0.79\linewidth]{resources/Screen/DataVisualization.png}
+  \includegraphics[width=12cm,height=9cm]{resources/Screen/DataVisualization.png}
    \captionof{figure}{WebApp Data visualization screen}
   \label{fig:WebApp data visualization}
 \end{figure}
@@ -73,7 +73,7 @@ The following mockups serve as guideline for the application, used by individual
 
 \begin{figure}[H]
 \centering
-  \includegraphics[width=0.79\linewidth]{resources/Screen/Groupdatarequest.png}
+  \includegraphics[width=12cm,height=9cm]{resources/Screen/Groupdatarequest.png}
   \caption{WebApp Group data request}
   \label{fig:WebApp GroupData Request}
 \end{figure}
@@ -81,7 +81,7 @@ The following mockups serve as guideline for the application, used by individual
 
 \begin{figure}[H]
 \centering
-  \includegraphics[width=0.79\linewidth]{resources/Screen/individualdatarequest.png}
+  \includegraphics[width=12cm,height=9cm]{resources/Screen/individualdatarequest.png}
   \caption{WebApp Individual data request}
   \label{fig:WebApp Individual data request}
 \end{figure}
@@ -89,10 +89,24 @@ The following mockups serve as guideline for the application, used by individual
 
 \begin{figure}[H]
 \centering
-  \includegraphics[width=0.79\linewidth]{resources/Screen/individualdatavisualization.png}
+  \includegraphics[width=12cm,height=9cm]{resources/Screen/individualdatavisualization.png}
   \caption{Specific Data screen}
   \label{fig:WebApp Specific data screen}
 \end{figure}
+
+\subsection{Hardware Interfaces}
+Data4Help is an application that can be accessed in two ways, based on the typology of the users:
+\begin{itemize}
+\item Individuals must access to the application through a supported smartphone with working GPS, bluetooth.
+\item Third parties must access to the application through a compatible web browser with any kind of device. It is suggested, but not necessary to use a device with at least a 10 inches screen have the best experience using the application.
+\end{itemize}
+Data4Help doesn't need any specific hardware interface, all its features will be reachable through the provided software applications.
+
+
+
+
+
+
 
 
 \subsection{Software Interfaces}
@@ -103,8 +117,10 @@ In order to guarantee a quick development Data4Help system will use the followin
 \item DDOS security services: these services will be used to protect the servers from DDOS attacks.
 \end{itemize}
 
+\subsection{Communication Interfaces}
+The smartphone application and the web application will both use HTTP to ensure a connection with Data4Help system.
 
-
+The communication between the individuals' smartphone application and the wearable will use instead the bluetooth protocol.
 
 \section{Scenarios}
 \subsection{Scenario 1}
@@ -236,7 +252,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \hline
     Name & Sign Up
     \\ \hline
-    Actor & Individual
+    Actor & Guest
     \\ \hline 
     Entry condition & The individual installed the application and is connected to the internet
     \\ \hline
@@ -289,9 +305,8 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
      \\
     \hline
     Exceptions &
-        \begin{enumerate}
-    \item The inserted credentials are not found in the system database. 
-    
+     \begin{enumerate}
+    \item The inserted credentials are not found in the system database.  
     \end{enumerate}
    The application notifies that the inserted credentials are wrong.
       \\
@@ -310,8 +325,8 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Events flow &
     \begin{enumerate}
     \item The individual reaches the wearable pairing screen.
-    \item The individual taps on pair wearable.
     \item The individual ensures that the wearable is on and close to the smartphone.
+    \item The individual taps on pair wearable.
     \item The application successfully recognize the wearable.
     \end{enumerate}
      \\ \hline
@@ -321,7 +336,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Exceptions &
         \begin{enumerate}
     \item The application isn't able to recognize a wearable. 
-   
+   	\item Bluetooth goes off during the pairing.
     \end{enumerate}
     The exception above is notified by the application. The individual can repeat the pairing procedure.
       \\
@@ -342,6 +357,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Events flow &
     \begin{enumerate}
     \item The wearable has gathered some individual eHealth data.
+    \item The individual goes to the home application screen.
     \item The application download the data from the wearable.
     \item The application uploads the data on the system.
     \end{enumerate}
@@ -350,12 +366,11 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
      \\
     \hline
     Exceptions &
-        \begin{enumerate}
+    \begin{enumerate}
     \item Connection falls down during the upload phase.
-    \item The application fails the download of eHealth data from the individual's wearable.
-   
+    \item The application fails the download of eHealth data from the individual's wearable. 
     \end{enumerate}
-  The application notifies that there were problem during the upload phase. The application will automatically 
+  The application notifies that there were problem during the upload phase. The individual can repeat the procedure by swiping down.
       \\
     \hline
 \end{tabular}
@@ -383,9 +398,8 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Exceptions &
         \begin{enumerate}
     \item Connection falls down while the individual is answering the request.
-
     \end{enumerate}
-The application notifies that the device is disconnected and temporally store offline the individual answer. The answer will be then uploaded as soon as the connection comes back
+The application notifies that the device is disconnected.
       \\
     \hline
 \end{tabular}
@@ -403,7 +417,7 @@ The application notifies that the device is disconnected and temporally store of
     Events flow &
     \begin{enumerate}
 	\item The individual goes to the third parties management app section.
-    \item The individual clicks on the remove button.
+    \item The individual clicks on the remove button associated to the third party.
     \end{enumerate}
      \\ \hline
      Exit Condition & The system correctly change data access permissions and notifies the third party of the change
@@ -461,12 +475,12 @@ The application notifies that the device is disconnected and temporally store of
     \\ \hline
     Actor & Third party
     \\ \hline 
-    Entry condition & The third party is logged in and knows the individual's username or tax code
+    Entry condition & The third party is logged in and knows the individual's username, TC or SSN
         \\ \hline
     Events flow &
     \begin{enumerate}
     \item The third party selects the data request button
-	\item The third party insert the individual identifier (either his username or his tax code)
+	\item The third party insert the individual identifier (either his username, his TC or his SSN)
 	\item The system forwards the request to the individual.
     \end{enumerate}
      \\ \hline
@@ -496,7 +510,7 @@ The application notifies that the device is disconnected and temporally store of
     \begin{enumerate}
     \item The third party goes in the data request section.
     \item The third party selects the group data request
-	\item The third party can apply filters on his request. To be precise it can filter data by individuals age, sex, location (country, city) and can specify wich data it is interested in (steps taken daily, daily sleep hours, average heart rate, average blood pressure)
+	\item The third party can apply filters on his request. To be precise it can filter data by individuals age, sex, location (country, city) and can specify wich data it is interested in (steps taken ,sleep hours, average heart rate, average blood pressure). The time interval of the each requested data can be specified.
 	\item The system analyzes the request and distributes the requested data to the third party.
     \end{enumerate}
      \\ \hline
@@ -527,8 +541,7 @@ The application notifies that the device is disconnected and temporally store of
     Events flow &
     \begin{enumerate}
     \item The third party goes in the data visualization section.
-    \item The third party click on the data it is interested to subscribe to.
-	\item The third party clicks on the subscribe button.
+	\item The third party clicks on the subscribe button of the data request he is interested in.
 	\item The system starts automatically updating the data to wich the third party is subscribed to.
     \end{enumerate}
      \\ \hline
@@ -540,8 +553,7 @@ The application notifies that the device is disconnected and temporally store of
     \item The number of individuals of the group detected by the data request wich the third party wants to subscribe to went belove 1001 members.
     \item The individual removed the permission to access his data from the third party.
 \end{enumerate}  
- The exceptions above are notified to the third party, wich is sent back to the data visualization screen.
-     
+ The exceptions above are notified to the third party that will not be updated anymore with new data.
   \\
     \hline
 \end{tabular}
@@ -574,7 +586,12 @@ The following diagrams model the main features of Data4Help: data uploading by i
 
 
 \section{Performance Requirements}
-Data4Helps is a service that strongly depends on the amount of data gathered therefore the initial phase will focus on recruiting at least 100000 individuals while the number of third parties using the service in the initial phase it's expected to be lower than 500. In order to expand the user base and have from the start good feedbacks the development will be focused on providing a reliable and persistent service. 
+Data4Helps is a service that strongly depends on the amount of data gathered therefore the initial phase will focus on recruiting as much individuals as possible.
+
+Giving a realistic estimation on the numbers of users is not possible but a total amount of 100000 individuals and 500 third parties will be considered a good starting point.
+
+In order to expand the user base and have from the start good feedbacks the development will be focused on providing a reliable and persistent service. 
+
 Regarding the AutomatedSOS service, the ambulance call should be done with a delay time from the crossing of the critical treshould that is under 5 seconds.
 
 \section{Design constraints}
@@ -586,9 +603,28 @@ Regarding the AutomatedSOS service, the ambulance call should be done with a del
 \end{itemize}
 
 
+\subsection{Hardware limitations}
+Individuals will use a smartphone app in order to acess the service.
+The following devices are the one that will be compatible with the app:
+\begin{itemize}
+\item iOS or Android smartphone with following capabilities:
+\begin{itemize}
+\item 2G/3G/4G connection
+\item Bluetooth connection
+\item GPS
+\end{itemize}
+These are instead the smartwatches that will be initially supported in the app:
+\item watchOS or wearOS smartwatch
+
+
+Third parties will have access to the service through a WebApp, accessible with any browser compatible with html5 and java.
+\end{itemize}
+
 \subsection{other costraints}
 The app must make clear that \textbf{AutomatedSOS service DOES NOT substitute} the manual emergency call since that the availability of the service rely on external factors such as internet connection, wearable hardware and so on and only a couple of vital parameters can be monitored.
-The Automated SOS service was born as an additional service that can anticipate the emergency call.
+
+
+The Automated SOS service was born as an additional service that can anticipate the emergency call, not as a service that substitutes it.
 
 
 \section{Software system costraints}
@@ -600,7 +636,12 @@ The initial target of availability will be a system that is up for the 95.00\% o
 Users passwords will be cripted and stored in a specific database.
 In order to prevent DDoS attacks an external security service on the servers will be enabled.
 \subsection{Mantainability}
-The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteing an high level of flexibility. AutomateSOS is a first, clear example of the expandability nature of Data4Help.
+The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteing an high level of flexibility. 
+
+AutomateSOS is a first, clear example of the expandability nature of Data4Help.
 \subsection{Compatibility}
-Gathering the possible largest amount of eHealth data is the fundamental feature of the service. Although, due the fragmentation of the wearable market, only watchOS and wearOS smartwatches will be initially supported. TizenOS and wearOS smartwatches will get official support in no longer than 3 months after the app initial release.
-The app will support both Android and iOS smartphones while the WebApp will be compatible with any browser that supports html5.
+Gathering the possible largest amount of eHealth data is the fundamental feature of the service. Although, due the fragmentation of the wearable market, only watchOS and wearOS smartwatches will be initially supported. 
+
+TizenOS and wearOS smartwatches will get official support in no longer than 3 months after the app initial release.
+
+The app will support both Android and iOS smartphones while the WebApp will be compatible with any browser that supports html5 and java applets.
