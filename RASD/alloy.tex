@@ -10,8 +10,41 @@ For simplicity and without any loss of generality, all the entities that have a 
 
 \section{Alloy model}
 
+\definecolor{comment}{rgb}{0,0.6,0}
+\definecolor{keyw}{rgb}{0,0,0.82}
+\definecolor{num}{rgb}{0.5,0.5,0.5}
+\definecolor{back}{rgb}{0.95,0.95,0.95}
 
-\begin{verbatim}
+\lstset{
+backgroundcolor = \color{back},
+morecomment=[l]{--},
+morecomment=[s]{/*}{*/},
+commentstyle = \color{comment},
+morekeywords=[1]{open, sig, fact, one, Int, lone, set, some, extends, all, in, no, disj, and, or, implies, assert, check , run, pred, for},
+keywordstyle = [1]{\color{keyw}},
+basicstyle = \ttfamily,
+frame=single,
+breakatwhitespace = true,
+breaklines = true,
+rulecolor = \color{black},
+tabsize = 3,
+numbers = left,
+numberstyle = \small\color{num},
+literate=*
+    {0}{{{\textcolor{red}0}}}1
+    {1}{{{\textcolor{red}1}}}1
+    {2}{{{\textcolor{red}2}}}1
+    {3}{{{\textcolor{red}3}}}1
+    {4}{{{\textcolor{red}4}}}1
+    {5}{{{\textcolor{red}5}}}1
+    {6}{{{\textcolor{red}6}}}1
+    {7}{{{\textcolor{red}7}}}1
+    {8}{{{\textcolor{red}8}}}1
+    {9}{{{\textcolor{red}9}}}1,
+    escapeinside={!}{!},
+}
+
+\begin{lstlisting}
 open util/integer
 open util/boolean
 
@@ -39,8 +72,7 @@ sig EHealthData {
 	steps: lone Int,
 	sleepTime: lone Int	
 }
-{heartRate >= 0 and heartRate <= 6 and bloodPressure >= 0 and bloodPressure <= 6 and
-steps >= 0 and steps <= 6 and sleepTime >= 0 and sleepTime <= 6}
+{heartRate >= 0 and heartRate <= 6 and bloodPressure >= 0 and bloodPressure <= 6 and steps >= 0 and steps <= 6 and sleepTime >= 0 and sleepTime <= 6}
 
 sig Illness {
 	startTime: one Time
@@ -87,20 +119,17 @@ fact DataBelongsToSingleIndividual {
 
 -- There is a Ilness iff threshold have been crossed
 fact IllnessIndividual{
-	(all i: Individual | i.hasSOS = True and (i.data.heartRate >= 5 or i.data.bloodPressure >= 5) implies one il: Illness | il = i.illness)
-	and
-	(all il: Illness | one i: Individual | il = i.illness and i.hasSOS = True and (i.data.heartRate >= 5 or i.data.bloodPressure >= 5))
+	(all i: Individual | i.hasSOS = True and (i.data.heartRate >= 5 or i.data.bloodPressure >= 5) implies one il: Illness | il = i.illness) and	(all il: Illness | one i: Individual | il = i.illness and i.hasSOS = True and (i.data.heartRate >= 5 or i.data.bloodPressure >= 5))
 }
 
 -- Prevent two individual with same Illness
 fact IllnessSigleIndividual {
-	all il: Illness | no disj i1, i2: Individual | il = i1.illness and il = i2.illness
+	all il: Illness | no disj !i1!, !i2!: Individual | il = !i1!.illness and il = i!2!.illness
 }
 
 -- An ambulance is sent for a good reason with a reaction time of less than 2
 fact AmbulanceIndividual {
-	all a: Ambulance | a.rescuee.location = a.location and #a.rescuee.illness = 1 and
-	a.startTime.time >= a.rescuee.illness.startTime.time and minus[a.startTime.time, a.rescuee.illness.startTime.time] <= 2
+	all a: Ambulance | a.rescuee.location = a.location and #a.rescuee.illness = 1 and a.startTime.time >= a.rescuee.illness.startTime.time and minus[a.startTime.time, a.rescuee.illness.startTime.time] <= 2
 }
 
 -- If an Individual is having an illness and he hade activate AutomatedSOS then an Ambulance is directed to his location.
@@ -125,8 +154,7 @@ fact RequestThirdParty {
 
 -- A third party monitor only individuals who has accepted to be monitored
 fact IndividualMonitored {
-	all t: ThirdParty | all i: Individual | i in t.monitor implies 
-		one r: SpecificRequest | i = r.individual and r.approved = True and r in t.request
+	all t: ThirdParty | all i: Individual | i in t.monitor implies 		one r: SpecificRequest | i = r.individual and r.approved = True and r in t.request
 }
 
 -- If a SpecificRequest is approved, a ThirdParty is monitoring the specific Individual
@@ -136,7 +164,7 @@ fact SpecificRequestApproved {
 
 -- No multiple SpecificRequest for the same Individual from the same ThirdParty
 fact NoMultipleSpecificRequest {
-	all t: ThirdParty | no disj r1, r2: SpecificRequest | r1 in t.request and r2 in t.request and r1.individual = r2.individual
+	all t: ThirdParty | no disj r!1!, r!2!: SpecificRequest | r!1! in t.request and r!2! in t.request and r!1!.individual = r!2!.individual
 }
 
 
@@ -149,8 +177,7 @@ fact GroupDataPrivacy {
 
 -- If a ThirdParty have access to a group of data then there is an approved request for them
 fact GroupDataRequest {
-	all t: ThirdParty | all g: EHealthDataGroup | g in t.groupData implies (
-		one r: GroupRequest | r in t.request and r.groupData = g and r.approved = True)
+	all t: ThirdParty | all g: EHealthDataGroup | g in t.groupData implies (one r: GroupRequest | r in t.request and r.groupData = g and r.approved = True)
 }
 
 -- If a GroupRequest is accepted, then the ThirdParty have access to EHealthDataGroup
@@ -160,7 +187,7 @@ fact {
 
 -- No multiple GroupRequest for the same group from the same ThirdParty
 fact {
-	all t: ThirdParty | no disj r1, r2: GroupRequest | r1 in t.request and r2 in t.request and r1.groupData = r2.groupData
+	all t: ThirdParty | no disj r!1!, r!2!: GroupRequest | r!1! in t.request and r!2! in t.request and r!1!.groupData = r!2!.groupData
 }
 
 
@@ -174,14 +201,14 @@ run ambulanceWorld for 4 but 1 Ambulance, 1 Individual, 1 Illness, 5 Int
 
 
 pred groupRequestWorld {
-	some r1, r2: GroupRequest | r1.approved = True and r2.approved = False
+	some r!1!, r!2!: GroupRequest | r!1!.approved = True and r!2!.approved = False
 }
 
 run groupRequestWorld for 6 but 2 Request, 1 ThirdParty, 5 Int
 
 
 pred specificRequestWorld {
-	some r1, r2: SpecificRequest | r1.approved = True and r2.approved = False
+	some r!1!, r!2!: SpecificRequest | r!1!.approved = True and r!2!.approved = False
 }
 
 run specificRequestWorld for 5 but 2 Request, 2 Individual, 1 ThirdParty, 2 EHealthData, 0 EHealthDataGroup, 5 Int
@@ -205,12 +232,11 @@ assert ambulanceCalling {
 check ambulanceCalling for 15
 
 assert ambulanceReactionTime {
-	no i: Individual | #i.illness > 0 and some a: Ambulance | a.rescuee = i and a.location = i.location 
-		and minus[a.startTime.time, a.rescuee.illness.startTime.time] > 2
+	no i: Individual | #i.illness > 0 and some a: Ambulance | a.rescuee = i and a.location = i.location and minus[a.startTime.time, a.rescuee.illness.startTime.time] > 2
 }
 
 check ambulanceReactionTime for 15
-\end{verbatim}
+\end{lstlisting}
 
 
 
@@ -220,24 +246,25 @@ check ambulanceReactionTime for 15
 \subsection{Ambulance}
 In Figure \ref{f:ambWorld}, it is shown that an ambulance is sent to the location of an Individual that he doesn't feel good.
 Note that it can be there a (bounded) delay between the moment in which the vital parameters cross the thresholds (start of the Illness) and the time in which the ambulance is alerted.
-\begin{verbatim}
+\begin{lstlisting}[numbers=none]
 run ambulanceWorld for 4 but 1 Ambulance, 1 Individual, 1 Illness, 5 Int
-\end{verbatim}
+\end{lstlisting}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
-\fbox{\includegraphics[scale=0.4]{resources/Alloy/ambulance}}
+\fbox{\includegraphics[width=0.9\linewidth]{resources/Alloy/ambulance}}
 \caption{World generated by \texttt{ambulanceWorld} predicate}\label{f:ambWorld}
 \end{figure}
 
 \subsection{Specific requests}
 In Figure \ref{f:specWorld}, it is shown a case in which a third party had sent two distinct specific request but only one is being accepted. 
 Note that the third party can effectively monitor only the individual who has accepted the requests.
-\begin{verbatim}
-run specificRequestWorld for 5 but 2 Request, 2 Individual, 1 ThirdParty, 2 EHealthData, 0 EHealthDataGroup, 5 Int
-\end{verbatim}
 
-\begin{figure}[h]
+\begin{lstlisting}[numbers=none]
+run specificRequestWorld for 5 but 2 Request, 2 Individual, 1 ThirdParty, 2 EHealthData, 0 EHealthDataGroup, 5 Int
+\end{lstlisting}
+
+\begin{figure}[!ht]
 \centering
 \fbox{\includegraphics[scale=0.4]{resources/Alloy/specific}}
 \caption{World generated by \texttt{specificRequestWorld} predicate}\label{f:specWorld}
@@ -247,22 +274,21 @@ run specificRequestWorld for 5 but 2 Request, 2 Individual, 1 ThirdParty, 2 EHea
 \subsection{Group requests}
 Similarly to the previous, Figure \ref{f:groupWorld} shows a third party that had forwarded two group data requests. 
 Note that only one respect the privacy constraint and therefore the third party can access only to one group data.
-\begin{verbatim}
+\begin{lstlisting}[numbers=none]
 run groupRequestWorld for 6 but 2 Request, 1 ThirdParty, 5 Int
-\end{verbatim}
+\end{lstlisting}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \fbox{\includegraphics[scale=0.5, angle=-90]{resources/Alloy/group}}
 \caption{World generated by \texttt{groupRequestWorld} predicate}\label{f:groupWorld}
 \end{figure}
 
-
 \section{Alloy results}
 The checking of the four assertions defined in the model produce the results shown in Figure \ref{f:assertion}
 
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.8]{resources/Alloy/assertion}
 \caption{Checking of the four assertions}\label{f:assertion}
