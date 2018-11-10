@@ -1,28 +1,34 @@
 \chapter{Overall description}
 \section{Product perspective}
-Data4Help is a brand new service that will be built from the ground up. The user will interact with the system through the mobile application. An internet connection, GPS, and a wearable to collect eHealth data are required in order to use Data4Help fuctionalities and the optional additional service AutomatedSOS.
+Data4Help will be a service accessible through a web application for third parties and through a smartphone application for individuals. These application will be completely developed ground up, while for some backend and critical activities, external software will be used in order to speed up the development.
 
-The following class diagram will be helpful to understand how data4hel will help to handle both individuals and third parties functionalities.
+
+The following class diagram helps to visualize how Data4Help will try to provide services for both the individuals and the third parties by functioning as a central hub of eHealth data
 
 \begin{figure}[H]
-  \includegraphics[width=0.79\linewidth]{resources/UML/Data4HelpClassDiagram.png}
+  \includegraphics[width=0.89\linewidth]{resources/UML/Data4HelpClassDiagram.png}
   \caption{Data4Help Class Diagram}
   \label{fig: Data4Help Class diagram}
 \end{figure}
 
-The following statechart diagram briefly overview how the AutomatedSOS service works:
+Regarding the AutomatedSOS service, the following statechart diagram describes what are the main phases of this service
 
 \begin{figure}[H]
-  \includegraphics[width=0.79\linewidth]{resources/UML/AutomatedSOSstatechart.png}
+  \includegraphics[width=0.89\linewidth]{resources/UML/AutomatedSOSstatechart.png}
   \caption{AutomatedSOS statechart diagram}
   \label{fig: AutoamtedSOS statechart diagram}
 \end{figure}
 
 
 \subsection{Access to specific data}
-A third party interested in monitoring a specific individual can send a request to the system specifying his SSN or TC.
+A third party interested in monitoring a specific individual can send a request to the system specifying his SSN, TC or his username.
 The system passes the request to the specific individual who can accept or refuse it.
-If the request is accepted, the third party can see daily or aggregate data of the individual. In this case the third party can also see name, surname and age of the individuals.
+Once the individual has given an answer, the system notifies the third party about the answer: if the individual has given the consent to access his data the third party can then visualize the data.
+
+The data access permission can be managed by the indivudals through their application, and can be removed anytime from when it was accepted. 
+In this case the third party is notified about the individual decision and should formulate another request in order to access again individual's data. 
+
+
 
 
 \subsection{Access to group data}
@@ -34,6 +40,14 @@ This type of requests are managed directly by the system. Because TrackMe holds 
 
 If the request is positively evaluated, the anonymized data is made available to the third party.
 Optionally, the third party can subscribe to new data with the same characteristics. If new data, matching the third party request, is produced it will be made available to the requester at most once a week.
+
+\subsection{Data Subscription}
+Third parties can optionally subscribe to data of accepted requests: if new data, matching the third party request, is produced then it will be notified made available to the requester at most once a week.
+
+The data is provided as long as the data request is valid: if the number of individuals that are part of a grpup request goes to 1000 or less, or the individual removes the data access the system stops to update the third parties. 
+
+Third parties can at any moment,from the subscription to a data request, unsubscribe.
+
 
 
 
@@ -108,19 +122,4 @@ In particular, anonymized data can be shared with third parties who request it w
 
 Moreover, a third party can request to fully access the data of some specific individual. In this case it is up to the individual to accept or not to share his data with that specific third party.
 
-\subsection{Hardware limitations}
-Individuals will use a smartphone app in order to acess the service.
-The following devices are the one that will be compatible with the app:
-\begin{itemize}
-\item iOS or Android smartphone with following capabilities:
-\begin{itemize}
-\item 2G/3G/4G connection
-\item Bluetooth connection
-\item GPS
-\end{itemize}
-These are instead the smartwatches that will be initially supported in the app:
-\item watchOS or wearOS smartwatch
-\newline
-Third parties will have access to the service through a WebApp, accessible with any browser compatible with html5 and java.
-\end{itemize}
 
