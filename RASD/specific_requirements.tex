@@ -266,10 +266,10 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \\ \hline
     Events flow &
     \begin{enumerate}
-    \item Open the application
-    \item Tap on "Register a new account"
-    \item Fill all the mandatory fields with correct information
-    \item Click on "Register".
+    \item The individual opens the application
+    \item The individual taps on "Register a new account"
+    \item The individual fills all the mandatory fields with correct information
+    \item The individual clicks on "Register".
     \end{enumerate}
      \\ \hline
      Exit Condition & Individual credentials have successfully been added to the system,
@@ -300,9 +300,9 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \\ \hline
     Events flow &
     \begin{enumerate}
-    \item Click on "Register a new account"
-    \item Fill all the mandatory fields with correct information
-    \item Click on "Sign up".
+    \item The third party clicks on "Register a new account"
+    \item The third party fills all the mandatory fields with correct information
+    \item The third party clicks on "Sign up".
     \end{enumerate}
      \\ \hline
      Exit Condition & Third party credentials have successfully been added to the system,
@@ -315,7 +315,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The third party didn't fill all the mandatory fields.
     \item The third party provided invalid data.
     \end{enumerate}
-    All the exceptions above are notified to the third party who is taken back to the registration form.
+    All the exceptions above are notified to the third party, which is taken back to the registration form.
       \\
     \hline
 \end{tabular}
@@ -404,7 +404,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Exceptions &
         \begin{enumerate}
     \item The application isn't able to recognize a wearable. 
-   	\item Bluetooth goes off during the pairing.
+   	\item Bluetooth goes down during the pairing.
     \end{enumerate}
     The exception above is notified by the application. The individual can repeat the pairing procedure.
       \\
@@ -428,7 +428,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \begin{enumerate}
     \item The wearable has gathered some individual eHealth data.
     \item The individual goes to the home application screen.
-    \item The application download the data from the wearable.
+    \item The application downloads the data from the wearable.
     \item The application uploads the data on the system.
     \end{enumerate}
      \\ \hline
@@ -460,7 +460,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Events flow &
     \begin{enumerate}
     \item The individual goes to "Mydata" section.
-    \item The individual select which data he wants to see in details.
+    \item The individual selects which data he wants to see in details.
     \item The application downloads the data from the system.
     \end{enumerate}
      \\ \hline
@@ -649,7 +649,7 @@ The application notifies that the device is disconnected.
     \begin{enumerate}
     \item The third party goes in the data visualization section.
 	\item The third party clicks on the subscribe button of the data request he is interested in.
-	\item The system starts automatically updating the data to which the third party is subscribed to.
+	\item The system starts automatically to update the data to which the third party is subscribed to.
     \end{enumerate}
      \\ \hline
      Exit Condition & The application notifies the third party of the new subscription.
@@ -657,7 +657,7 @@ The application notifies that the device is disconnected.
     \hline
     Exceptions &
         \begin{enumerate}
-    \item The number of individuals of the group detected by the data request which the third party wants to subscribe to went belove 1001 members.
+    \item The number of individuals of the group detected by the data request which the third party wants to subscribe to went to 1000 or belove.
     \item The individual removed the permission to access his data from the third party.
 \end{enumerate}  
  The exceptions above are notified to the third party that will not be updated anymore with new data.
@@ -674,7 +674,7 @@ Some assumptions were considered in order to simplify these diagrams, the system
 \begin{itemize}
 \item The login credentials provided by the users are correct;
 \item The wearable used during the pairing is compatible with the applications;
-\item User devices are connecte to the internet for the whole time.
+\item User devices are connected to the internet for the whole time.
 \end{itemize}
 
 
@@ -747,7 +747,7 @@ The app must make clear that \textbf{AutomatedSOS service DOES NOT substitute} t
 The Automated SOS service was born as an additional service that can anticipate the emergency call, not as a service that substitutes it.
 
 
-\section{Software system costraints}
+\section{Software system constraints}
 \subsection{Reliability}
 The application aims to provide a 24/7 service, but,especially in the initial phase, some time of unavailability for maintenance is expected.
 \subsection{Availability}
@@ -762,7 +762,7 @@ AutomateSOS is a first, clear example of the expandability nature of Data4Help.
 i\subsection{Compatibility}
 Gathering the possible largest amount of eHealth data is the fundamental feature of the service. Although, due the fragmentation of the wearable market, only watchOS and wearOS smartwatches will be initially supported. 
 
-TizenOS and wearOS smartwatches will get official support in no longer than 3 months after the app initial release.
+TizenOS smartwatches will get official support in no longer than 3 months after the app initial release.
 
 The app will support both Android and iOS smartphones while the WebApp will be compatible with any browser that supports html5 and java applets.
 
