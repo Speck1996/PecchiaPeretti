@@ -249,7 +249,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 
 \subsection{Use case diagram}
 \begin{figure}[H]
-  \includegraphics[width=1.10\linewidth]{resources/UML/GeneralUseCase.png}
+  \includegraphics[width=1\linewidth]{resources/UML/GeneralUseCase.png}
   \caption{Data4Help Use case diagram}
   \label{fig:Use case diagram}
 \end{figure}
@@ -344,9 +344,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
      \\
     \hline
     Exceptions &
-     \begin{enumerate}
-    \item The inserted credentials are not found in the system database.  
-    \end{enumerate}
+	The inserted credentials are not found in the system database.
    The application notifies that the inserted credentials are wrong.
       \\
     \hline
@@ -375,9 +373,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
      \\
     \hline
     Exceptions &
-     \begin{enumerate}
-    \item The inserted credentials are not found in the system database.  
-    \end{enumerate}
+    The inserted credentials are not found in the system database.  
    The application notifies that the inserted credentials are wrong.
       \\
     \hline
@@ -639,7 +635,7 @@ The application notifies that the device is disconnected.
 \end{tabular}
 \end{table}
 
-\begin{table}[p]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|p{11cm}|}
     \hline
@@ -672,9 +668,6 @@ The application notifies that the device is disconnected.
 
 
 
-
-
-\newpage
 \subsection{Sequence diagrams}
 The following diagrams model the main features of Data4Help: data uploading by individuals, data request by third parties and AutomatedSOS subscription.
 Some assumptions were considered in order to simplify these diagrams, the system should act without them:
@@ -688,21 +681,22 @@ Some assumptions were considered in order to simplify these diagrams, the system
 
 
 
-\begin{figure}[H]
+\begin{figure}[p]
 	\centering
   \includegraphics[width=0.79\linewidth]{resources/UML/IndividualInteraction.png}
   \caption{Individual data upload screen}
   \label{fig:Individual sequence diagram}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
 	\centering
-  \includegraphics[width=0.70\linewidth]{resources/UML/ThirdPartyDataRequest.png}
+  \includegraphics[width=0.67\linewidth]{resources/UML/ThirdPartyDataRequest.png}
   \caption{Third Party data request sequence diagram}
   \label{fig: ThirdParty sequence diagram}
 \end{figure}
 
 \begin{figure}[H]
+	\centering
   \includegraphics[width=0.70\linewidth]{resources/UML/AutomatedSOSsequence.png}
   \caption{AutomatedSOS subscription sequence diagram}
   \label{fig: AutomatedSOS sequence diagram}
@@ -765,7 +759,7 @@ In order to prevent DDoS attacks an external security service on the servers wil
 The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteeing an high level of flexibility. 
 
 AutomateSOS is a first, clear example of the expandability nature of Data4Help.
-\subsection{Compatibility}
+i\subsection{Compatibility}
 Gathering the possible largest amount of eHealth data is the fundamental feature of the service. Although, due the fragmentation of the wearable market, only watchOS and wearOS smartwatches will be initially supported. 
 
 TizenOS and wearOS smartwatches will get official support in no longer than 3 months after the app initial release.
