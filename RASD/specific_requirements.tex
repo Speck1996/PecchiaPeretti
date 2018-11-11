@@ -325,7 +325,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \centering
 \begin{tabular}{|l|p{11cm}|}
     \hline
-    Name & Smartphone sign In
+    Name & Smartphone Log In
     \\ \hline
     Actor & Individual
     \\ \hline 
@@ -357,7 +357,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \centering
 \begin{tabular}{|l|p{11cm}|}
     \hline
-    Name & Web application sign In
+    Name & Web application Log In
     \\ \hline
     Actor & Third party
     \\ \hline 
@@ -450,6 +450,37 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \end{tabular}
 \end{table}
 
+
+\begin{table}[p]
+\centering
+\begin{tabular}{|l|p{11cm}|}
+    \hline
+    Name & Visualize data
+    \\ \hline
+    Actor & Individual
+    \\ \hline 
+    Entry condition & The individual is logged in and has already uploaded some data to the system
+    \\ \hline
+    Events flow &
+    \begin{enumerate}
+    \item The individual goes to "Mydata" section.
+    \item The individual select which data he wants to see in details.
+    \item The application downloads the data from the system.
+    \end{enumerate}
+     \\ \hline
+     Exit Condition & Individual eHealth data is successfully loaded on the device screen.
+     \\
+    \hline
+    Exceptions &
+    \begin{enumerate}
+    \item Connection falls down during the upload phase.
+    \item The application fails the download of eHealth data.
+    \end{enumerate}
+  The application notifies that there were problem during the upload phase. The individual can repeat the procedure by selecting again the data.
+      \\
+    \hline
+\end{tabular}
+\end{table}
 
 \begin{table}[p]
 \centering
@@ -612,7 +643,7 @@ The application notifies that the device is disconnected.
 \centering
 \begin{tabular}{|l|p{11cm}|}
     \hline
-    Name & Data visualization
+    Name & Visualize data
     \\ \hline
     Actor & Third party
     \\ \hline 
