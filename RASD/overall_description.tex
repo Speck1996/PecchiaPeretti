@@ -1,6 +1,6 @@
 \chapter{Overall description}
 \section{Product perspective}
-Data4Help will be a service accessible through a web application for third parties and through a smartphone application for individuals. These application will be completely developed ground up, while for some backend and critical activities, external software will be used in order to speed up the development.
+Data4Help will be a service accessible through a web application for third parties and through a smartphone application for individuals. These application will be completely developed ground up, while for some back-end and critical activities, external software will be used in order to speed up the development.
 
 
 The following class diagram helps to visualize how Data4Help will try to provide services for both the individuals and the third parties by functioning as a central hub of eHealth data
@@ -25,7 +25,7 @@ A third party interested in monitoring a specific individual can send a request 
 The system passes the request to the specific individual who can accept or refuse it.
 Once the individual has given an answer, the system notifies the third party about the answer: if the individual has given the consent to access his data the third party can then visualize the data.
 
-The data access permission can be managed by the indivudals through their application, and can be removed anytime from when it was accepted. 
+The data access permission can be managed by the individuals through their application, and can be removed anytime from when it was accepted. 
 In this case the third party is notified about the individual decision and should formulate another request in order to access again individual's data. 
 
 
@@ -44,7 +44,7 @@ Optionally, the third party can subscribe to new data with the same characterist
 \subsection{Data Subscription}
 Third parties can optionally subscribe to data of accepted requests: if new data, matching the third party request, is produced then it will be notified made available to the requester at most once a week.
 
-The data is provided as long as the data request is valid: if the number of individuals that are part of a grpup request goes to 1000 or less, or the individual removes the data access the system stops to update the third parties. 
+The data is provided as long as the data request is valid: if the number of individuals that are part of a group request goes to 1000 or less, or the individual removes the data access the system stops to update the third parties. 
 
 Third parties can at any moment,from the subscription to a data request, unsubscribe.
 

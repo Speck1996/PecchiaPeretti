@@ -6,7 +6,7 @@ Data4Help is a service built to collect,organize and distribute the increasing a
 This service is built for two typologies of users:
 \begin{itemize}
 \item Third-Parties: users that want to access Data4Help collected data. These users will have access to the system by joining through a Web Application.
-\item Individuals: users that want to provide their eHealth data to Data4Help. Data4Help will also collect additional individuals' informations, in order to better organize and distribute the collected data.
+\item Individuals: users that want to provide their eHealth data to Data4Help. Data4Help will also collect additional individuals' information, in order to better organize and distribute the collected data.
 These users will have access to the system by instead joining through a smartphone application.
 \end{itemize}
 Data4Help can be seen as the intermediary between eHealth data providers and eHealth data analyzers: it will gather  and store eHealth data from individuals and it will make the collected data accessible for any third party, respecting however individuals' privacy.
@@ -31,12 +31,12 @@ Individuals will be able to use the supported wearables, in order to upload thei
 \givespace
 The collected data can be then accessed by third-parties in two different ways:
 \begin{itemize}
-\item Anonymized data: data of group of individuals, where the group is identified by giving costraints to the requested data. The constraints can be set on the individuals by specifying their age,sex or location or on the eHealth data by specifying intervals to each specific data. To maintain a certain level of privacy only requests that detect groups made of a number of individuals that is higher than 1000 are allowed by the system.
+\item Anonymized data: data of group of individuals, where the group is identified by giving constraints to the requested data. The constraints can be set on the individuals by specifying their age,sex or location or on the eHealth data by specifying intervals to each specific data. To maintain a certain level of privacy only requests that detect groups made of a number of individuals that is higher than 1000 are allowed by the system.
 \item Specific individual data: specific individual data can be accessed only after the third-party had sent a data access permission request to the individual, and the request was accepted. The system will act as the intermediary, it will take the third party request and send it to the individual and will then notify the third party with the individual's response,giving access to his data if the request was accepted or by denying the access if the request was not accepted.
 \end{itemize}
 The system also gives the opportunity to third parties to be notified when new data is available, for both the specific individual data requests and the group requests.
 \givespace
-Individuals can also subscribe to another service, included in the application: AutomatedSOS. This service monitors the health status of an individual continuously, and, if certain parameters go below a critical threshold, the application starts automatically a rescue procedure. The rescue procedure should start in under 5 seconds from the crossing of the treshold and consists in sending an ambulance to the position of the user.
+Individuals can also subscribe to another service, included in the application: AutomatedSOS. This service monitors the health status of an individual continuously, and, if certain parameters go below a critical threshold, the application starts automatically a rescue procedure. The rescue procedure should start in under 5 seconds from the crossing of the threshold and consists in sending an ambulance to the position of the user.
 \givespace
 To better understand what are the phenomena that are part of the system and what are not, consider the following diagram
 \begin{figure}[H]
@@ -59,7 +59,7 @@ Third parties can have access to data of specific individuals that gave permissi
 Third parties can receive updates whenever new data of their observed groups or individuals is gathered.
 }{Notify}
 \item[]\goal{
-An ambulance is called whenever an individual vital parameter crosses a critical treshold.
+An ambulance is called whenever an individual vital parameter crosses a critical threshold.
 }{Rescue}
 \item[]\goal{
 Users privacy cannot be violated.
@@ -73,7 +73,7 @@ Users privacy cannot be violated.
 
 
 
-\section{Definitions, Acronyms, Abbreviations}
+\section{Definitions, acronyms, abbreviations}
 \subsection{Definitions}
 \begin{itemize}
 \item \textbf{Rescue Procedure}: all the operations needed to save a person life. The operations include both the ones handled by computers and humans.
@@ -81,7 +81,7 @@ Users privacy cannot be violated.
 \item \textbf{Health status}: level of health of a person, obtained analyzing various parameters like  hearthbeat rate, hours of sleep.
 \item \textbf{Critical Treshold}: value that, referred to an health parameter, must not be passed to guarantee user vital activities.
 \item \textbf{Wearable}: electronics that can be worn on the body, either as an accessory or as part of material used clothing. For the Data4Help system, only smartwaches will be initially considered.
-\item \textbf{Data hub}: collection of data from muliple source organized for distribution.
+\item \textbf{Data hub}: collection of data from multiple source organized for distribution.
 \end{itemize}
 
 
@@ -107,7 +107,7 @@ Users privacy cannot be violated.
 
 \section{Document Structure}
 This RASD document is organized in the following way:
-Chapter 1 contains an introductory overview on Data4Help, specifically it describes for wich users this service is designed for and what are its main goals.
+Chapter 1 contains an introductory overview on Data4Help, specifically it describes for which users this service is designed for and what are its main goals.
 \givespace
 Chapter 2 contains an overall description of Data4Help, starting from a class diagram that helps to visualize what is the model used to build this service and what is the role of Data4Help in it. A state chart diagram about the AutomatedSOS service is also included in order to better specify the main steps in order to guarantee this service. This chapter also provides a more specific description of Data4Help functionalities and its users, what are the constraints on these functionalities, and the domain assumptions
 \givespace

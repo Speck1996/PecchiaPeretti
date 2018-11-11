@@ -73,7 +73,7 @@ The following mockups serve as guideline for the application, used by individual
 
 \begin{figure}[H]
 \centering
-  \includegraphics[width=12cm,height=9cm]{resources/Screen/Groupdatarequest.png}
+ \fbox{ \includegraphics[width=12cm,height=9cm]{resources/Screen/Groupdatarequest.png}}
   \caption{WebApp Group data request}
   \label{fig:WebApp GroupData Request}
 \end{figure}
@@ -81,7 +81,7 @@ The following mockups serve as guideline for the application, used by individual
 
 \begin{figure}[H]
 \centering
-  \includegraphics[width=12cm,height=9cm]{resources/Screen/individualdatarequest.png}
+  \fbox{\includegraphics[width=12cm,height=9cm]{resources/Screen/individualdatarequest.png}}
   \caption{WebApp Individual data request}
   \label{fig:WebApp Individual data request}
 \end{figure}
@@ -142,12 +142,12 @@ He is afraid it could happen again and because he lives alone, he decides to act
 
 
 \subsection{Scenario 3}
-FatBit is a startup that wants to launch its first wearable. To optimize their limited resources and to improve their ads, Fatbit's managers want to know wich are the countries with healtier people,wich one have the more active, and the average age of their potential consumers. Collecting this data it's not easy, especially when joining the market for the first time. Fortunately a new service, Data4Help, has just launched and one of its main features it's the distribution of eHealth data, organized according to different parameters, included the ones FatBit managers are interested in (age,location,steps taken daily).
+FatBit is a startup that wants to launch its first wearable. To optimize their limited resources and to improve their ads, Fatbit's managers want to know wich are the countries with healthier people, which one have the more active, and the average age of their potential consumers. Collecting this data it's not easy, especially when joining the market for the first time. Fortunately a new service, Data4Help, has just launched and one of its main features it's the distribution of eHealth data, organized according to different parameters, included the ones FatBit managers are interested in (age,location,steps taken daily).
 Therefore FatBit's managers decide to register with a unique account as third-party, and start their data analysis thanks to Data4Help.
 
 
 \subsection{Scenario 4}
-Wile is an engineering student who wants to get back in shape. He decides to join the gym and to buy a wearable to see its progress over time. Initially Wile is satisfied by his wearable and the built in application but later he starts noticing that more and more wearables with improved design and many new features are launching in the market. Wisely, he notice that the built in application collects the data only for the producer's devices and so if he wanted to change his wearable without losing data he were pratically forced to buy a new watch from the same company. Therefore he decides to use Data4Help, allowing him to change his wearable with the one he likes the most without losing data.
+Wile is an engineering student who wants to get back in shape. He decides to join the gym and to buy a wearable to see its progress over time. Initially Wile is satisfied by his wearable and the built in application but later he starts noticing that more and more wearables with improved design and many new features are launching in the market. Wisely, he notice that the built in application collects the data only for the producer's devices and so if he wanted to change his wearable without losing data he were practically forced to buy a new watch from the same company. Therefore he decides to use Data4Help, allowing him to change his wearable with the one he likes the most without losing data.
 
 \section{Functional Requirements}
 
@@ -177,7 +177,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \item[] [R\ref{sr:Storing}] {\subreqStoring}
 \item[] [R\ref{r:Login}]{\reqLogin}
 \item[] [R\ref{sr:OrganizingData}] {\subreqOrganizingData}
-\item[] \req{Third parties can formulate requests to access anonimized data of groups.}{Request}
+\item[] \req{Third parties can formulate requests to access anonymized data of groups.}{Request}
 \item[] \req{Third parties can apply filters on data while formulating their request for data of groups.}{Filtering}
 \item[] \req{The system checks if the number of individuals in the group detected by the third party request is higher than 1000.}{PrivacyCheck}
 \item[] \subreq{If the groups has 1000 or less individuals the system denies the request.}{DenyRequest}
@@ -208,8 +208,8 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \item[] [R\ref{r:Login}]{\reqLogin}
 \item[] [R\ref{sr:Storing}]{\subreqStoring}
 \item[] [R\ref{sr:OrganizingData}]{\subreqOrganizingData}
-\item[] \req{Third parties can specify to be updated whenever new data of groups detected by their data requests, or observerd individuals is gathered. The time interval between an update and the next one can be set by the third party, in a limit that goes from one hour to 1 year.}{DataSubscription}
-\item[] \req{The system is able to update third parties with new data, respecting their prefecerences on the interval timing.}{SubScriptionUpdate}
+\item[] \req{Third parties can specify to be updated whenever new data of groups detected by their data requests, or observed individuals is gathered. The time interval between an update and the next one can be set by the third party, in a limit that goes from one hour to 1 year.}{DataSubscription}
+\item[] \req{The system is able to update third parties with new data, respecting their preferences on the interval timing.}{SubScriptionUpdate}
 \end{enumerate}
 
 \item[\textbf{[G\ref{g:Rescue}]}] \textbf{\goalRescue}
@@ -221,7 +221,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \item[] \req{Individual can subscribe to the AutomatedSOS service.}{AutomatedSOS}
 \item[] [R\ref{r:Pairing}] {\reqPairing}
 \item[] \req{The system ensures that the individual's wearable can measure at least one vital parameters.}{ParametersCheck}
-\item[] \req{The system is able to continuosly monitor individual vital parameters.}{Monitoring}
+\item[] \req{The system is able to continuously monitor individual vital parameters.}{Monitoring}
 \item[] \req{If the wearable is disconnected the AutomatedSOS service is suspended, untill the individual connects his wearable again.}{Disconnect}
 \item[] [D\ref{d:Tresholds}]{\domTresholds}
 \item[] [D\ref{d:Ambulance}]{\domAmbulance}
@@ -241,7 +241,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \end{enumerate}
 
 
-\subsubsection{Use case diagram}
+\subsection{Use case diagram}
 \begin{figure}[H]
   \includegraphics[width=1.10\linewidth]{resources/UML/GeneralUseCase.png}
   \caption{Data4Help Use case diagram}
@@ -262,21 +262,21 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \begin{enumerate}
     \item Open the application
     \item Tap on "Register a new account"
-    \item Fill all the mandatory fields with correct informations
+    \item Fill all the mandatory fields with correct information
     \item Click on "Register".
     \end{enumerate}
      \\ \hline
-     Exit Condition & Individual credenials have successfully been added to the system,
+     Exit Condition & Individual credentials have successfully been added to the system,
      the individual can now log in     
      \\
     \hline
     Exceptions &
         \begin{enumerate}
-    \item The individual username or his emai is already present in the system database.
+    \item The individual username or his email is already present in the system database.
     \item Individual didn't fill all the mandatory fields.
     \item Individual provided invalid data.
     \end{enumerate}
-    All the exceptions above are notified to the individual who is taken back to the registraton form.
+    All the exceptions above are notified to the individual who is taken back to the registration form.
       \\
     \hline
 \end{tabular}
@@ -294,11 +294,11 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     Events flow &
     \begin{enumerate}
     \item Click on "Register a new account"
-    \item Fill all the mandatory fields with correct informations
+    \item Fill all the mandatory fields with correct information
     \item Click on "Sign up".
     \end{enumerate}
      \\ \hline
-     Exit Condition & Third party credenials have successfully been added to the system,
+     Exit Condition & Third party credentials have successfully been added to the system,
      the third party can now log in     
      \\
     \hline
@@ -308,7 +308,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
     \item The third party didn't fill all the mandatory fields.
     \item The third party provided invalid data.
     \end{enumerate}
-    All the exceptions above are notified to the third party who is taken back to the registraton form.
+    All the exceptions above are notified to the third party who is taken back to the registration form.
       \\
     \hline
 \end{tabular}
@@ -507,8 +507,8 @@ The application notifies that the device is disconnected.
     \begin{enumerate}
 	\item The individual goes to the AutomatedSOS app section.
     \item The individual click the subscribe button.
-    \item The app checks if the wearable paired can gather the necesessary data for the AutomatedSOS service.
-    \item The app starts monitoring the indivudal.
+    \item The app checks if the wearable paired can gather the necessary data for the AutomatedSOS service.
+    \item The app starts monitoring the individual.
     \end{enumerate}
      \\ \hline
      Exit Condition & The wearable starts monitoring individuals vital parameters.
@@ -518,7 +518,7 @@ The application notifies that the device is disconnected.
         \begin{enumerate}
     \item Wearable cannot monitors individuals vital parameters.
     \item Wearable unpairs during the procedure.
-    \item The connecton falls down during the procedure.
+    \item The connection falls down during the procedure.
     \end{enumerate}
       The exception above are notified to the individuals. The individual must repeat the whole 
       procedure.
@@ -550,7 +550,7 @@ The application notifies that the device is disconnected.
         \begin{enumerate}
     \item The individual identifier is not found in the system.
     \end{enumerate}
-     The exception above is notified to the third party, wich is sent back to the data request screen
+     The exception above is notified to the third party, which is sent back to the data request screen
         \\  \hline
 
 \end{tabular}
@@ -580,7 +580,7 @@ The application notifies that the device is disconnected.
         \begin{enumerate}
     \item The group of individuals detected by the third party has a number of members of 1000 or less.     
     \end{enumerate}
-      The exception above is notified to the third party, wich is sent back to the data request screen.
+      The exception above is notified to the third party, which is sent back to the data request screen.
 	 \\
     \hline
 \end{tabular}
@@ -621,7 +621,7 @@ The application notifies that the device is disconnected.
 
 
 
-\subsubsection{Sequence diagrams}
+\subsection{Sequence diagrams}
 The following diagrams model the main features of Data4Help: data uploading by individuals and data request by third parties.
 
 
@@ -649,7 +649,7 @@ Giving a realistic estimation on the numbers of users is not possible but a tota
 
 In order to expand the user base and have from the start good feedbacks the development will be focused on providing a reliable and persistent service. 
 
-Regarding the AutomatedSOS service, the ambulance call should be done with a delay time from the crossing of the critical treshould that is under 5 seconds.
+Regarding the AutomatedSOS service, the ambulance call should be done with a delay time from the crossing of the critical thresholds that is under 5 seconds.
 
 \section{Design constraints}
 \subsection{Standards compliance}
@@ -661,7 +661,7 @@ Regarding the AutomatedSOS service, the ambulance call should be done with a del
 
 
 \subsection{Hardware limitations}
-Individuals will use a smartphone app in order to acess the service.
+Individuals will use a smartphone app in order to access the service.
 The following devices are the one that will be compatible with the app:
 \begin{itemize}
 \item iOS or Android smartphone with following capabilities:
@@ -677,7 +677,7 @@ These are instead the smartwatches that will be initially supported in the app:
 Third parties will have access to the service through a WebApp, accessible with any browser compatible with html5 and java.
 \end{itemize}
 
-\subsection{other costraints}
+\subsection{Other constraints}
 The app must make clear that \textbf{AutomatedSOS service DOES NOT substitute} the manual emergency call since that the availability of the service rely on external factors such as internet connection, wearable hardware and so on and only a couple of vital parameters can be monitored.
 
 
@@ -690,10 +690,10 @@ The application aims to provide a 24/7 service, but,especially in the initial ph
 \subsection{Availability}
 The initial target of availability will be a system that is up for the 95.00\% of the time. This value should improve over time as the service expands and more resources are available.
 \subsection{Security}
-Users passwords will be cripted and stored in a specific database.
+Users passwords will be encrypted and stored in a specific database.
 In order to prevent DDoS attacks an external security service on the servers will be enabled.
 \subsection{Mantainability}
-The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteing an high level of flexibility. 
+The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteeing an high level of flexibility. 
 
 AutomateSOS is a first, clear example of the expandability nature of Data4Help.
 \subsection{Compatibility}
