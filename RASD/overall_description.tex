@@ -1,6 +1,6 @@
 \chapter{Overall description}
 \section{Product perspective}
-Data4Help will be a service accessible through a web application for third parties and through a smartphone application for individuals. These application will be completely developed ground up, while for some back-end and critical activities, external software will be used in order to speed up the development.
+Data4Help will be a service accessible through a web application for third parties and through a smartphone application for individuals. These applications will be completely developed ground up, while for some back-end and critical activities, external software will be used in order to speed up the development.
 
 
 The following class diagram helps to visualize how Data4Help will try to provide services for both the individuals and the third parties by functioning as a central hub of eHealth data
@@ -11,21 +11,21 @@ The following class diagram helps to visualize how Data4Help will try to provide
   \label{fig: Data4Help Class diagram}
 \end{figure}
 
-Regarding the AutomatedSOS service, the following statechart diagram describes what are the main phases of this service
+Regarding the AutomatedSOS service, the following state chart diagram describes what are the main phases of this service
 
 \begin{figure}[H]
   \includegraphics[width=1.10\linewidth]{resources/UML/AutomatedSOSstatechart.png}
-  \caption{AutomatedSOS statechart diagram}
-  \label{fig: AutoamtedSOS statechart diagram}
+  \caption{AutomatedSOS state chart diagram}
+  \label{fig: AutoamtedSOS state chart diagram}
 \end{figure}
 
 
 \subsection{Access to specific data}
-A third party interested in monitoring a specific individual can send a request to the system specifying his TC or his username.
-The system passes the request to the specific individual who can accept or refuse it.
-Once the individual has given an answer, the system notifies the third party about the answer: if the individual has given the consent to access his data the third party can then visualize the data.
+A third party interested in monitoring a specific individual can send a request to the system specifying individual's TC or username. The third party can specify which eHealth data, or individuals' attributes wants to access.
+The system passes the request to the above mentioned individual who can accept or refuse it.
+Once the individual has given an answer, the system sends a notification to the third party with the individuals' response: if the individual has given the consent to access his data the third party can then visualize the data.
 
-The data access permission can be managed by the individuals through their application, and can be removed anytime from when it was accepted. 
+The data access permission can be managed by the individuals through their application, and can be removed at anytime from when it was accepted. 
 In this case the third party is notified about the individual decision and should formulate another request in order to access again individual's data. 
 
 
@@ -33,18 +33,19 @@ In this case the third party is notified about the individual decision and shoul
 
 \subsection{Access to group data}
 A third party can also request access to anonymized data of a group of individuals.
-To do so, it must specify some parameters concerning individuals. These parameters can regard geographical area, age range or level of education of the users of interest to the third party.
-Geographical area can be specified in term of country, region, province, town and district (only for big city).
+To do so, it must specify some parameters concerning individuals or eHealth data.
+The specifiable parameters on individuals are: sex, age, country of birth or geographical area.
+The geographical area can be specified in term of country, region, province, town and district (only for big cities).
+On the other hand the eHealth data third parties can be filtered giving the range of value desired for steps, sleep time, blood pressure and heart rate. These parameters are provided as averages on a time interval that the third party can choose between a daily, weekly, monthly time horizon.
 
-This type of requests are managed directly by the system. Because TrackMe holds in high regard the privacy of its users, it will satisfy the request only if the number of individuals whose data satisfy the request is higher than 1000.
+This type of requests are managed directly by the system. Because TrackMe holds in high regard the privacy of its users, it will satisfy the request only if the number of individuals whose data satisfies the request is higher than 1000.
 
 If the request is positively evaluated, the anonymized data is made available to the third party.
-Optionally, the third party can subscribe to new data with the same characteristics. If new data, matching the third party request, is produced it will be made available to the requester at most once a week.
 
 \subsection{Data Subscription}
-Third parties can optionally subscribe to data of accepted requests: if new data, matching the third party request, is produced then it will be notified made available to the requester at most once a week.
+Third parties can optionally subscribe to data of accepted requests: if new data, matching the third party request, is produced then it will be notified and made available to the requester at most once a week.
 
-The data is provided as long as the data request is valid: if the number of individuals that are part of a group request goes to 1000 or less, or the individual removes the data access the system stops to update the third parties. 
+The data is provided as long as the data request is valid: if the number of individuals that are part of a group request goes to 1000 or less, or the individual removes the data access, the system stops to update the third party.
 
 Third parties can at any moment,from the subscription to a data request, unsubscribe.
 
@@ -53,13 +54,13 @@ Third parties can at any moment,from the subscription to a data request, unsubsc
 
 
 \subsection{SOS service}
-The service AutomatedSOS must exploit the real-time stream of eHealth data provided by the underlying Data4Help to offer a personalized and non-intrusive SOS service especially designed for elderly people.
-Any individual, correctly registered to Data4Help, can optionally request to active this service
+The service AutomatedSOS must exploit the real-time stream of eHealth data provided by the underlying Data4Help to offer a personalized and non-intrusive SOS service, especially designed for elderly people.
+Any individual, correctly registered to Data4Help, can optionally request to active this service.
 
 
 If AutomatedSOS has been activated, the system should continuously monitor the parameters of the individuals and compare them using certain specific thresholds.
 If the parameters are below these thresholds, the system assumes that the individual is having a sudden illness and forwards a request to an emergency service for sending an ambulance to the location of the user.
-AutomatedSOS must ensure a reaction time of less than 5 seconds from the time the parameters are detected below the threshold.
+AutomatedSOS must ensure a reaction time of less than 5 seconds from the time the parameters cross their respective thresholds.
 
 
 
@@ -100,7 +101,7 @@ Users have access to internet.
 }{Internet}
 \item[]\dom{
 Thresholds for health parameters are provided by medical experts.
-}{Tresholds}
+}{Thresholds}
 \item[]\dom{
 An ambulance is always available when it is needed.
 }{Ambulance}
