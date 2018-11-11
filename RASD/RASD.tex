@@ -38,14 +38,14 @@
 \newcommand{\dom}[2]{
 \refstepcounter{domnum}
 \label{d:#2}
-[D\thedomnum]\; #1
+[D\thedomnum] #1
 \global\expandafter\def\csname dom#2\endcsname {#1}
 }
 
 \newcommand{\req}[2]{
 \refstepcounter{reqnum}
 \label{r:#2}
-[R\thereqnum]\; #1
+[R\thereqnum] #1
 \global\expandafter\def\csname req#2\endcsname {#1}
 }
 
@@ -71,7 +71,7 @@
 
 \fancypagestyle{plain}{
 	\fancyhf{}
-	\lfoot{\textcolor{gray}{\small{Copyright © 2018, S. Pecchia and E. Peretti – All rights reserved}}}
+	\lfoot{\textcolor{gray}{\small{Copyright © 2018, Stefano Pecchia and Edoardo Peretti – All rights reserved}}}
 \rfoot{\textcolor{gray}{\thepage}}
 }
 
