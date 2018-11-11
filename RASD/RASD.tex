@@ -10,13 +10,8 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{listings}
-\usepackage{color}
-
-
-%\theoremstyle{definition}
-%\newtheorem{goal}{G}
-%\theoremstyle{definition}
-%\newtheorem{dom}{D} 
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fancyhdr}
 
 %counter for goals, domains and requirements
 \newcounter{goalnum}
@@ -64,16 +59,71 @@
 }
 
 
+% header and footer
+\setlength{\headheight}{14pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\color{gray}{\small{TrackMe project by Stefano Pecchia and Edoardo Peretti}}}
+\lfoot{\textcolor{gray}{\small{Copyright © 2018, Stefano Pecchia and Edoardo Peretti – All rights reserved}}}
+\rfoot{\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+	\fancyhf{}
+	\lfoot{\textcolor{gray}{\small{Copyright © 2018, S. Pecchia and E. Peretti – All rights reserved}}}
+\rfoot{\textcolor{gray}{\thepage}}
+}
+
+
+
+
+
 
 \title{Requirements Analysis and Specification Document}
 \author{Stefano Pecchia \and Edoardo Peretti}
 \date{\today}
 
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\makeatother
+
 \begin{document}
 
+\begin{titlepage}
+\centering
+
+\textcolor{black}{\textbf{Politecnico di Milano}} \par
+\textcolor{black}{\textbf{AA 2018/2019}} \par  \vspace{2em}
+\includegraphics[scale=0.7]{resources/PolimiLogo}\par \vspace{1em}
+
+Software Engineering 2 \par \vspace{1.5cm}
+\textcolor{Blue}{\Large\textbf{TrackMe}} \par \vspace{3cm}
+
+{\textcolor{Blue}{\textbf{\Huge{Requirement Analysis and Specification Document}}}} \vfill
+Stefano Pecchia \hspace{5em} Edoardo Peretti \vspace{4cm}
+\end{titlepage}
 
 
-\maketitle
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{rl}
+\hline
+\textbf{Deliverable:} & RASD\\
+\textbf{Title:} & Requirement Analysis and Verification Document \\
+\textbf{Authors:} & Stefano Pecchia and Edoardo Peretti\\
+\textbf{Version:} & 1.0 \\ 
+\textbf{Date:} & \today \\
+\textbf{Download:} & https://github.com/Speck1996/PecchiaPeretti \\
+\textbf{Copyright:} & Copyright © 2018, S. Pecchia and E. Peretti – All rights reserved \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
 \tableofcontents
 
 
