@@ -722,7 +722,7 @@ Regarding the AutomatedSOS service, the ambulance call should be done with a del
 \section{Design constraints}
 \subsection{Standards compliance}
 \begin{itemize}
-\item The app only requests the minimum permissions in order to guarantee its core functionalities: storage access, location, access to wearable.
+\item The app only requests the minimum permissions in order to guarantee its core functionalities: storage access, location and wearable access.
 \item The app only supports portrait mode.
 \item All the data gathered through individuals wearables will be uploaded and stored in the system database.
 \end{itemize}
@@ -738,6 +738,7 @@ The following devices are the one that will be compatible with the app:
 \item Bluetooth connection;
 \item GPS;
 \end{itemize}
+
 These are instead the smartwatches that will be initially supported in the app:
 \item watchOS or wearOS smartwatch
 
@@ -770,3 +771,8 @@ Gathering the possible largest amount of eHealth data is the fundamental feature
 TizenOS and wearOS smartwatches will get official support in no longer than 3 months after the app initial release.
 
 The app will support both Android and iOS smartphones while the WebApp will be compatible with any browser that supports html5 and java applets.
+
+\subsection{Portability}
+In order to optimize resources the application will be initially only developed for iOS and Android, the two major players in the smartphone market and their corresponding smartwatch operative systems.
+
+Since Data4Help strongly relies on the amount of its registered individuals, any new operative system that gets at least a 10\% share of the market will be considered for an application port.
