@@ -1,0 +1,71 @@
+
+\chapter{Introduction}
+
+\section{Purpose}
+Data4Help is a service whose aim is to collect data from a first tipology of user, the indivudal, and distribute the collected data to a second tiplogy of user, the Third Party.\\
+These features will be the key drivers for building the whole system, from the user applications to the database that manages the data.
+
+These two tipologies of user will have their respective application in order to access to Data4Help, as stated in the RASD. 
+\\
+In addition to the these main features, Data4Help will also provide a service called AutomatedSOS, whose aim is to call an ambulance if a vital parameter of an individual goes below a certain treshold.
+\\
+This document will serve as guideline for building Data4Help underlying software and hardware structure, describing the following aspects:
+\begin{itemize}
+\item General overview of the system;
+\item Description of the software components and the interactions between them;
+\item Implentation, integration and testing plan.
+\end{itemize}
+
+Before continuing the reading of this document, it is strongly suggested to read the RASD first, so that it will be easier to understand the decisions taken for Data4Help architectural design.
+
+
+\section{Scope}
+
+The critical points in order to build the Data4Help system are:
+\begin{itemize}
+\item Gather a large amount of eHealth data from individuals;
+\item Store and distribute the collected data to third parties.
+\end{itemize}
+The first point is achieved through a smartphone application from which the individuals will be able to :
+\begin{itemize}
+\item Register and log in;
+\item Pair a compatible smartwatch;
+\item Upload and visualize data collected by the paired smartwatch;
+\item Accept or deny data access requests from third parties;
+\end{itemize}
+Additionally, if the paired smartwatch is capable to measure at least a vital parameter (heart rate or blood pressure), individuals can also activate from the app the AutomatedSOS service.
+\\
+The second point is instead achieved through a web application from which third parties will be able to:
+\begin{itemize}
+\item Register and log in;
+\item Make a request for anonimized data;
+\item Make a request to access data from a specific individual;
+\item Visualize the data of accepted requests.
+\end{itemize}
+
+The two critical aspects for building a suitable system are:
+
+\begin{itemize}
+\item Smartwatch pairing;
+\item Data handling: from the uploading, to the storing and the distribution.
+\end{itemize}
+
+These aspects are fundamental for the services provided, and both the software and architectural decisions are made to guarantee a reliable functioning of them.
+
+
+
+
+
+\subsection{Acronyms}
+
+
+
+\subsection{Abbreviations}
+\begin{itemize}
+\item[Gn]: n-th goal
+\item[Rn]: n-th functional requirement
+\end{itemize}
+
+
+
+\section{Document Structure}
