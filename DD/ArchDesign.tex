@@ -23,6 +23,9 @@ The GUIs are deployed in this layer.
 \item \textbf{Data layer}: this layer is responsible for managing all the data of the system. 
 In particular, it stores the data on persistent devices and makes them available when requested by the TrackMe servers.
 \end{itemize}
+The structure displayed in Figure \ref{f:3tier} is not to be understood as a rigid constraint on the implementation choices, but it represents where most of the three three logic layers are deployed.
+For examples, it is possible that part of the data is (temporarily) stored on the clients in order to reduce latency or that some presentation logic is deployed on the TrackMe Server in order to achieve a more dynamic GUI.
+
 
 
 
@@ -30,25 +33,29 @@ In particular, it stores the data on persistent devices and makes them available
 \section{Component view}
 The diagram in Figure \ref{f:comp_diag} examines in more detail the subcomponents composing the TrackMe server.
 Some components requires external services, this is shown by means of pending required interfaces.
-All the three components defined below have access to the database server interface in order to store and retrieve the data necessary for their correct operation.
+All the four components defined below have access to the database server interface in order to store and retrieve the data necessary for their correct operation.
 
 \begin{figure}[H]
 \centering
+\includegraphics[width=\linewidth]{resources/uml/compdiag}
 \caption{Component Diagram}\label{f:comp_diag}
 \end{figure}
 
-As shown, there are three main components in the business logic server:
+\noindent
+As shown, there are four main components in the business logic server:
 
 \begin{itemize}
-\item \textit{Login}: is responsible for the login and registration of the users, both individuals and third parties.
-\item \textit{Data Manager}: is responsible of collecting data from the Android App. 
-It also receives and handles requests from third parties and push to them new data when available and the subscription is valid.
-For certain functionalities, for example for geographically filter the data, the Data Manager component requires an external API to a map service.
-\item \textit{Automated SOS}: handles the subscriptions for the SOS service. 
-When a new individuals subscribe for the service, the component notifies the Data Manager, which then will forward to Automated SOS component new individual's data.
-Every time that it receives new data, the component checks whether the thresholds are crossed, in this case it immediately calls an ambulance through an external API.
-\end{itemize}
+\item \textit{Login Manager}: is responsible for the login and registration of the users, both individuals and third parties.
+\item \textit{Data Collector}: is responsible of collecting data from the Android App. 
+It also forwards the proper data to the Automated SOS component.
 
+\item \textit{Data Manager}: receives and handles requests from third parties and push to them new data when available and the subscription is valid.
+For certain functionalities, for example for geographically filter the data, the Data Manager component requires an external API to a map service.
+It also makes possible for the individuals to visualize their data.
+
+\item \textit{Automated SOS}: handles the subscriptions for the SOS service. 
+Every time that it receives new data from the Data Collector, the component checks whether the thresholds are crossed, in this case it immediately calls an ambulance through an external API.
+\end{itemize}
 In addition, Figure \ref{f:comp_diag} shows that the Android App component requires an interface towards the wearable device, from which it will gather the eHealth Data.
 
 
@@ -62,7 +69,7 @@ The diagram in Figure \ref{f:depl_diag} shows the physical deployment of system'
 In particular, the nodes are:
 
 \begin{itemize}
-\item \textit{Smartphone}: this device is used by an user, then the Android Application is deployed here. This node interacts with the Business Server.
+\item \textit{Smartphone}: this device is used by an individual, then the Android Application is deployed here. This node interacts with the Business Server.
 \item \textit{Personal Computer}: this device is used by a third party, only a modern browser compatible with HTML5 and CSS3 is required. Actually, there are no artifacts of our system deployed on this node, because the interaction is carried out with a Web App directly towards the Business Server.
 \item \textit{Business Server}: this is the core node of our system.
 All the Business Logic is deployed here, possibly by means of an Application Server like GlassFish.
@@ -73,6 +80,7 @@ This is the only node that interact with the Database node.
 
 \begin{figure}[h]
 \centering
+\includegraphics[width=\linewidth]{resources/uml/depldiag}
 \caption{Deployment Diagram}\label{f:depl_diag}
 \end{figure}
 

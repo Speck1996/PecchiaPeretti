@@ -7,9 +7,163 @@ In the following, the requirements are mapped to one or more design component sp
 \item \textbf{[R1] Users are able to login with the username and the password associated to
 their account. }  
 \begin{itemize}
+\item Android App
 \item Login Manager
 \item DBMS
-\item Application
+\end{itemize}
+
+\item \textbf{[R2] Data4Help is able to pair with the user wearable.}
+\begin{itemize}
+\item Android App
+\end{itemize}
+
+\item \textbf{[R3] Data4Help is able to download eHealth data from the individual’s wearable.}
+\begin{itemize}
+\item Android App
+\end{itemize}
+
+\item \textbf{[R4] Individuals can upload their data through Data4Help app.}
+\begin{itemize}
+\item Android App
+\item Data Collector
+\end{itemize}
+
+\item \textbf{[R4.1] Data4Help is able to store the data provided by individuals.}
+\begin{itemize}
+\item Data Collector
+\item DBMS
+\end{itemize}
+
+\item \textbf{[R4.2] Data4Help is able to organize data provided by individuals.}
+\begin{itemize}
+\item Data Manager
+\item DBMS
+\end{itemize}
+
+\item \textbf{[R5] Third parties can formulate requests to access anonymized data of groups.}
+\begin{itemize}
+\item Web App
+\item Data Manager
+\end{itemize}
+
+\item \textbf{[R6] Third parties can apply filters on data while formulating their request for data of groups.}
+\begin{itemize}
+\item Web App
+\end{itemize}
+
+
+\item \textbf{[R7] The system checks if the number of individuals in the group detected by the third party request is higher than 1000.}
+\begin{itemize}
+\item Data Manager
+\item DBMS
+\end{itemize}
+
+
+\item \textbf{[R7.1] If the groups has 1000 or less individuals the system denies the request.}
+\begin{itemize}
+\item Data Manager
+\item DBMS
+\end{itemize}
+
+
+\item \textbf{[R8] The system is able to distribute the requested data to the third party.}
+\begin{itemize}
+\item Data Manager
+\item DBMS
+\item Web App
+\end{itemize}
+
+\item \textbf{[R9] Data4Help is able to forward the request to the individual specified in the third party.}
+\begin{itemize}
+\item Data Manager
+\item Android App
+\end{itemize}
+
+\item \textbf{[R10] The individual to whom the request will be forwarded is able to reply.}
+\begin{itemize}
+\item Android App
+\end{itemize}
+
+
+\item \textbf{[R10.1] The system notifies the third party about the individual reply.}
+\begin{itemize}
+\item Data Manager
+\item Web App
+\end{itemize}
+
+
+\item \textbf{[R11] The system can check if the individual has accepted the data access request by the third party.}
+\begin{itemize}
+\item Data Manager
+\end{itemize}
+
+\item \textbf{[R12] Third parties can specify to be updated whenever new data of groups detected by their data requests, or observed individuals is gathered. The time interval between an update and the next one can be set by the third party, in a limit that goes from one hour to 1 year.}
+\begin{itemize}
+\item Web App
+\item Data Manager
+\end{itemize}
+
+
+\item \textbf{[R13] The system is able to update third parties with new data, respecting their preferences on the interval timing.}
+\begin{itemize}
+\item Data Manage
+\item DBMS
+\item Web App
+\end{itemize}
+
+\item \textbf{[R14] Individual can subscribe to the AutomatedSOS service.}
+\begin{itemize}
+\item Android App
+\item Automated SOS
+\item DBMS
+\end{itemize}
+
+
+\item \textbf{[R15] The system is able to recognize if the wearable can measure at least a vital parameter.}
+\begin{itemize}
+\item Android App
+\end{itemize}
+
+\item \textbf{[R16] The system is able to continuously monitor individual vital parameters.}
+\begin{itemize}
+\item Android App
+\item Data Collector
+\item Automated SOS
+\end{itemize}
+
+\item \textbf{[R17] If the wearable is disconnected the AutomatedSOS service is suspended, untill the individual connects his wearable again.}
+\begin{itemize}
+\item Android App
+\item Automated SOS
+\item DBMS
+\end{itemize}
+
+\item \textbf{[R18] Whenever a vital parameter cross its respective threshold, the system calls an ambulance in under 5 seconds, giving to the ambulance driver the location of the individual.}
+\begin{itemize}
+\item Automated SOS
+\end{itemize}
+
+\item \textbf{[R19] The system doesn’t allow third parties to access specific individuals data without first asking for their permission.}
+\begin{itemize}
+\item Data Manager
+\item Android App
+\end{itemize}
+
+\item \textbf{[R20] The system stops to update third parties about new data whenever observed individuals decide to remove data access permissions, or whenever the number of individuals of an observed groups goes belove 1001.}
+\begin{itemize}
+\item Android App
+\item DBMS
+\item Data Manager
+\item Web App
+\end{itemize}
+
+
+\item \textbf{[R21] Only users that know their username and password can access to their respective accounts}
+\begin{itemize}
+\item Android App
+\item Web App
+\item Login Manager
+\item DBMS
 \end{itemize}
 \end{itemize}
 
