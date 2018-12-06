@@ -84,15 +84,119 @@ This is the only node that interact with the Database node.
 \caption{Deployment Diagram}\label{f:depl_diag}
 \end{figure}
 
+\section{Component Interfaces}
+The following diagram explicits what features each component must provide to guarantee the correct functioning of Data4Help features, highliting the dependencies among the various components.
+To make the diagram more clear, the crossing arrows have different colours and the interfaces interacting with external components are highlited in orange.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/uml/Interfacediag}
+\caption{Interface Diagram}\label{f:inter_diag}
+\end{figure}
+
+Here is presented a brief description of the functionalities provided by each operation:
+\begin{itemize}
+\item Application
+\begin{itemize}
+\item \textbf{forwardAccessRequest}: forwards the third party data access request to the individual's application. The data request is taken as an input parameter because it is needed to retrieve all the information about the request: who is the requester, in which data he is interested in.
+\end{itemize}
+\item Wearable Service
+\begin{itemize}
+\item \textbf{downloadData}: downloads to the application the data stored in the wearable.
+\item \textbf{checkVitalSensors}: checks if the wearable is capable of measuring at least one vital parameter, either the blood pressure or the heart rate.
+\end{itemize}
+\item WebApplication
+\begin{itemize}
+\item \textbf{notifyEndSubscription}: notifies the third party about an ended data subscription in an asynchronous way. The data request is taken as an input in order to 
+\item \textbf{sendData}: sends the given data to the webApplication.
+\end{itemize}
+\item DataCollector
+\begin{itemize}
+\item \textbf{sendData}: sends the gathered data from the app to the data collector.
+\end{itemize}
+\item MapService
+\begin{itemize}
+\item \textbf{retrieveMapAreas}: search the city name bound to the coordinates received.
+\end{itemize}
+\item DataManagerService
+\begin{itemize}
+\item \textbf{checkPrivacyCostraints}: scan the input data and checks if the number of i
+\item \textbf{giveAccess}: allows the individual data gathering from the given third party request to be processed.
+\item \textbf{denyAccess}: denies the individual data gathering from the given third party request to be processed.
+\item \textbf{subscribeData}: activates the data subscription of the given data request.
+\end{itemize}
+\item LoginService
+\begin{itemize}
+\item \textbf{createAccount}: uses the given credentials to create a Data4Help account.
+\item \textbf{logIn}: allows users to access to Data4Help through their username (or tax code) and password.
+\end{itemize}
+\item AutomatedSOS
+\begin{itemize}
+\item \textbf{subscribe}: activates the AutomatedSOS service for the individual associated to the given tax code.
+\item \textbf{unsubscribe}: stops the AutomatedSOS for the individual associated to the given tax code.
+\item \textbf{checkVitalThresholds}: checks if the data of the vital paramaters have crossed the critical thresholds
+\end{itemize}
+\item AmbulanceService
+\begin{itemize}
+\item \textbf{callAmbulance}: calls an ambulance, using the input coordinates to specify the destination.
+\end{itemize}
+\item DBMS
+\begin{itemize}
+\item \textbf{addSubscriber}: adds in the database the individual associated to the tax code as an AutomatedSOS subscriber
+\item \textbf{removeSubscriber}: remove the AutomatedSOS subscriber associated to the tax code from the database.
+\item \textbf{getData}: use the given data filters to build the respective query for the database, in order to access the desired data.
+\item \textbf{uploadData}: adds the given data and the associated geographical position to the database.
+\item \textbf{retrieveAccount}: checks if the given credentials are in the database.
+\item \textbf{createAccount}: adds a new user account to the database using the given credentials.
+\item \textbf{checkDuplicate}: checks if the given username or tax code are already inserted in the database.
+\end{itemize}
+\end{itemize}
 
 
 
+\section{Runtime view}
+\subsection{User registration}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/uml/sequence/Registration.png}
+\end{figure}
+
+\subsection{User log in}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/uml/sequence/LogIn.png}
+\end{figure}
+
+\subsection{Individual data upload}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/uml/sequence/wearablePairing.png}
+\end{figure}
+
+\subsection{AutomatedSOS subscription}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/uml/sequence/AutomatedSOS.png}
+\end{figure}
 
 
+\subsection{Group Data Request}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/uml/sequence/RequestGroupData.png}
+\end{figure}
 
+\subsection{Individual Data request}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/uml/sequence/RequestIndividualData.png}
+\end{figure}
 
-
-
+\subsection{Data subscription}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/uml/sequence/DataSubscription.png}
+\end{figure}
 
 
 
