@@ -219,7 +219,7 @@ The AutomatedSOS service is active as long as the wearable is paired: when the w
 This diagram shows the interactions needed when a group data request from a third party occurs.\\
 When a third party has filled the group data request form and clicks on the send button, the web application sends the request to the DataManagement component.\\
 This component retrieves the filters from the data request and uses the DBMS to retrieve the requested data.\\
-Once the requested data is received, it checks if the privacy costraint is respected, by counting the number of tuples retrieved by the database: if the it is smaller or equal to 1000 the request is denied and an error notification is sent to the third party, otherwise the data is sent to the third party web application.
+Once the requested data is received, it checks if the privacy constraint is respected, by counting the number of tuples retrieved by the database: if the it is smaller or equal to 1000 the request is denied and an error notification is sent to the third party, otherwise the data is sent to the third party web application.
 
 \subsection{Individual Data request}
 \begin{figure}[H]
@@ -241,12 +241,12 @@ If the individual allows the data access, the DataManagement sends the individua
 \end{figure}
 The above diagram shows the data subscription procedure that is activated when a third party decides to subscribe to a data request.\\
 The web application starts the subscription through the DataManagement component. Once the subscription is activated the DataManager regurarly checks if there is new data matching the data request to which the third party is subscribed to using the DBMS services.\\
-If new data is found, the DataManager checks if the privacy costraints are still active (both if the request is a group data request or an individual data request).\\
-If the costraints are respected the new data is sent to the web application, otherwise the subscription is ended and the third party is notified about it.
+If new data is found, the DataManager checks if the privacy constraints are still active (both if the request is a group data request or an individual data request).\\
+If the constraints are respected the new data is sent to the web application, otherwise the subscription is ended and the third party is notified about it.
 
 
 \section{Selected architectural styles and patterns}
-\subsection{Overall Architecutre}
+\subsection{Overall Architecture}
 Data4Help is based on a three tier architecture: almost all the system logic is executed in the server component, with the help of some external services.
 The client applications mainly focus on presenting the information delivered by the server, however some functionalities may be delegated to it, like for example the wearable pairing, which is handled by the individual application in order to give a faster response.
 The data layer is handled by a single, well organized, database. This choice was made to avoid data fragmentation among different databases.
@@ -257,7 +257,7 @@ Moreover, the three tier architecture allows to make changes to any of the three
 
 \subsection{Design Patterns}
 The main design pattern used to build Data4Help is the ModelViewController design pattern.
-This design pattern can be easily mapped to the client/server architecutre used for Data4Help: the 
+This design pattern can be easily mapped to the client/server architecture used for Data4Help: the 
 view part is obviously handled by the client applications, while the controller splits between the server and the client in order to pick the user input from the client and transform it into actions on the model stored in the server.
 \\
 The use of other design patterns, more related to the implementation, are left to the developers. 
@@ -265,7 +265,7 @@ The use of other design patterns, more related to the implementation, are left t
 \subsection{Other design decisions}
 Data4Help strongly relies on external services:
 \begin{itemize}
-\item The Wearable external service is used to handle the pairing and the data download from the individual smartwatch. Initially the application will be build using Google wearOS APIs, but more smartwaches will be made compatible in the future.
+\item The Wearable external service is used to handle the pairing and the data download from the individual smartwatch. Initially the application will be build using Google wearOS APIs, but more smartwatches will be made compatible in the future.
 \item The Map external service is used to translate the coordinates into geographical area names. Many options are available, and will be all considered in the development phase.
 \item The Ambulance external service is used to call the ambulance. This services are provided by the local ambulance associations.
 \end{itemize}

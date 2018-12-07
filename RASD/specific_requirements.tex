@@ -197,7 +197,8 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \item[] [R\ref{sr:Storing}] {\subreqStoring}
 \item[] [R\ref{r:Login}] {\reqLogin}
 \item[] [R\ref{sr:OrganizingData}] {\subreqOrganizingData}
-\item[] \req {Data4Help is able to forward the request to the individual specified in the third party.}{ReqForward}
+\item[] \req{Third parties can formulate requests to access specific individual data, indicating the individual's TC or username.}{GroupRequest}
+\item[] \req {Data4Help is able to forward the request to the individual specified by the third party.}{ReqForward}
 \item[] \req{The individual to whom the request will be forwarded is able to reply.}{ReqReply}
 \item[] \subreq{The system notifies the third party about the individual reply.}{ReqReply}
 \item[] \req{The system can check if the individual has accepted the data access request by the third party.}{CheckReply}
