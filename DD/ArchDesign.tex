@@ -149,13 +149,14 @@ Following the diagram, each operation is defined through a brief description.
 \item \textbf{uploadData}: adds the given data to the database.
 \item \textbf{retrieveAccount}: checks if the given credentials are in the database.
 \item \textbf{createAccount}: adds a new user account to the database using the given credentials.
-\item \textbf{checkDuplicate}: checks if the given username or tax code are already inserted in the database.
+\item \textbf{getDuplicate}: retrieves a tuple matching the given username or tax code.
 \item \textbf{updateAccess}: updates the list of all third parties that can have access to the individual data.
-\item \textbf{checkAccess}: checks if the given third party, identified by his username, can have access to the given individual data. The individual can be identified either by the tax code or by the username.
+\item \textbf{getAccessibleIndividual}: finds the tuple containing the given third party username and individual identifier, from the table containing all the list of the third parties and the individuals of which they have data access.
 \item \textbf{getNewData}: collects all the new data related to a data request.
 \end{itemize}
 \end{itemize}
 Note that the operations associated to the external services are fictitious, the real names or input parameters may vary from the one listed above, but the expected functionalities must be the same, even if they are mapped on more than one real function.\\
+In particulare the DBMS operations are just queries to the DB.
 
 In this document the model of the application will not be provided: this makes the development phase more flexible.\\
 However, to better coordinate the interactions between the component, a general description of the input provided in each operation listed before is here presented:
@@ -270,7 +271,7 @@ If the costraints are respected the new data is sent to the web application, oth
 \includegraphics[width=\linewidth]{resources/uml/sequence/IndividualDataSubscription.png}
 \end{figure}
 The individual data subscription procedure is very similar to the group one.\\
-The only difference is that the regular check of the privacy costraint is done before retrieving the data, through the DBMS because it is the component that has the list of all the third parties that have access to the individual data.\\ 
+The only difference is that the regular check of the privacy costraint is done before retrieving the data, through the DBMS. Indeed, the DB containts he list of all the individuals whose data is accessible by each third party.\\ 
 
 
 \section{Selected architectural styles and patterns}
