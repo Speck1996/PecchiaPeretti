@@ -85,16 +85,17 @@ This is the only node that interact with the Database node.
 \end{figure}
 
 \section{Component Interfaces}
-The following diagram explicits what features each component must provide to guarantee the correct functioning of Data4Help features, highliting the dependencies among the various components.
-To make the diagram more clear, the crossing arrows have different colours and the interfaces interacting with external components are highlited in orange.
+The following diagram shows what features each component must provide to guarantee the correct functioning of Data4Help features, highliting the dependencies among the various components.
+To make the diagram more clear, the crossing arrows have different colours and the interfaces used from external components are highlated in orange.
+Following the diagram, each operation is defined through a brief description.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{resources/uml/Interfacediag}
 \caption{Interface Diagram}\label{f:inter_diag}
 \end{figure}
 
-Here is presented a brief description of the functionalities provided by each operation:
+
 \begin{itemize}
 \item Application
 \begin{itemize}
@@ -155,62 +156,118 @@ Here is presented a brief description of the functionalities provided by each op
 
 
 \section{Runtime view}
+The following diagrams shows the interactions between the interface components defined in the previous section in  order to provide Data4Help functionalities. Remember that, since Data4Help is a three-tier application based on a client/server architecture it is fundamental that the user applications and the server are connected to the internet.
 \subsection{User registration}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{resources/uml/sequence/Registration.png}
 \end{figure}
+This diagram shows the procedure activated when the user registers to Data4Help.\\
+The precondition of the registration is that the user has filled all the mandatory fields of the Sign Up form.\\
+When the user presses the register button, the content of the compiled fields is sent to the LoginService component of the server to create an account.\\
+Before creating the account, the LoginService checks through the DBMS services if the provided username and tax code are already present in the database.\\
+If the provided username or tax code is already taken, the procedure terminates sending an error notification to the client, otherwise the LoginService adds the new account credentials in the database through the DBMS.\\
+After the account is created a notification is sent to the user and the procedure ends.
+
 
 \subsection{User log in}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{resources/uml/sequence/LogIn.png}
 \end{figure}
+In this diagram it's presented the Log In procedure.\\
+Once the user has pressed the Log In button, the username and the password digest are sent to the LoginService component.\\
+This component chcecks through the DBMS if there exist an account matching the credentials provided: in the positive case the user is logged in and directed to the respective data visualization screen, otherwise an error notification is sent to the user.\\
+Notice that, in order to mantain user privacy the password is crypted immediately with an hash function, and only its digest is used during this procedure.
+
 
 \subsection{Individual data upload}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{resources/uml/sequence/wearablePairing.png}
 \end{figure}
+This diagram shows the data upload procedure, including the wearable pairing phase.\\
+Obviously the individual must be logged in, in order to start the data upload.\\
+When the individual goes to the data visualization screen the wearable pairing, using the external wearable service, starts.\\
+If the wearable is not found the procedure terminates sending an error notification to the application.
+In the other case, once the wearable is paired, the application downloads the data gathered from the smartphone through the wearable external services.\\
+The downloaded data is then sent to the DataCollector component that is in charge of transforming the position coordinates bound to the data in city or district names, using the external map service interface.\\
+This part of the procedure is needed in order to directly store in the database the city names instead of the coordinates, in order to obtain a faster response when handling data request with geographical area filters, that are indeed city names or countries.
+Once the geographical area is retrieved, the data collectors add it to the database through the DBMS, and updates the user screen visualized data.
 
 \subsection{AutomatedSOS subscription}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{resources/uml/sequence/AutomatedSOS.png}
 \end{figure}
+This diagram illustrates the AutomatedSOS subscription procedure that is activated once the individual has paired the wearable and the subscribe button is tapped.\\
+After the subscribe button is tapped, the application check through the wearable external interface if the wearable is capable of measuring either the blood pressure or the heart rate.\\
+In the negative case the procedure ends sending a notification to the individual.
+In the other case, the application starts the subscription by using the AutomatedSOS component, that updates the database, setting the individual as an AutomatedSOS subscriber. Once the individual is set as a subscriber a notification is sent to the application, notifying the start of the service.\\
+After the service is started, the application regurarly downloads the vital parameter data using the wearable external service, enriches it with the individual position data and sends it to the data collector.\\
+The data collector checks if the values of vital data collected have crossed the critical threshold using the AutomatedSOS component: if the critical threshold of a vital parameter is crossed this component calls an ambulance using the external Ambulance APIs, giving the coordinates to set the destination of the ambulance.\\
+Once the ambulance is called a notification is sent to the user application.\\
+The AutomatedSOS service is active as long as the wearable is paired: when the wearable unpairs the application starts the unsubscribe operation of the AutomatedSOS, which updates the database by removing the subscribption, and notify the user about the ended subscription.
+
 
 
 \subsection{Group Data Request}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{resources/uml/sequence/RequestGroupData.png}
 \end{figure}
+This diagram shows the interactions needed when a group data request from a third party occurs.\\
+When a third party has filled the group data request form and clicks on the send button, the web application sends the request to the DataManagement component.\\
+This component retrieves the filters from the data request and uses the DBMS to retrieve the requested data.\\
+Once the requested data is received, it checks if the privacy costraint is respected, by counting the number of tuples retrieved by the database: if the it is smaller or equal to 1000 the request is denied and an error notification is sent to the third party, otherwise the data is sent to the third party web application.
 
 \subsection{Individual Data request}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{resources/uml/sequence/RequestIndividualData.png}
 \end{figure}
+In this diagram the individual data request is presented.\\
+Similarly to what is done with the group data request, once the individual data request form is filled and the send button is clicked, the web application sends the request to the DataManagement component.\\
+The first thing done by the DataManagement component is to retrieve the data requested in the database: if no data is present a notification error is sent to the web application.\\
+In the other case, the DataManagement forwards the access requests to the individual application.
+The individual can choose to give the direct access of his data to the third party or deny it through the application: if the access request is refused the application notifies the DataManagement of the decision, which sends a notification to the third party.
+If the individual allows the data access, the DataManagement sends the individual's data, retrieved initially, to the web application.
+
 
 \subsection{Data subscription}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{resources/uml/sequence/DataSubscription.png}
 \end{figure}
+The above diagram shows the data subscription procedure that is activated when a third party decides to subscribe to a data request.\\
+The web application starts the subscription through the DataManagement component. Once the subscription is activated the DataManager regurarly checks if there is new data matching the data request to which the third party is subscribed to using the DBMS services.\\
+If new data is found, the DataManager checks if the privacy costraints are still active (both if the request is a group data request or an individual data request).\\
+If the costraints are respected the new data is sent to the web application, otherwise the subscription is ended and the third party is notified about it.
 
 
+\section{Selected architectural styles and patterns}
+\subsection{Overall Architecutre}
+Data4Help is based on a three tier architecture: almost all the system logic is executed in the server component, with the help of some external services.
+The client applications mainly focus on presenting the information delivered by the server, however some functionalities may be delegated to it, like for example the wearable pairing, which is handled by the individual application in order to give a faster response.
+The data layer is handled by a single, well organized, database. This choice was made to avoid data fragmentation among different databases.
+\\
+
+Moreover, the three tier architecture allows to make changes to any of the three layer without causing to much trouble to the other components: this is a fundamental aspect for system like Data4Help that aims to expand its functionalities.
 
 
+\subsection{Design Patterns}
+The main design pattern used to build Data4Help is the ModelViewController design pattern.
+This design pattern can be easily mapped to the client/server architecutre used for Data4Help: the 
+view part is obviously handled by the client applications, while the controller splits between the server and the client in order to pick the user input from the client and transform it into actions on the model stored in the server.
+\\
+The use of other design patterns, more related to the implementation, are left to the developers. 
 
-
-
-
-
-
-
-
-
-
-
+\subsection{Other design decisions}
+Data4Help strongly relies on external services:
+\begin{itemize}
+\item The Wearable external service is used to handle the pairing and the data download from the individual smartwatch. Initially the application will be build using Google wearOS APIs, but more smartwaches will be made compatible in the future.
+\item The Map external service is used to translate the coordinates into geographical area names. Many options are available, and will be all considered in the development phase.
+\item The Ambulance external service is used to call the ambulance. This services are provided by the local ambulance associations.
+\end{itemize}
 
 
