@@ -1,4 +1,5 @@
-\chapter{Implementation plan}
+\chapter{Implementation, integration and test plan}
+\section{Implementation plan}
 The implementation of Data4Help will be done component by component, developing the most critical components first.
 The implementation order will be the following:
 \begin{enumerate}
@@ -11,8 +12,8 @@ This is also the component that creates a direct communication between the third
 \item Web Application: this will be the last component to be implemented.
 \end{enumerate}
 
-\chapter{Integration and testing} 
-\section{Entry criteria}
+\section{Integration and testing} 
+\subsection{Entry criteria}
 The integration and testing plan will follow the implementation plan using a bottom up approach: each component will be fully tested as soon as it is finished and will be integrated with other related components, creating a subcomponent of the whole system that will be again tested to make sure everything works fine.
 More precisely:
 \begin{itemize}
@@ -21,3 +22,54 @@ More precisely:
 \item AutomatedSOS: this component will be tested by checking if the ambulance is called by analyzing simulated vital data. Once it is tested, it will be integrated with the Data Collector, and the interaction between the two components will be tested to see if the data delivered to the Data Collector is correctly analyzed by AutomatedSOS.
 \item Login Service: this component will be tested with simulated data, and will be integrated with the Data Manager service to see if a simulated third party individual request can refer to an individual account added through the Login Service.
 \end{itemize}
+
+
+
+\subsection{Components to be integrated}
+In our system, components must be integrated with the DBMS, with external services, among them and finally the clients must be integrated with the business logic server.
+
+\subsubsection{Components to be integrated with the DBMS}
+All the components of the server interact with the DBMS, therefore it is necessary perform integration testing between them and the DBMS in order to be sure that the components update correctly the DB and/or their queries are well formulated and the results correctly interpreted.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{resources/uml/integration/dbms}
+\caption{Components to be integrated with the DBMS}
+\end{figure}
+
+
+\subsubsection{Components to be integrated with external services}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{resources/uml/integration/external}
+\caption{Components to be integrated with external services}
+\end{figure}
+
+
+
+\subsubsection{Components to be integrated within the server}
+Only the Data Collector and the Automated SOS components directly interact inside the server.
+Their integration test aims to guarantee that vital data of the SOS service subscriber, and only that data, is forwarded from the Data Collector to the Automated SOS.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{resources/uml/integration/server}
+\caption{Components to be integrated within the server}
+\end{figure}
+
+
+\subsubsection{Integration clients/server}
+Finally, the interaction between the clients and the server must be also tested.
+These tests must assure that the communications are correctly carried on and all the various interfaces must be checked.
+This will be the last step of the integration testing because the TrackMe server is seen as a single component, therefore its subcomponents must be already integrated and tested.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{resources/uml/integration/clients}
+\caption{Integration clients/server}
+\end{figure}
+
+
+
