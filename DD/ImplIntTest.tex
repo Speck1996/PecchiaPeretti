@@ -5,12 +5,12 @@ The implementation order will be the following:
 \begin{enumerate}
 \item Data Manager: this is the most important component of the system, since it is the one that handles the data requests from third parties and translates this requests in queries for the DBMS. 
 This is also the component that creates a direct communication between the third parties Web App and the Android App, when third parties send an individual data request.\\
-Furthermore, this component is the one that interacts with the Map Service, in order to retrieve the border coordinates associated to the optional geographical filter.
+Furthermore, this component is the one that interacts with the Map Service, in order to retrieve the border coordinates associated to the optional geographical filters.
 \item Data Collector: this component is the one that uploads the received data to the database. The Data Collector is also critical, all the individual's data will pass through it while using Data4Help. 
 When the individual is subscribed to Automated SOS, this component interacts with the AutomatedSOS component to check the thresholds and, in case of necessity, call the ambulance.
 \item Automated SOS: this component is the one that handles all the functionalities linked to the AutomatedSOS service such as the subscription, the vital parameters threshold check and the ambulance call. Of course, to call the ambulance, it has to interact with the ambulance external service.
 \item Login Manager: this will be the last server side component to be implemented since it is not related to Data4Help main functionalities.
-\item Android App: once the server side is ready, the Android App can be developed. The Android app will be developed before than the Web App because it has some critical aspects like the wearable pairing and the AutomatedSOS subscriptio.
+\item Android App: once the server side is ready, the Android App can be developed. The Android app will be developed before than the Web App because it has some critical aspects like the wearable pairing and the AutomatedSOS subscription.
 \item Web App: this will be the last component to be implemented, and will be the one that will let the third parties formulate their data requests.
 \end{enumerate}
 

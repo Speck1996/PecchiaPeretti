@@ -121,7 +121,7 @@ Following the diagram, each operation is defined through a brief description.
 \end{itemize}
 \item Data Manager
 \begin{itemize}
-\item \textbf{checkGroupCostraints}: operation used to check if the group data found by the database applying the data request filters specified by the third party is above 1000.
+\item \textbf{checkGroupCostraints}: operation used to check if the group data found by the database applying the data request filters specified by the third party counts at least 1001 individuals.
 \item \textbf{giveAccess}: allows the individual data gathering from the given third party request to be processed.
 \item \textbf{denyAccess}: denies the individual data gathering from the given third party request to be processed.
 \item \textbf{subscribeData}: activates the data subscription for the given data request.
@@ -145,7 +145,7 @@ Following the diagram, each operation is defined through a brief description.
 \begin{itemize}
 \item \textbf{addSubscriber}: promotes the individual account associated to the given tax code as an AutomatedSOS account.
 \item \textbf{removeSubscriber}: removes the AutomatedSOS subscription from the account bound to the tax code.
-\item \textbf{getData}: uses the given data filters to build the respective query for the database, in order to access the desired data.
+\item \textbf{getData}: uses the given data filters to retrieve the desired data.
 \item \textbf{uploadData}: adds the given data to the database.
 \item \textbf{retrieveAccount}: checks if the given credentials are in the database.
 \item \textbf{createAccount}: adds a new user account to the database using the given credentials.
@@ -248,7 +248,7 @@ Once the requested data is received, it checks if the privacy costraint is respe
 \end{figure}
 In this diagram the individual data request is presented.\\
 Similarly to what is done with the group data request, once the individual data request form is filled and the send button is clicked, the web application sends the request to the Data Manager component.\\
-The first thing done by the Data manager is to retrieve the data requested in the database: if no data is present a notification error is sent to the web application.\\
+The first thing done by the Data Manager is to retrieve the data requested in the database: if no data is present a notification error is sent to the web application.\\
 In the other case, the Data Manager forwards the access requests to the individual application.
 The individual can choose to give the direct access of his data to the third party or deny it through the Android App: if the access request is refused the Android App notifies the Data Manager about the decision, which sends a notification to the third party.
 If the individual allows the data access, the Data Manager sends the individual's data, retrieved initially, to the Web App.
@@ -271,7 +271,7 @@ If the costraints are respected the new data is sent to the web application, oth
 \includegraphics[width=\linewidth]{resources/uml/sequence/IndividualDataSubscription.png}
 \end{figure}
 The individual data subscription procedure is very similar to the group one.\\
-The only difference is that the regular check of the privacy costraint is done before retrieving the data, through the DBMS. Indeed, the DB containts he list of all the individuals whose data is accessible by each third party.\\ 
+The only difference is that the regular check of the privacy costraint is done before retrieving the data, through the DBMS. Indeed, the DB containts the list of all the individuals whose data is accessible by each third party.\\ 
 
 
 \section{Selected architectural styles and patterns}
@@ -281,12 +281,11 @@ The client applications mainly focus on presenting the information delivered by 
 The data layer is handled by a single, well organized, database. This choice was made to avoid data fragmentation among different databases.
 \\
 
-Moreover, the three tier architecture allows to make changes to any of the three layer without causing to much trouble to the other components: this is a fundamental aspect for system like Data4Help that aims to expand its functionalities.
+Moreover, the three tier architecture allows to make changes to any of the three layer without causing to much trouble to the other components: this is a fundamental aspect for system like Data4Help that continuosly expands its functionalities.
 \\
 
 As stated in the RASD the availability is expected to be at 95\% of the annual time. Indeed there are no backup options in the system, all the component are in series with the server being the bottleneck due expected maintenance.\\
-Obviously this value has to be improved over time by acquiring a server to be put in parallel to the old one.
-
+Obviously this value has to be improved over time, by acquiring new components to put in parallel to the old ones.
 
 \subsection{Design Patterns}
 The main design pattern used to build Data4Help is the ModelViewController design pattern.
