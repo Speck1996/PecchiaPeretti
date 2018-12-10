@@ -20,7 +20,7 @@ The three layers are the following:
 \item \textbf{Presentation layer}: this layer is hosted on the users' devices, that are the smartphone for the individuals and a computer with a browser for third parties.
 The GUIs are deployed in this layer.
 \item \textbf{Business logic layer}: this layer contains the main components of the systems that carry out the operations needed for Data4Help and AutomatedSOS services.
-\item \textbf{Data layer}: this layer is responsible for managing all the data of the system. 
+\item \textbf{Data layer}: this layer is responsible for managing all the data of the system.
 In particular, it stores the data on persistent devices and makes them available when requested by the TrackMe server.
 \end{itemize}
 The structure displayed in Figure \ref{f:3tier} is not to be understood as a rigid constraint on the implementation choices, but it represents where most of the three three logic layers are deployed.
@@ -46,14 +46,14 @@ As shown, there are four main components in the business logic server:
 
 \begin{itemize}
 \item \textit{Login Manager}: is responsible for the login and registration of the users, both individuals and third parties.
-\item \textit{Data Collector}: is responsible of collecting data from the Android App. 
+\item \textit{Data Collector}: is responsible of collecting data from the Android App.
 It also forwards the proper data to the Automated SOS component.
 
 \item \textit{Data Manager}: receives and handles requests from third parties and push to them new data when available and the subscription is valid.
 For certain functionalities, for example for geographically filter the data, the Data Manager component requires an external API to a map service.
 It also makes possible for the individuals to visualize their data.
 
-\item \textit{Automated SOS}: handles the subscriptions for the SOS service. 
+\item \textit{Automated SOS}: handles the subscriptions for the SOS service.
 Every time that it receives new data from the Data Collector, the component checks whether the thresholds are crossed, in this case it immediately calls an ambulance through an external API.
 \end{itemize}
 In addition, Figure \ref{f:comp_diag} shows that the Android App component requires an interface towards the wearable device, from which it will gather the eHealth Data.
@@ -169,6 +169,7 @@ However, to better coordinate the interactions between the component, a general 
 \item mapAreas: list of strings representing the geographical filter applied by the third party.
 \item dataFilters: this data structure contains all the filters that can be extrapolated from the dataRequest.
 \item retrievedData: data structure containing all the data retrieved from the DB.
+\item retrievedIndividual: tuple containing individual's indentifiers.
 \item gatheredData: data structure containing all the data downloaded from the individual's smartwatch.
 \item vitalParameterData: data structure containing all the individual data that is needed for the AutomatedSOS service.
 \end{itemize}
@@ -213,7 +214,7 @@ When the individual goes to the data visualization screen the wearable pairing, 
 If the wearable is not found the procedure terminates sending an error notification to the application.
 In the other case, once the wearable is paired, the application downloads the data gathered from the smartphone through the wearable services.\\
 The downloaded data is then sent to the server through the Data Collector, that uploads the data into the DB through the DBMS.\\
-Once the data is uploaded, a notification is sent to the Android App which now displays the new data.
+After the data is uploaded, a notification is sent to the Android App which now displays the new data.
 
 \subsection{AutomatedSOS subscription}
 \begin{figure}[H]
@@ -238,9 +239,9 @@ The AutomatedSOS service is active as long as the wearable is paired: when the w
 \end{figure}
 This diagram shows the interactions needed when a group data request from a third party occurs.\\
 When a third party has filled the group data request form and clicks on the send button, the Web App sends the request to the Data Manager component.\\
-This component retrieves the filters from the data request: if a geographical filter is applied, it uses the external map services to transform the given geographical filter in the corresponding border coordinates on the map.
-Once the filters are retrieved it then uses the DBMS to gather the requested data.
-Once the requested data is received, it checks if the privacy constraint is respected, by counting the number of individuals that are part of the selected data group: if it is above 1000 the data is forwarded to the WebApp, otherwise the request is denied and a notification is sent to the Web App.
+This component retrieves the filters from the data request: if a geographical filter is applied, it uses the external map services to transform the given geographical filter in the corresponding border coordinates on the map.\\
+Once the filters are retrieved it then uses the DMBS to gather the requested data.\\
+After the requested data is received, it checks if the privacy constraint is respected, by counting the number of individuals that are part of the selected data group: if it is above 1000 the data is forwarded to the WebApp, otherwise the request is denied and a notification is sent to the Web App.
 
 \subsection{Individual Data request}
 \begin{figure}[H]
@@ -251,7 +252,7 @@ In this diagram the individual data request is presented.\\
 Similarly to what is done with the group data request, once the individual data request form is filled and the send button is clicked, the web application sends the request to the Data Manager component.\\
 The first thing done by the Data Manager is to retrieve the individual requested from the DB: if he is not present a notification error is sent to the web application.\\
 In the other case, the Data Manager forwards the access requests to the individual application.
-The individual can choose to give the direct access of his data to the third party or deny it through the Android App: if the access request is refused the Android App notifies the Data Manager about the decision, which sends a notification to the third party.
+The individual can choose to give the direct access of his data to the third party or deny it through the Android App: if the access request is refused the Android App notifies the Data Manager about the decision, which sends a notification to the third party.\\
 If the individual allows the data access, the Data Manager sends the individual's data, retrieved through the DBMS, to the Web App.
 
 
@@ -272,7 +273,7 @@ If the constraints are respected the new data is sent to the web application, ot
 \includegraphics[width=\linewidth]{resources/uml/sequence/IndividualDataSubscription.png}
 \end{figure}
 The individual data subscription procedure is very similar to the group one.\\
-The only difference is that the regular check of the privacy constraint is done before retrieving the data, through the DBMS. Indeed, the DB contains the list of all the individuals whose data is accessible by each third party.\\ 
+The only difference is that the regular check of the privacy constraint is done before retrieving the data, through the DBMS. Indeed, the DB contains the list of all the individuals whose data is accessible by each third party.\\
 
 
 \section{Selected architectural styles and patterns}
@@ -290,10 +291,10 @@ Obviously this value has to be improved over time, by acquiring new components t
 
 \subsection{Design Patterns}
 The main design pattern used to build Data4Help is the ModelViewController design pattern.
-This design pattern can be easily mapped to the client/server architecture used for Data4Help: the 
+This design pattern can be easily mapped to the client/server architecture used for Data4Help: the
 view part is obviously handled by the client applications, while the controller splits between the server and the client in order to pick the user input from the client and transform it into actions on the model stored in the server.
 \\
-The use of other design patterns, more related to the implementation, are left to the developers. 
+The use of other design patterns, more related to the implementation, are left to the developers.
 
 \subsection{Other design decisions}
 The main philosophy about the design process to Data4Help is to keep the system as simple as possible, since it offers few but well defined functionalities. This is useful to have a fast system, that can be developed quickly.\\
@@ -303,5 +304,3 @@ Furthermore, Data4Help strongly relies on external services:
 \item The Map external service is used to translate geographical area names into a range of coordinates. Many options are available, and will be all considered in the development phase.
 \item The Ambulance external service is used to call the ambulance. This services are provided by the local ambulance associations.
 \end{itemize}
-
-
