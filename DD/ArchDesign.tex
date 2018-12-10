@@ -20,7 +20,7 @@ The three layers are the following:
 \item \textbf{Presentation layer}: this layer is hosted on the users' devices, that are the smartphone for the individuals and a computer with a browser for third parties.
 The GUIs are deployed in this layer.
 \item \textbf{Business logic layer}: this layer contains the main components of the systems that carry out the operations needed for Data4Help and AutomatedSOS services.
-\item \textbf{Data layer}: this layer is responsible for managing all the data of the system. 
+\item \textbf{Data layer}: this layer is responsible for managing all the data of the system.
 In particular, it stores the data on persistent devices and makes them available when requested by the TrackMe server.
 \end{itemize}
 The structure displayed in Figure \ref{f:3tier} is not to be understood as a rigid constraint on the implementation choices, but it represents where most of the three three logic layers are deployed.
@@ -46,14 +46,14 @@ As shown, there are four main components in the business logic server:
 
 \begin{itemize}
 \item \textit{Login Manager}: is responsible for the login and registration of the users, both individuals and third parties.
-\item \textit{Data Collector}: is responsible of collecting data from the Android App. 
+\item \textit{Data Collector}: is responsible of collecting data from the Android App.
 It also forwards the proper data to the Automated SOS component.
 
 \item \textit{Data Manager}: receives and handles requests from third parties and push to them new data when available and the subscription is valid.
 For certain functionalities, for example for geographically filter the data, the Data Manager component requires an external API to a map service.
 It also makes possible for the individuals to visualize their data.
 
-\item \textit{Automated SOS}: handles the subscriptions for the SOS service. 
+\item \textit{Automated SOS}: handles the subscriptions for the SOS service.
 Every time that it receives new data from the Data Collector, the component checks whether the thresholds are crossed, in this case it immediately calls an ambulance through an external API.
 \end{itemize}
 In addition, Figure \ref{f:comp_diag} shows that the Android App component requires an interface towards the wearable device, from which it will gather the eHealth Data.
@@ -165,8 +165,8 @@ However, to better coordinate the interactions between the component, a general 
 \begin{itemize}
 \item requiredCredentials: this will be a data structure containing multiple strings such as the taxCode, the username or the passwordDigest.
 \item userIdentifier: this is a generic string that could be either the individual username or tax code, or the third party username.
-\item individualIdentifier: this generic string that could be either the individual username or tax code.
-\item dataRequest: this will be the data structure that represents the data request from the third parties. It will contain all the filters applied for the data request, an Id a typology identifier for the request itself and the sender username.
+\item individualIdentifier: this is a generic string that could be either the individual username or tax code.
+\item dataRequest: this will be the data structure that represents the data request from the third parties. It will contain all the filters applied for the data request, an Id, a typology identifier for the request itself and the sender username.
 \item mapAreas: list of strings representing the geographical filter applied by the third party.
 \item dataFilters: this data structure contains all the filters that can be extrapolated from the dataRequest.
 \item retrievedData: data structure containing all the data retrieved from the DB.
@@ -274,7 +274,7 @@ If the constraints are respected the new data is sent to the web application, ot
 \includegraphics[width=\linewidth]{resources/uml/sequence/IndividualDataSubscription.png}
 \end{figure}
 The individual data subscription procedure is very similar to the group one.\\
-The only difference is that the regular check of the privacy constraint is done before retrieving the data, through the DBMS. Indeed, the DB contains the list of all the individuals whose data is accessible by each third party.\\ 
+The only difference is that the regular check of the privacy constraint is done before retrieving the data, through the DBMS. Indeed, the DB contains the list of all the individuals whose data is accessible by each third party.\\
 
 
 \section{Selected architectural styles and patterns}
@@ -292,18 +292,16 @@ Obviously this value has to be improved over time, by acquiring new components t
 
 \subsection{Design Patterns}
 The main design pattern used to build Data4Help is the ModelViewController design pattern.
-This design pattern can be easily mapped to the client/server architecture used for Data4Help: the 
+This design pattern can be easily mapped to the client/server architecture used for Data4Help: the
 view part is obviously handled by the client applications, while the controller splits between the server and the client in order to pick the user input from the client and transform it into actions on the model stored in the server.
 \\
-The use of other design patterns, more related to the implementation, are left to the developers. 
+The use of other design patterns, more related to the implementation, are left to the developers.
 
 \subsection{Other design decisions}
 The main philosophy about the design process to Data4Help is to keep the system as simple as possible, since it offers few but well defined functionalities. This is useful to have a fast system, that can be developed quickly.\\
 Furthermore, Data4Help strongly relies on external services:
 \begin{itemize}
 \item The Wearable external service is used to handle the pairing and the data download from the individual smartwatch. Initially the application will be build using Google wearOS APIs, but more smartwatches will be made compatible in the future.
-\item The Map external service is used to translate the coordinates into geographical area names. Many options are available, and will be all considered in the development phase.
+\item The Map external service is used to translate geographical area names into a range of coordinates. Many options are available, and will be all considered in the development phase.
 \item The Ambulance external service is used to call the ambulance. This services are provided by the local ambulance associations.
 \end{itemize}
-
-
