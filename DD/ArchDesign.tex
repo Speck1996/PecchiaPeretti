@@ -214,7 +214,7 @@ When the individual goes to the data visualization screen the wearable pairing, 
 If the wearable is not found the procedure terminates sending an error notification to the application.
 In the other case, once the wearable is paired, the application downloads the data gathered from the smartphone through the wearable services.\\
 The downloaded data is then sent to the server through the Data Collector, that uploads the data into the DB through the DBMS.\\
-Once the data is uploaded, a notification is sent to the Android App which now displays the new data.
+After the data is uploaded, a notification is sent to the Android App which now displays the new data.
 
 \subsection{AutomatedSOS subscription}
 \begin{figure}[H]
@@ -239,9 +239,9 @@ The AutomatedSOS service is active as long as the wearable is paired: when the w
 \end{figure}
 This diagram shows the interactions needed when a group data request from a third party occurs.\\
 When a third party has filled the group data request form and clicks on the send button, the Web App sends the request to the Data Manager component.\\
-This component retrieves the filters from the data request: if a geographical filter is applied, it uses the external map services to transform the given geographical filter in the corresponding border coordinates on the map.
-Once the filters are retrieved it then uses the DMBS to gather the requested data.
-Once the requested data is received, it checks if the privacy constraint is respected, by counting the number of individuals that are part of the selected data group: if it is above 1000 the data is forwarded to the WebApp, otherwise the request is denied and a notification is sent to the Web App.
+This component retrieves the filters from the data request: if a geographical filter is applied, it uses the external map services to transform the given geographical filter in the corresponding border coordinates on the map.\\
+Once the filters are retrieved it then uses the DMBS to gather the requested data.\\
+After the requested data is received, it checks if the privacy constraint is respected, by counting the number of individuals that are part of the selected data group: if it is above 1000 the data is forwarded to the WebApp, otherwise the request is denied and a notification is sent to the Web App.
 
 \subsection{Individual Data request}
 \begin{figure}[H]
@@ -252,7 +252,7 @@ In this diagram the individual data request is presented.\\
 Similarly to what is done with the group data request, once the individual data request form is filled and the send button is clicked, the web application sends the request to the Data Manager component.\\
 The first thing done by the Data Manager is to retrieve the individual requested from the DB: if he is not present a notification error is sent to the web application.\\
 In the other case, the Data Manager forwards the access requests to the individual application.
-The individual can choose to give the direct access of his data to the third party or deny it through the Android App: if the access request is refused the Android App notifies the Data Manager about the decision, which sends a notification to the third party.
+The individual can choose to give the direct access of his data to the third party or deny it through the Android App: if the access request is refused the Android App notifies the Data Manager about the decision, which sends a notification to the third party.\\
 If the individual allows the data access, the Data Manager sends the individual's data, retrieved through the DBMS, to the Web App.
 
 
