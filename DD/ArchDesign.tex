@@ -164,8 +164,8 @@ However, to better coordinate the interactions between the component, a general 
 \begin{itemize}
 \item requiredCredentials: this will be a data structure containing multiple strings such as the taxCode, the username or the passwordDigest.
 \item userIdentifier: this is a generic string that could be either the individual username or tax code, or the third party username.
-\item individualIdentifier: this generic string that could be either the individual username or tax code.
-\item dataRequest: this will be the data structure that represents the data request from the third parties. It will contain all the filters applied for the data request, an Id a typology identifier for the request itself and the sender username.
+\item individualIdentifier: this is a generic string that could be either the individual username or tax code.
+\item dataRequest: this will be the data structure that represents the data request from the third parties. It will contain all the filters applied for the data request, an Id, a typology identifier for the request itself and the sender username.
 \item mapAreas: list of strings representing the geographical filter applied by the third party.
 \item dataFilters: this data structure contains all the filters that can be extrapolated from the dataRequest.
 \item retrievedData: data structure containing all the data retrieved from the DB.
@@ -239,7 +239,7 @@ The AutomatedSOS service is active as long as the wearable is paired: when the w
 This diagram shows the interactions needed when a group data request from a third party occurs.\\
 When a third party has filled the group data request form and clicks on the send button, the Web App sends the request to the Data Manager component.\\
 This component retrieves the filters from the data request: if a geographical filter is applied, it uses the external map services to transform the given geographical filter in the corresponding border coordinates on the map.
-Once the filters are retrieved it then uses the DMBS to gather the requested data.
+Once the filters are retrieved it then uses the DBMS to gather the requested data.
 Once the requested data is received, it checks if the privacy constraint is respected, by counting the number of individuals that are part of the selected data group: if it is above 1000 the data is forwarded to the WebApp, otherwise the request is denied and a notification is sent to the Web App.
 
 \subsection{Individual Data request}
@@ -300,7 +300,7 @@ The main philosophy about the design process to Data4Help is to keep the system 
 Furthermore, Data4Help strongly relies on external services:
 \begin{itemize}
 \item The Wearable external service is used to handle the pairing and the data download from the individual smartwatch. Initially the application will be build using Google wearOS APIs, but more smartwatches will be made compatible in the future.
-\item The Map external service is used to translate the coordinates into geographical area names. Many options are available, and will be all considered in the development phase.
+\item The Map external service is used to translate geographical area names into a range of coordinates. Many options are available, and will be all considered in the development phase.
 \item The Ambulance external service is used to call the ambulance. This services are provided by the local ambulance associations.
 \end{itemize}
 
