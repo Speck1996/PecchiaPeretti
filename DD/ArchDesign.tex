@@ -23,7 +23,7 @@ The GUIs are deployed in this layer.
 \item \textbf{Data layer}: this layer is responsible for managing all the data of the system. 
 In particular, it stores the data on persistent devices and makes them available when requested by the TrackMe servers.
 \end{itemize}
-The structure displayed in Figure \ref{f:3tier} is not to be understood as a rigid costraint on the implementation choices, but it represents where most of the three three logic layers are deployed.
+The structure displayed in Figure \ref{f:3tier} is not to be understood as a rigid constraint on the implementation choices, but it represents where most of the three three logic layers are deployed.
 For examples, it is possible that part of the data is (temporarily) stored on the clients in order to reduce latency or that some presentation logic is deployed on the TrackMe Server in order to achieve a more dynamic GUI.
 
 
@@ -85,8 +85,8 @@ This is the only node that interact with the Database node.
 \end{figure}
 
 \section{Component Interfaces}
-The following diagram shows what features each component must provide to guarantee the correct functioning of Data4Help features, highliting the dependencies among the various components.
-To make the diagram more clear, the crossing arrows have different colours and the external components are highlited in orange.
+The following diagram shows what features each component must provide to guarantee the correct functioning of Data4Help features, highlighting the dependencies among the various components.
+To make the diagram more clear, the crossing arrows have different colors and the external components are highlighted in orange.
 Following the diagram, each operation is defined through a brief description.
 
 \begin{figure}[H]
@@ -108,7 +108,7 @@ Following the diagram, each operation is defined through a brief description.
 \end{itemize}
 \item Web App
 \begin{itemize}
-\item \textbf{notifyEndSubscription}: sends a notification to the Web App about the ended subscription of the data request passed as an input paramter.
+\item \textbf{notifyEndSubscription}: sends a notification to the Web App about the ended subscription of the data request passed as an input parameter.
 \item \textbf{sendData}: sends the given data to the Web App.
 \end{itemize}
 \item Data Collector
@@ -199,7 +199,7 @@ After the account is created a notification is sent to the user and the procedur
 In this diagram it's presented the Log In procedure.\\
 Once the user has pressed the Log In button, the username and the password digest are sent to the Login Manager.\\
 This component checks through the DBMS if there exists an account matching the credentials provided: in the positive case the user is logged in and directed to the respective data visualization screen, otherwise an error notification is sent to the user.\\
-Notice that, in order to mantain user privacy the password is crypted immediately with an hash function, and only its digest is used during this procedure.
+Notice that, in order to maintain user privacy the password is encrypted immediately with an hash function, and only its digest is used during this procedure.
 
 
 \subsection{Individual data upload}
@@ -224,10 +224,10 @@ This diagram illustrates the AutomatedSOS subscription procedure that is activat
 After the subscribe button is tapped, the application checks through the wearable external interface if the wearable is capable of measuring either the blood pressure or the heart rate.\\
 In the negative case the procedure ends sending a notification to the individual.
 In the other case, the application starts the subscription by using the Automated SOS component, that updates the DB setting the individual as an AutomatedSOS subscriber. Once the individual is set as a subscriber a notification is sent to the application, notifying the start of the service.\\
-After the service is started, the application regurarly downloads the vital parameter data using the wearable external service, enriches it with the individual position data and sends it to the data collector.\\
+After the service is started, the application regularly downloads the vital parameter data using the wearable external service, enriches it with the individual position data and sends it to the data collector.\\
 The data collector checks if the values of vital data collected have crossed the critical threshold using the Automated SOS component: if the critical threshold of a vital parameter is crossed this component calls an ambulance using the external Ambulance APIs, giving the coordinates to set the destination of the ambulance.\\
 Once the ambulance is called a notification is sent to the user application.\\
-The AutomatedSOS service is active as long as the wearable is paired: when the wearable unpairs the application starts the unsubscribe operation of the Automated SOS, which updates the DB by removing the subscribption, and notify the user about the ended subscription.
+The AutomatedSOS service is active as long as the wearable is paired: when the wearable unpairs the application starts the unsubscribe operation of the Automated SOS, which updates the DB by removing the subscription, and notify the user about the ended subscription.
 
 
 
@@ -240,7 +240,7 @@ This diagram shows the interactions needed when a group data request from a thir
 When a third party has filled the group data request form and clicks on the send button, the Web App sends the request to the Data Manager component.\\
 This component retrieves the filters from the data request: if a geographical filter is applied, it uses the external map services to transform the given geographical filter in the corresponding border coordinates on the map.
 Once the filters are retrieved it then uses the DMBS to gather the requested data.
-Once the requested data is received, it checks if the privacy costraint is respected, by counting the number of individuals that are part of the selected data group: if it is above 1000 the data is forwarded to the WebApp, otherwise the request is denied and a notification is sent to the Web App.
+Once the requested data is received, it checks if the privacy constraint is respected, by counting the number of individuals that are part of the selected data group: if it is above 1000 the data is forwarded to the WebApp, otherwise the request is denied and a notification is sent to the Web App.
 
 \subsection{Individual Data request}
 \begin{figure}[H]
@@ -252,7 +252,7 @@ Similarly to what is done with the group data request, once the individual data 
 The first thing done by the Data Manager is to retrieve the individual requested from the DB: if he is not present a notification error is sent to the web application.\\
 In the other case, the Data Manager forwards the access requests to the individual application.
 The individual can choose to give the direct access of his data to the third party or deny it through the Android App: if the access request is refused the Android App notifies the Data Manager about the decision, which sends a notification to the third party.
-If the individual allows the data access, the Data Manager sends the individual's data, retrieved thorugh the DBMS, to the Web App.
+If the individual allows the data access, the Data Manager sends the individual's data, retrieved through the DBMS, to the Web App.
 
 
 \subsection{Group Data subscription}
@@ -261,9 +261,9 @@ If the individual allows the data access, the Data Manager sends the individual'
 \includegraphics[width=\linewidth]{resources/uml/sequence/GroupDataSubscription.png}
 \end{figure}
 The above diagram shows the data subscription procedure that is activated when a third party decides to subscribe to a data request.\\
-The Web App starts the subscription through the Data Manager component. Once the subscription is activated the Data Manager regurarly checks if there is new data matching the data request to which the third party is subscribed to using the DBMS services.\\
-If new data is found, the Data Manager checks if the privacy costraints are still active (both if the request is a group data request or an individual data request).\\
-If the costraints are respected the new data is sent to the web application, otherwise the subscription is ended and the third party is notified about it.
+The Web App starts the subscription through the Data Manager component. Once the subscription is activated the Data Manager regularly checks if there is new data matching the data request to which the third party is subscribed to using the DBMS services.\\
+If new data is found, the Data Manager checks if the privacy constraints are still active (both if the request is a group data request or an individual data request).\\
+If the constraints are respected the new data is sent to the web application, otherwise the subscription is ended and the third party is notified about it.
 
 
 \subsection{Individual Data subscription}
@@ -272,7 +272,7 @@ If the costraints are respected the new data is sent to the web application, oth
 \includegraphics[width=\linewidth]{resources/uml/sequence/IndividualDataSubscription.png}
 \end{figure}
 The individual data subscription procedure is very similar to the group one.\\
-The only difference is that the regular check of the privacy costraint is done before retrieving the data, through the DBMS. Indeed, the DB containts the list of all the individuals whose data is accessible by each third party.\\ 
+The only difference is that the regular check of the privacy constraint is done before retrieving the data, through the DBMS. Indeed, the DB contains the list of all the individuals whose data is accessible by each third party.\\ 
 
 
 \section{Selected architectural styles and patterns}
@@ -282,7 +282,7 @@ The client applications mainly focus on presenting the information delivered by 
 The data layer is handled by a single, well organized, DB. This choice was made to avoid data fragmentation among different databases.
 \\
 
-Moreover, the three tier architecture allows to make changes to any of the three layer without causing to much trouble to the other components: this is a fundamental aspect for system like Data4Help that continuosly expands its functionalities.
+Moreover, the three tier architecture allows to make changes to any of the three layer without causing to much trouble to the other components: this is a fundamental aspect for system like Data4Help that continuously expands its functionalities.
 \\
 
 As stated in the RASD the availability is expected to be at 95\% of the annual time. Indeed there are no backup options in the system, all the component are in series with the server being the bottleneck due expected maintenance.\\

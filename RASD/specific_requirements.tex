@@ -121,7 +121,6 @@ In order to guarantee a quick development Data4Help system will use the followin
 \item Ambulance call service API: for each country, where the AutomatedSOS service will be enabled, these APIs will be needed in order to implement the automatic call.
 \item DBMS : this service will be used to manage all users data and satisfy third party queries.
 \item Location Services: these services will be used to pick the individual position. His position will be used to enrich with more details the eHealth data and for the AutomatedSOS service.
-\item DDOS security services: these services will be used to protect the servers from DDOS attacks.
 \end{itemize}
 
 \subsection{Communication Interfaces}
@@ -229,7 +228,7 @@ Wile is an engineering student who wants to get back in shape. He decides to joi
 \item[] [D\ref{d:OnePar}] {\domOnePar}
 \item[] \req{The system is able to recognize if the wearable can measure at least a vital parameter.}{ParametersCheck}
 \item[] \req{The system is able to continuously monitor individual vital parameters.}{Monitoring}
-\item[] \req{If the wearable is disconnected the AutomatedSOS service is suspended, untill the individual connects his wearable again.}{Disconnect}
+\item[] \req{If the wearable is disconnected the AutomatedSOS service is suspended, until the individual connects his wearable again.}{Disconnect}
 \item[] [D\ref{d:Thresholds}]{\domThresholds}
 \item[] [D\ref{d:Ambulance}]{\domAmbulance}
 \item[] [D\ref{d:ProvidingData}]{\domProvidingData}
@@ -657,7 +656,7 @@ The application notifies that the device is disconnected.
     \hline
     Exceptions &
         \begin{enumerate}
-    \item The number of individuals of the group detected by the data request which the third party wants to subscribe to went to 1000 or belove.
+    \item The number of individuals of the group detected by the data request which the third party wants to subscribe to went to 1000 or below.
     \item The individual removed the permission to access his data from the third party.
 \end{enumerate}  
  The exceptions above are notified to the third party that will not be updated anymore with new data.
@@ -709,7 +708,7 @@ Data4Helps is a service that strongly depends on the amount of data gathered, th
 
 Giving a realistic estimation on the numbers of users is not possible but a total amount of 100000 individuals and 500 third parties will be considered a good starting point.
 
-In order to expand the user base and have from the start good feedbacks the development will be focused on providing a reliable and persistent service. 
+In order to expand the user base and have from the start good feedback the development will be focused on providing a reliable and persistent service. 
 
 Regarding the AutomatedSOS service, the ambulance call should be done with a delay time from the crossing of the critical thresholds that is under 5 seconds.
 
@@ -754,7 +753,6 @@ The application aims to provide a 24/7 service, but, especially in the initial p
 The initial target of availability will be a system that is up for the 95.00\% of the time. This value should improve over time as the service expands and more resources are available.
 \subsection{Security}
 Users passwords will be encrypted and stored in a specific database.
-In order to prevent DDoS attacks an external security service on the servers will be enabled.
 \subsection{Mantainability}
 The whole system will be designed in a modular way in order to separate each component from the other ones, guaranteeing an high level of flexibility. 
 
