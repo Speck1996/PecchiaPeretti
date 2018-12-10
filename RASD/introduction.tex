@@ -32,7 +32,7 @@ Individuals will be able to use the supported wearables, in order to upload thei
 The collected data can be then accessed by third parties in two different ways:
 \begin{itemize}
 \item Anonymized data: data of group of individuals, where the group is identified by giving constraints to the requested data. The constraints can be set on some individual attributes by restricting their age, sex, location or on the eHealth data by specifying intervals for each specific data. To maintain a certain level of privacy only requests that detect groups made of a number of individuals that is higher than 1000 are allowed by the system.
-\item Specific individual data: specific individual data can be accessed only after the third party had sent a data access permission request to the individual, and the request was then accepted. The system will act as the intermediary, it will take the third party request and send it to the individual and will then notify the third party with the individual's response, giving access to his data if the request was accepted or by denying the access if the request was not accepted.
+\item Specific individual data: specific individual data can be accessed only after the third party has sent a data access permission request to the individual, and the request was then accepted. The system will act as the intermediary, it will take the third party request and send it to the individual and will then notify the third party with the individual's response, giving access to his data if the request was accepted or by denying the access if the request was not accepted.
 \end{itemize}
 The system also gives the opportunity to third parties to be notified when new data is available, for both the specific individual data requests and the group requests.
 \givespace
@@ -110,7 +110,7 @@ Users privacy cannot be violated.
 	\begin{itemize}
 	\item added new requirements (R9, R10);
 	\item weakened some technology constraints.
-	\item tweaked sequence, statechart and class diagrams, to make them in more accordance with the DD.
+	\item tweaked sequence, statechart and class diagrams, to make them more in accordance with the DD.
 	\end{itemize}
 \end{itemize}
 
@@ -118,9 +118,9 @@ Users privacy cannot be violated.
 This RASD document is organized in the following way:
 Chapter 1 contains an introductory overview on Data4Help, specifically it describes for which users this service is designed for and what are its main goals.
 \givespace
-Chapter 2 contains an overall description of Data4Help, starting from a class diagram that helps to visualize what is the model used to build this service and what is the role of Data4Help in it. A state chart diagram about the AutomatedSOS service is also included in order to better specify the main steps in order to guarantee this service. The chapter also provides a more specific description of Data4Help functionalities, what are the constraints on these functionalities, for which customers the system is designed for and the domain assumptions that are made for its development.
+Chapter 2 contains an overall description of Data4Help, starting from a class diagram that helps to visualize what is the model used to build this service and what is the role of Data4Help in it. A statechart diagram about the AutomatedSOS service is also included in order to better specify the main steps in order to guarantee this service. The chapter also provides a more specific description of Data4Help functionalities, what are the constraints on these functionalities, for which customers the system is designed for and the domain assumptions that are made for its development.
 \givespace
-Chapter 3 contains the following external interface requirements: user, hardware, software and communication interfaces. In particular the user interface section contains some mock ups that will serve as guideline to develop a suitable user interface for both the third parties and the individuals. 
+Chapter 3 contains the following external interface requirements: user, hardware, software and communication interfaces. In particular the user interface section contains some mockups that will serve as guideline to develop a suitable user interface for both the third parties and the individuals. 
 This chapter also includes the functional requirements for the system. These requirements will be explained through use case and sequence diagrams and with the help of some scenarios that describe concrete examples of Data4Help uses.
 Non functional requirements are then defined, by describing the performance and the system properties needed to successfully guarantee the functionalities listed before.
 \givespace

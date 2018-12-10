@@ -120,7 +120,7 @@ In order to guarantee a quick development Data4Help system will use the followin
 \begin{itemize}
 \item Ambulance call service API: for each country, where the AutomatedSOS service will be enabled, these APIs will be needed in order to implement the automatic call.
 \item DBMS : this service will be used to manage all users data and satisfy third party queries.
-\item Location Services: these services will be used to pick the individual position. His position will be used to enrich with more details the eHealth data and for the AutomatedSOS service.
+\item Location Services: these services will be used to translate the geographical filters applied by third parties to coordinates, that will be used to filter the requested data in the database.
 \end{itemize}
 
 \subsection{Communication Interfaces}
@@ -733,9 +733,7 @@ The following devices are the one that will be compatible with the app:
 \item GPS;
 \end{itemize}
 
-These are instead the smartwatches that will be initially supported in the app:
-\item watchOS or wearOS smartwatch
-
+At beginning, the only initially supported smartwatches will be wearOS smartwatches.
 
 Third parties will have access to the service through a WebApp, accessible with any browser compatible with html5 and java.
 \end{itemize}
