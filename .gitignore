@@ -245,3 +245,9 @@ TSWLatexianTemp*
 
 #other stuff
 .DS_STORE
+
+
+#IDEA
+IT/trackme/.idea/
+IT/trackme/out/
+*.iml
