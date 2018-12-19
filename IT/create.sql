@@ -11,6 +11,7 @@ CREATE TABLE Individual
 	surname VARCHAR (40),
 	email VARCHAR (320) UNIQUE NOT NULL,
 	birth_date DATE,
+	country VARCHAR(40),
 	password VARCHAR(255) NOT NULL
 );
 
@@ -27,6 +28,8 @@ CREATE TABLE Monitoring
 (
 	individual VARCHAR (30),
 	third_party VARCHAR (30),
+	ts TIMESTAMP NOT NULL,
+	frequency VARCHAR(20),
 	views SMALLINT NOT NULL,
 
 	PRIMARY KEY (individual, third_party),
@@ -38,6 +41,8 @@ CREATE TABLE GroupMonitoring
 (
 	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	third_party VARCHAR (30) NOT NULL,
+	ts TIMESTAMP NOT NULL,
+	frequency VARCHAR(20),
 	views SMALLINT NOT NULL,
 	location VARCHAR (100),
 	age_min TINYINT,
@@ -52,7 +57,8 @@ CREATE TABLE Heartbeat
 	individual VARCHAR (30),
 	ts TIMESTAMP,
 	value SMALLINT NOT NULL,
-	location VARCHAR (100),
+	latitude VARCHAR (20),
+	longitude VARCHAR (20),
 
 	PRIMARY KEY (individual, ts),
 	FOREIGN KEY (individual) REFERENCES Individual(taxcode) ON UPDATE CASCADE ON DELETE CASCADE
@@ -63,7 +69,8 @@ CREATE TABLE BloodPressure
 	individual VARCHAR (30),
 	ts TIMESTAMP,
 	value SMALLINT NOT NULL,
-	location VARCHAR (100),
+	latitude VARCHAR (20),
+	longitude VARCHAR (20),
 
 	PRIMARY KEY (individual, ts),
 	FOREIGN KEY (individual) REFERENCES Individual(taxcode) ON UPDATE CASCADE ON DELETE CASCADE
@@ -74,7 +81,8 @@ CREATE TABLE SleepTime
 	individual VARCHAR (30),
 	day date,
 	value time NOT NULL,
-	location VARCHAR (100),
+	latitude VARCHAR (20),
+	longitude VARCHAR (20),
 
 	PRIMARY KEY (individual, day),
 	FOREIGN KEY (individual) REFERENCES Individual(taxcode) ON UPDATE CASCADE ON DELETE CASCADE
@@ -85,7 +93,8 @@ CREATE TABLE Steps
 	individual VARCHAR (30),
 	day date,
 	value int NOT NULL,
-	location VARCHAR (100),
+	latitude VARCHAR (20),
+	longitude VARCHAR (20),
 
 	PRIMARY KEY (individual, day),
 	FOREIGN KEY (individual) REFERENCES Individual(taxcode)ON UPDATE CASCADE ON DELETE CASCADE
