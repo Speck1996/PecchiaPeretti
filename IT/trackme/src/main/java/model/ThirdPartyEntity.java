@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public class ThirdPartyEntity {
     private String password;
 
 
-    private List<MonitoringEntity> monitorings;
+    private List<MonitoringEntity> monitorings = new ArrayList<>();
 
     @Id
     @Column(name = "username")
@@ -66,7 +67,7 @@ public class ThirdPartyEntity {
         this.password = password;
     }
 
-    @OneToMany(mappedBy = "thirdParty")
+    @OneToMany(mappedBy = "thirdParty", cascade = CascadeType.ALL)
     public List<MonitoringEntity> getMonitorings() {
         return monitorings;
     }

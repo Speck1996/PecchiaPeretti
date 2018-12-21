@@ -8,10 +8,21 @@ import java.util.Objects;
 
 @Embeddable
 public class MonitoringEntityPK implements Serializable {
+    //@Column(name = "individual")
     private String individual;
+    //@Column(name = "third_party")
     private String thirdParty;
 
-    @Column(name = "individual")
+    public MonitoringEntityPK() {
+    }
+
+    public MonitoringEntityPK(String individual, String thirdParty) {
+        System.out.println("Building pk: " + individual + " " + thirdParty);
+        this.individual = individual;
+        this.thirdParty = thirdParty;
+    }
+
+    @Column(name = "individuala")
     @Id
     public String getIndividual() {
         return individual;

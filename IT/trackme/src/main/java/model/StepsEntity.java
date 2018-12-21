@@ -6,16 +6,33 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Steps")
-@IdClass(StepsEntityPK.class)
+//@IdClass(StepsEntityPK.class)
 public class StepsEntity {
+
+    @EmbeddedId
+    private StepsEntityPK id;
+
+    @ManyToOne
+    @MapsId("individual")
+    @JoinColumn(name = "individual")
     private IndividualEntity individual;
-    private Date day;
+    //private Date day;
     private int value;
     private String latitude;
     private String longitude;
 
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "individual")
+    public StepsEntity() {
+    }
+
+    public StepsEntity(IndividualEntity individual, Date day) {
+        this.individual = individual;
+        this.id = new StepsEntityPK(individual.getTaxcode(), day);
+    }
+
+    public StepsEntityPK getId() {
+        return id;
+    }
+
     public IndividualEntity getIndividual() {
         return individual;
     }
@@ -24,15 +41,15 @@ public class StepsEntity {
         this.individual = individual;
     }
 
-    @Id
-    @Column(name = "day")
-    public Date getDay() {
-        return day;
-    }
-
-    public void setDay(Date day) {
-        this.day = day;
-    }
+//    @Id
+//    @Column(name = "day")
+//    public Date getDay() {
+//        return day;
+//    }
+//
+//    public void setDay(Date day) {
+//        this.day = day;
+//    }
 
     @Basic
     @Column(name = "value")
@@ -71,13 +88,13 @@ public class StepsEntity {
         StepsEntity that = (StepsEntity) o;
         return value == that.value &&
                 Objects.equals(individual, that.individual) &&
-                Objects.equals(day, that.day) &&
+                //Objects.equals(day, that.day) &&
                 Objects.equals(latitude, that.latitude) &&
                 Objects.equals(longitude, that.longitude);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(individual, day, value, latitude, longitude);
+        return Objects.hash(individual,/* day,*/ value, latitude, longitude);
     }
 }

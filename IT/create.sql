@@ -11,7 +11,7 @@ CREATE TABLE Individual
 	surname VARCHAR (40),
 	email VARCHAR (320) UNIQUE NOT NULL,
 	birth_date DATE,
-	country VARCHAR(40),
+	birth_country VARCHAR(40),
 	password VARCHAR(255) NOT NULL
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE Monitoring
 	individual VARCHAR (30),
 	third_party VARCHAR (30),
 	ts TIMESTAMP NOT NULL,
-	frequency VARCHAR(20),
+	frequency ENUM('WEEK', 'MONTH', 'QUARTER', 'SEMESTER', 'YEAR'),
 	views SMALLINT NOT NULL,
 
 	PRIMARY KEY (individual, third_party),
@@ -42,12 +42,13 @@ CREATE TABLE GroupMonitoring
 	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	third_party VARCHAR (30) NOT NULL,
 	ts TIMESTAMP NOT NULL,
-	frequency VARCHAR(20),
+	frequency ENUM('WEEK', 'MONTH', 'QUARTER', 'SEMESTER', 'YEAR'),
 	views SMALLINT NOT NULL,
 	location VARCHAR (100),
 	age_min TINYINT,
 	age_max TINYINT,
-	sex ENUM('male', 'female'),
+	sex ENUM('MALE', 'FEMALE'),
+	birth_country VARCHAR (40),
 
 	FOREIGN KEY (third_party) REFERENCES ThirdParty(username) ON UPDATE CASCADE ON DELETE CASCADE
 );

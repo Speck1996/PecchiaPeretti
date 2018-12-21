@@ -7,16 +7,32 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "SleepTime")
-@IdClass(SleepTimeEntityPK.class)
+//@IdClass(SleepTimeEntityPK.class)
 public class SleepTimeEntity {
+    @EmbeddedId
+    private SleepTimeEntityPK id;
+
+    @ManyToOne
+    @MapsId("individual")
+    @JoinColumn(name = "individual")
     private IndividualEntity individual;
-    private Date day;
+    //private Date day;
     private Time value;
     private String latitude;
     private String longitude;
 
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "individual")
+    public SleepTimeEntity() {
+    }
+
+    public SleepTimeEntity(IndividualEntity individual, Date day) {
+        this.individual = individual;
+        this.id = new SleepTimeEntityPK(individual.getTaxcode(), day);
+    }
+
+    public SleepTimeEntityPK getId() {
+        return id;
+    }
+
     public IndividualEntity getIndividual() {
         return individual;
     }
@@ -25,15 +41,15 @@ public class SleepTimeEntity {
         this.individual = individual;
     }
 
-    @Id
-    @Column(name = "day")
-    public Date getDay() {
-        return day;
-    }
-
-    public void setDay(Date day) {
-        this.day = day;
-    }
+//    @Id
+//    @Column(name = "day")
+//    public Date getDay() {
+//        return day;
+//    }
+//
+//    public void setDay(Date day) {
+//        this.day = day;
+//    }
 
     @Basic
     @Column(name = "value")
@@ -71,7 +87,7 @@ public class SleepTimeEntity {
         if (o == null || getClass() != o.getClass()) return false;
         SleepTimeEntity that = (SleepTimeEntity) o;
         return Objects.equals(individual, that.individual) &&
-                Objects.equals(day, that.day) &&
+                //Objects.equals(day, that.day) &&
                 Objects.equals(value, that.value) &&
                 Objects.equals(latitude, that.latitude) &&
                 Objects.equals(longitude, that.longitude);
@@ -79,6 +95,6 @@ public class SleepTimeEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(individual, day, value, latitude, longitude);
+        return Objects.hash(individual,/* day,*/ value, latitude, longitude);
     }
 }

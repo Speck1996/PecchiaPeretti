@@ -1,14 +1,24 @@
 package model;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+@Embeddable
 public class StepsEntityPK implements Serializable {
     private String individual;
     private Date day;
+
+    public StepsEntityPK() {
+    }
+
+    public StepsEntityPK(String individual, Date day) {
+        this.individual = individual;
+        this.day = day;
+    }
 
     @Column(name = "individual")
     @Id

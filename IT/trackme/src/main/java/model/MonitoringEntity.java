@@ -17,14 +17,16 @@ public class MonitoringEntity {
 
     @ManyToOne
     @MapsId("individual")
+    @JoinColumn(name = "individual")
     private IndividualEntity individual;
 
     @ManyToOne
     @MapsId("thirdParty")
+    @JoinColumn(name = "third_party")
     private ThirdPartyEntity thirdParty;
 
     private Timestamp ts;
-    private String frequency;
+    private UpdateFrequency frequency;
     private short views;
     //private ThirdPartyEntity thirdPartyByThirdParty;
 
@@ -35,7 +37,12 @@ public class MonitoringEntity {
     public MonitoringEntity(IndividualEntity individual, ThirdPartyEntity thirdParty) {
         this.individual = individual;
         this.thirdParty = thirdParty;
+        this.id = new MonitoringEntityPK(individual.getTaxcode(), thirdParty.getUsername());
     }
+
+//    public MonitoringEntityPK getPk() {
+//        return id;
+//    }
 
     /*@Id
     @Column(name = "individual")
@@ -89,11 +96,11 @@ public class MonitoringEntity {
 
     @Basic
     @Column(name = "frequency")
-    public String getFrequency() {
+    public UpdateFrequency getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(String frequency) {
+    public void setFrequency(UpdateFrequency frequency) {
         this.frequency = frequency;
     }
 

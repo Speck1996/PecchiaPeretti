@@ -9,12 +9,13 @@ import java.util.Objects;
 public class GroupMonitoringEntity {
     private int id;
     private Timestamp ts;
-    private String frequency;
+    private UpdateFrequency frequency;
     private short views;
     private String location;
     private Byte ageMin;
     private Byte ageMax;
-    private String sex;
+    private Sex sex;
+    private String country;
     private ThirdPartyEntity thirdParty;
 
     @Id
@@ -38,12 +39,13 @@ public class GroupMonitoringEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "frequency")
-    public String getFrequency() {
+    public UpdateFrequency getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(String frequency) {
+    public void setFrequency(UpdateFrequency frequency) {
         this.frequency = frequency;
     }
 
@@ -88,15 +90,25 @@ public class GroupMonitoringEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "sex")
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
+    @Basic
+    @Column(name = "birth_country")
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     @ManyToOne
     @JoinColumn(name = "third_party")

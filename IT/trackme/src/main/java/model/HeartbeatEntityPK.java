@@ -1,14 +1,26 @@
 package model;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Embeddable
 public class HeartbeatEntityPK implements Serializable {
     private String individual;
     private Timestamp ts;
+
+    public HeartbeatEntityPK() {
+        System.out.println("Building void");
+    }
+
+    public HeartbeatEntityPK(String individual, Timestamp ts) {
+        System.out.printf("Building ok for: " + individual + " " + ts.toString());
+        this.individual = individual;
+        this.ts = ts;
+    }
 
     @Column(name = "individual")
     @Id

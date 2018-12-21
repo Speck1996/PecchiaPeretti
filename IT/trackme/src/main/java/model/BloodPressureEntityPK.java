@@ -1,14 +1,24 @@
 package model;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Embeddable
 public class BloodPressureEntityPK implements Serializable {
     private String individual;
     private Timestamp ts;
+
+    public BloodPressureEntityPK() {
+    }
+
+    public BloodPressureEntityPK(String individual, Timestamp ts) {
+        this.individual = individual;
+        this.ts = ts;
+    }
 
     @Column(name = "individual")
     @Id

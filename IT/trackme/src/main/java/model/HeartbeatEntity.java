@@ -6,16 +6,36 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Heartbeat")
-@IdClass(HeartbeatEntityPK.class)
+//@IdClass(HeartbeatEntityPK.class)
 public class HeartbeatEntity {
+
+    @EmbeddedId
+    private HeartbeatEntityPK id;
+
+    @ManyToOne
+    @MapsId("individual")
+    @JoinColumn(name = "individual")
     private IndividualEntity individual;
-    private Timestamp ts;
+    //private Timestamp ts;
+
     private short value;
     private String latitude;
     private String longitude;
 
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "individual")
+    public HeartbeatEntity() {
+    }
+
+    public HeartbeatEntity(IndividualEntity individual, Timestamp ts) {
+        this.individual = individual;
+        //this.ts = ts;
+        this.id = new HeartbeatEntityPK(individual.getTaxcode(), ts);
+    }
+
+    public HeartbeatEntityPK getPK() {
+        return id;
+    }
+
+
     public IndividualEntity getIndividual() {
         return individual;
     }
@@ -24,15 +44,17 @@ public class HeartbeatEntity {
         this.individual = individual;
     }
 
-    @Id
-    @Column(name = "ts")
-    public Timestamp getTs() {
-        return ts;
-    }
 
-    public void setTs(Timestamp ts) {
-        this.ts = ts;
-    }
+//    @Id
+//    @MapsId("ts")
+//    @Column(name = "ts")
+//    public Timestamp getTs() {
+//        return ts;
+//    }
+//
+//    public void setTs(Timestamp ts) {
+//        this.ts = ts;
+//    }
 
     @Basic
     @Column(name = "value")
@@ -71,13 +93,13 @@ public class HeartbeatEntity {
         HeartbeatEntity that = (HeartbeatEntity) o;
         return value == that.value &&
                 Objects.equals(individual, that.individual) &&
-                Objects.equals(ts, that.ts) &&
+                //Objects.equals(ts, that.ts) &&
                 Objects.equals(latitude, that.latitude) &&
                 Objects.equals(longitude, that.longitude);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(individual, ts, value, latitude, longitude);
+        return Objects.hash(individual,/* ts,*/ value, latitude, longitude);
     }
 }

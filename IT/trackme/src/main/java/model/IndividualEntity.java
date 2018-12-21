@@ -83,7 +83,7 @@ public class IndividualEntity {
     }
 
     @Basic
-    @Column(name = "country")
+    @Column(name = "birth_country")
     public String getCountry() {
         return country;
     }
@@ -104,7 +104,7 @@ public class IndividualEntity {
 
 
 
-    @OneToMany(mappedBy = "individual")
+    @OneToMany(mappedBy = "individual", cascade = CascadeType.ALL)
     public List<MonitoringEntity> getMonitorings() {
         return monitorings;
     }
