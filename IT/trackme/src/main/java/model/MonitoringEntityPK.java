@@ -22,7 +22,7 @@ public class MonitoringEntityPK implements Serializable {
         this.thirdParty = thirdParty;
     }
 
-    @Column(name = "individuala")
+    @Column(name = "individual")
     @Id
     public String getIndividual() {
         return individual;

@@ -1,4 +1,6 @@
+import collector.DataCollector;
 import manager.GroupRequestManager;
+import manager.IndividualRequestManager;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -15,14 +17,28 @@ public class TestServlet extends HttpServlet {
     @EJB
     private GroupRequestManager bean;
 
+    @EJB
+    private IndividualRequestManager bean2;
+
+    @EJB
+    private DataCollector bean3;
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
 
-        out.println("HelloWorld");
+        out.println("HelloWorld\n");
 
-        String s = bean.newGroupRequest("mydoc", null, (short) 1, "Milano", (byte) 0, (byte) 100, null, null);
-        out.println(s);
+//        String s = bean.test();
+//        out.println(s);
 
+//        String s = bean.newGroupRequest("mydoc", "Polimiers", null , (short) 7, "Milano", (byte) 10, (byte) 127, null, null);
+//        out.println(s);
+
+
+//        bean2.acceptRequest("FGHI", "cardiologist");
+//        bean2.rejectRequest("FGHI", "cardiologist");
+        bean3.insertBloodPressureData("FGHI", (short) 150, null, null);
+        out.println("ok");
     }
 }

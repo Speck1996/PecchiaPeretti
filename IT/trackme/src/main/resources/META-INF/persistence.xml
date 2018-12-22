@@ -4,9 +4,9 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
 
+
     <persistence-unit name="NewPersistenceUnit" transaction-type="JTA">
         <jta-data-source>jdbc/trackme</jta-data-source>
-        <!--<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
         <class>model.BloodPressureEntity</class>
         <class>model.GroupMonitoringEntity</class>
         <class>model.HeartbeatEntity</class>
@@ -16,7 +16,7 @@
         <class>model.StepsEntity</class>
         <class>model.ThirdPartyEntity</class>
         <properties>
-            <!--
+
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/trackme"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="root"/>
@@ -25,7 +25,33 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hbm2ddl.auto" value="update"/>
-            -->
+
         </properties>
     </persistence-unit>
+
+
+    <!--
+    <persistence-unit name="NewPersistenceUnit">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>model.BloodPressureEntity</class>
+        <class>model.GroupMonitoringEntity</class>
+        <class>model.HeartbeatEntity</class>
+        <class>model.IndividualEntity</class>
+        <class>model.MonitoringEntity</class>
+        <class>model.SleepTimeEntity</class>
+        <class>model.StepsEntity</class>
+        <class>model.ThirdPartyEntity</class>
+        <properties>
+
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/trackme"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="root"/>
+            <property name="hibernate.connection.password" value="admin"/>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hbm2ddl.auto" value="update"/>
+
+        </properties>
+    </persistence-unit> -->
 </persistence>

@@ -11,6 +11,7 @@ CREATE TABLE Individual
 	surname VARCHAR (40),
 	email VARCHAR (320) UNIQUE NOT NULL,
 	birth_date DATE,
+	sex ENUM('MALE', 'FEMALE'),
 	birth_country VARCHAR(40),
 	password VARCHAR(255) NOT NULL
 );
@@ -31,6 +32,8 @@ CREATE TABLE Monitoring
 	ts TIMESTAMP NOT NULL,
 	frequency ENUM('WEEK', 'MONTH', 'QUARTER', 'SEMESTER', 'YEAR'),
 	views SMALLINT NOT NULL,
+	attributes SMALLINT NOT NULL,
+	status ENUM('PENDING', 'ACCEPTED') NOT NULL,
 
 	PRIMARY KEY (individual, third_party),
 	FOREIGN KEY (individual) REFERENCES Individual(taxcode) ON UPDATE CASCADE ON DELETE CASCADE, 
@@ -41,6 +44,7 @@ CREATE TABLE GroupMonitoring
 (
 	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	third_party VARCHAR (30) NOT NULL,
+	name VARCHAR (40) NOT NULL,
 	ts TIMESTAMP NOT NULL,
 	frequency ENUM('WEEK', 'MONTH', 'QUARTER', 'SEMESTER', 'YEAR'),
 	views SMALLINT NOT NULL,

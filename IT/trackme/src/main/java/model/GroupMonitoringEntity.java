@@ -8,6 +8,7 @@ import java.util.Objects;
 @Table(name = "GroupMonitoring")
 public class GroupMonitoringEntity {
     private int id;
+    private String name;
     private Timestamp ts;
     private UpdateFrequency frequency;
     private short views;
@@ -18,6 +19,22 @@ public class GroupMonitoringEntity {
     private String country;
     private ThirdPartyEntity thirdParty;
 
+    public GroupMonitoringEntity() {
+    }
+
+    public GroupMonitoringEntity(String name, Timestamp ts, UpdateFrequency frequency, short views, String location, Byte ageMin, Byte ageMax, Sex sex, String country, ThirdPartyEntity thirdParty) {
+        this.name = name;
+        this.ts = ts;
+        this.frequency = frequency;
+        this.views = views;
+        this.location = location;
+        this.ageMin = ageMin;
+        this.ageMax = ageMax;
+        this.sex = sex;
+        this.country = country;
+        this.thirdParty = thirdParty;
+    }
+
     @Id
     @Column(name = "id")
     public int getId() {
@@ -26,6 +43,16 @@ public class GroupMonitoringEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Basic

@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Objects;
 
 @Entity
@@ -28,16 +29,29 @@ public class MonitoringEntity {
     private Timestamp ts;
     private UpdateFrequency frequency;
     private short views;
+    private short attributes;
+
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private RequestStatus status;
     //private ThirdPartyEntity thirdPartyByThirdParty;
 
 
     public MonitoringEntity() {
     }
 
-    public MonitoringEntity(IndividualEntity individual, ThirdPartyEntity thirdParty) {
+    public MonitoringEntity(IndividualEntity individual, ThirdPartyEntity thirdParty, Timestamp ts, UpdateFrequency frequency, short views, short attributes) {
         this.individual = individual;
         this.thirdParty = thirdParty;
+        this.ts = ts;
+        this.frequency = frequency;
+        this.views = views;
+        this.attributes = attributes;
+        this.status = RequestStatus.PENDING;
         this.id = new MonitoringEntityPK(individual.getTaxcode(), thirdParty.getUsername());
+
+        System.out.println("STATUS IN CONSTRUCTOR: " + this.status);
     }
 
 //    public MonitoringEntityPK getPk() {
@@ -95,6 +109,7 @@ public class MonitoringEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "frequency")
     public UpdateFrequency getFrequency() {
         return frequency;
@@ -112,6 +127,24 @@ public class MonitoringEntity {
 
     public void setViews(short views) {
         this.views = views;
+    }
+
+    @Basic
+    @Column(name = "attributes")
+    public short getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(short attributes) {
+        this.attributes = attributes;
+    }
+
+    public RequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RequestStatus requestStatus) {
+        this.status = requestStatus;
     }
 
     @Override

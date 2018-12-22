@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ public class IndividualEntity {
     private String surname;
     private String email;
     private Date birthDate;
+    private Sex sex;
     private String country;
     private String password;
 
@@ -83,6 +85,17 @@ public class IndividualEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sex")
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
+
+    @Basic
     @Column(name = "birth_country")
     public String getCountry() {
         return country;
@@ -113,8 +126,8 @@ public class IndividualEntity {
 
     }
 
-    public void addThirdPartyMonitoring(ThirdPartyEntity thirdParty) {
-        MonitoringEntity monitoring = new MonitoringEntity(this, thirdParty);
+    public void addThirdPartyMonitoring(ThirdPartyEntity thirdParty, Timestamp ts, UpdateFrequency frequency, short views, short attributes) {
+        MonitoringEntity monitoring = new MonitoringEntity(this, thirdParty, ts, frequency, views, attributes);
         monitorings.add(monitoring);
         thirdParty.getMonitorings().add(monitoring);
     }

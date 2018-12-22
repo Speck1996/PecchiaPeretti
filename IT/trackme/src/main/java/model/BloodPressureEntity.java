@@ -5,6 +5,16 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "requestAnonymized",
+                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country"),
+        @NamedQuery(name = "requestDateAnonymized",
+                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
+        @NamedQuery(name = "requestSexAnonymized",
+                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
+        @NamedQuery(name = "requestDateSexAnonymized",
+                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
+})
 @Table(name = "BloodPressure")
 //@IdClass(BloodPressureEntityPK.class)
 public class BloodPressureEntity {
@@ -23,8 +33,11 @@ public class BloodPressureEntity {
     public BloodPressureEntity() {
     }
 
-    public BloodPressureEntity(IndividualEntity individual, Timestamp ts) {
+    public BloodPressureEntity(IndividualEntity individual, Timestamp ts, short value, String latitude, String longitude) {
         this.individual = individual;
+        this.value = value;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.id = new BloodPressureEntityPK(individual.getTaxcode(), ts);
     }
 
