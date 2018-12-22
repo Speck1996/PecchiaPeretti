@@ -252,3 +252,4 @@ IT/trackme/.idea/
 IT/trackme/out/
 *.iml
 .idea/*
+IT/trackme/target/
