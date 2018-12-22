@@ -10,29 +10,41 @@ package manager.geocoding;
 public class FoundLocation {
 
     /**
-     * String containing the latitude value of the location centre point
+     * latitude value of the location centre point
      */
-    private String latitude;
+    private double latitude;
 
     /**
-     * String containing the longitude value of the location centre point
+     * longitude value of the location centre point
      */
-    private String longitude;
+    private double longitude;
 
     /**
-     * String containing the northeast coordinates of the box containing the location
+     * north coordinate of the box containing the location
      */
-    private String northeast;
+    private double boxNorth;
 
     /**
-     * String containing the southwest coordinates of the box containing the location
+     * south coordinate of the box containing the location
      */
-    private String southwest;
+    private double boxSouth;
+
+    /**
+     * east coordinate of the box containing the location
+     */
+    private double boxEast;
+
+    /**
+     * west coordinate of the box containing the location
+     */
+    private double boxWest;
 
     /**
      * String containing the name of the location
      */
     private String name;
+
+
 
     /**
      * Empty constructor, builder design pattern used to create object of this class
@@ -41,27 +53,12 @@ public class FoundLocation {
 
     }
 
-    /**
-     * Getter for the latitude value
-     * @return the latitude value of the location
-     */
-    public String getLatitude() {
-        return latitude;
-    }
-
-    /**
-     * Getter for the longitude value
-     * @return the longitude value of the location
-     */
-    public String getLongitude() {
-        return longitude;
-    }
 
     /**
      * Setter for the latitude
      * @param latitude used to fill the latitude attribute
      */
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -69,25 +66,92 @@ public class FoundLocation {
      * Setter for the longitude
      * @param longitude used to fill the latitude attribute
      */
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
     /**
-     * Setter for the longitude
-     * @param northeast used to fill the latitude attribute
+     * Getter for the latitude value
+     * @return the latitude value of the location
      */
-    public void setNortheast(String northeast) {
-        this.northeast = northeast;
+    public double getLatitude() {
+        return latitude;
     }
 
     /**
-     * Setter for the longitude
-     * @param southwest used to fill the latitude attribute
+     * Getter for the longitude value
+     * @return the longitude value of the location
      */
-    public void setSouthwest(String southwest) {
-        this.southwest = southwest;
+    public double getLongitude() {
+        return longitude;
     }
+
+
+    /**
+     * Getter for the north coordinate of the box containing the location
+     * @return north coordinate value of the box containing the location
+     */
+    public double getBoxNorth() {
+        return boxNorth;
+    }
+
+
+    /**
+     * Setter for the north coordinate of the box containing the location
+     * @param boxNorth  value of the north coordinate
+     */
+    public void setBoxNorth(double boxNorth) {
+        this.boxNorth = boxNorth;
+    }
+
+    /**
+     * Getter for the south coordinate of the box containing the location
+     * @return south coordinate value of the box containing the location
+     */
+    public double getBoxSouth() {
+        return boxSouth;
+    }
+
+    /**
+     * Setter for the south coordinate of the box containing the location
+     * @param boxSouth  value of the north coordinate
+     */
+    public void setBoxSouth(double boxSouth) {
+        this.boxSouth = boxSouth;
+    }
+
+    /**
+     * Getter for the east coordinate of the box containing the location
+     * @return east coordinate value of the box containing the location
+     */
+    public double getBoxEast() {
+        return boxEast;
+    }
+
+    /**
+     * Setter for the east coordinate of the box containing the location
+     * @param boxEast value of the north coordinate
+     */
+    public void setBoxEast(double boxEast) {
+        this.boxEast = boxEast;
+    }
+
+    /**
+     * Getter for the west coordinate of the box containing the location
+     * @return west coordinate value of the box containing the location
+     */
+    public double getBoxWest() {
+        return boxWest;
+    }
+
+    /**
+     * Setter for the west coordinate of the box containing the location
+     * @param boxWest value of the north coordinate
+     */
+    public void setBoxWest(double boxWest) {
+        this.boxWest = boxWest;
+    }
+
 
     /**
      * Setter for the longitude
@@ -97,21 +161,6 @@ public class FoundLocation {
         this.name = name;
     }
 
-    /**
-     * Getter for the northeast coordinates
-     * @return the northeast coordinates of the location
-     */
-    public String getNortheast() {
-        return northeast;
-    }
-
-    /**
-     * Getter for the southwest coordinates
-     * @return the southwest coordinates of the location
-     */
-    public String getSouthwest() {
-        return southwest;
-    }
 
     /**
      * Getter for the name value of the location

@@ -24,11 +24,14 @@ public class LocationBuilderImpl implements LocationBuilder {
     public FoundLocation build(){
         FoundLocation location = new FoundLocation();
 
+        //filling the location object to be returned
         location.setName(tmpLoc.getName());
         location.setLatitude(tmpLoc.getLatitude());
         location.setLongitude(tmpLoc.getLongitude());
-        location.setNortheast(tmpLoc.getNortheast());
-        location.setSouthwest(tmpLoc.getSouthwest());
+        location.setBoxNorth(tmpLoc.getBoxNorth());
+        location.setBoxSouth(tmpLoc.getBoxSouth());
+        location.setBoxEast(tmpLoc.getBoxEast());
+        location.setBoxWest(tmpLoc.getBoxWest());
 
         return location;
     }
@@ -49,7 +52,7 @@ public class LocationBuilderImpl implements LocationBuilder {
      * @return LocationBuilder building the FoundLocation requested
      */
     @Override
-    public LocationBuilder setLatitude(String latitude) {
+    public LocationBuilder setLatitude(double latitude) {
         tmpLoc.setLatitude(latitude);
         return this;
     }
@@ -59,7 +62,7 @@ public class LocationBuilderImpl implements LocationBuilder {
      * @return LocationBuilder building the FoundLocation requested
      */
     @Override
-    public LocationBuilder setLongitude(String longitude) {
+    public LocationBuilder setLongitude(double longitude) {
         tmpLoc.setLongitude(longitude);
         return this;
     }
@@ -69,8 +72,8 @@ public class LocationBuilderImpl implements LocationBuilder {
      * @return LocationBuilder building the FoundLocation requested
      */
     @Override
-    public LocationBuilder setNortheast(String northeast) {
-        tmpLoc.setNortheast(northeast);
+    public LocationBuilder setNorthBox(double north) {
+        tmpLoc.setBoxNorth(north);
         return this;
     }
 
@@ -79,8 +82,28 @@ public class LocationBuilderImpl implements LocationBuilder {
      * @return LocationBuilder building the FoundLocation requested
      */
     @Override
-    public LocationBuilder setSouthwest(String southwest) {
-        tmpLoc.setSouthwest(southwest);
+    public LocationBuilder setSouthBox(double south) {
+        tmpLoc.setBoxSouth(south);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return LocationBuilder building the FoundLocation requested
+     */
+    @Override
+    public LocationBuilder setEastBox(double east) {
+        tmpLoc.setBoxEast(east);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return LocationBuilder building the FoundLocation requested
+     */
+    @Override
+    public LocationBuilder setWestBox(double west) {
+        tmpLoc.setBoxWest(west);
         return this;
     }
 }

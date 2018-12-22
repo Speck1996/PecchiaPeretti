@@ -61,12 +61,12 @@ public class GeocoderImpl implements Geocoder {
 
         //building the location
         FoundLocation requestedLocation = locBuilder.setName(address.getDisplayName())
-                                                    .setLatitude(String.valueOf(address.getLatitude()))
-                                                    .setLongitude(String.valueOf(address.getLongitude()))
-                                                    .setNortheast(address.getBoundingBox().getNorth() +
-                                                            " " + address.getBoundingBox().getEast())
-                                                    .setSouthwest(address.getBoundingBox().getSouth() +
-                                                            " " + address.getBoundingBox().getWest())
+                                                    .setLatitude(address.getLatitude())
+                                                    .setLongitude(address.getLongitude())
+                                                    .setNorthBox(address.getBoundingBox().getNorth())
+                                                    .setSouthBox(address.getBoundingBox().getSouth())
+                                                    .setEastBox(address.getBoundingBox().getEast())
+                                                    .setWestBox(address.getBoundingBox().getWest())
                                                     .build();
 
         return requestedLocation;

@@ -27,7 +27,7 @@ public interface LocationBuilder {
      * @param latitude string containing latitude coordinates
      * @return LocationBuilder, in order to continue the building phase
      */
-    LocationBuilder setLatitude(String latitude);
+    LocationBuilder setLatitude(double latitude);
 
 
     /**
@@ -35,20 +35,34 @@ public interface LocationBuilder {
      * @param  longitude string containing longitude coordinates
      * @return LocationBuilder, in order to continue the building phase
      */
-    LocationBuilder setLongitude(String longitude);
+    LocationBuilder setLongitude(double longitude);
 
     /**
-     * Method that sets the northeast coordinates of the box containing the location to be built, with the given one
-     * @param  northeast string containing northeast coordinates
+     * Method that sets the north coordinate of the box containing the location to be built, with the given one
+     * @param  north value of the north coordinate to be set
      * @return LocationBuilder, in order to continue the building phase
      */
-    LocationBuilder setNortheast(String northeast);
+    LocationBuilder setNorthBox(double north);
 
     /**
-     * Method that sets the southwest coordinates of the box containing the location to be built, with the given one
-     * @param  southwest string containing northeast coordinates
+     * Method that sets the south coordinate of the box containing the location to be built, with the given one
+     * @param  south value of the north coordinate to be set
      * @return LocationBuilder, in order to continue the building phase
      */
-    LocationBuilder setSouthwest(String southwest);
+    LocationBuilder setSouthBox(double south);
+
+    /**
+     * Method that sets the east coordinate of the box containing the location to be built, with the given one
+     * @param  east value of the north coordinate to be set
+     * @return LocationBuilder, in order to continue the building phase
+     */
+    LocationBuilder setEastBox(double east);
+
+    /**
+     * Method that sets the west coordinate of the box containing the location to be built, with the given one
+     * @param  west value of the north coordinate to be set
+     * @return LocationBuilder, in order to continue the building phase
+     */
+    LocationBuilder setWestBox(double west);
 
 }
