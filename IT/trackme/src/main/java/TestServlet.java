@@ -32,13 +32,13 @@ public class TestServlet extends HttpServlet {
 //        String s = bean.test();
 //        out.println(s);
 
-//        String s = bean.newGroupRequest("mydoc", "Polimiers", null , (short) 7, "Milano", (byte) 10, (byte) 127, null, null);
-//        out.println(s);
+        String s = bean.newGroupRequest("mydoc", "Polimiers", null , (short) 7, "Milano", (byte) 10, (byte) 127, null, null);
+        out.println(s);
 
 
 //        bean2.acceptRequest("FGHI", "cardiologist");
 //        bean2.rejectRequest("FGHI", "cardiologist");
-        bean3.insertBloodPressureData("FGHI", (short) 150, null, null);
-        out.println("ok");
+//        bean3.insertBloodPressureData("FGHI", (short) 150, null, null);
+//        out.println("ok");
     }
 }

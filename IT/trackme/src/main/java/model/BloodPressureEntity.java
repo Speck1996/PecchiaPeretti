@@ -8,12 +8,20 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "requestAnonymized",
                 query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country"),
+        @NamedQuery(name = "requestLocationAnonymized",
+                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "requestDateAnonymized",
                 query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
+        @NamedQuery(name = "requestLocationDateAnonymized",
+                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "requestSexAnonymized",
                 query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
+        @NamedQuery(name = "requestLocationSexAnonymized",
+                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "requestDateSexAnonymized",
                 query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
+        @NamedQuery(name = "requestLocationDateSexAnonymized",
+                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
 })
 @Table(name = "BloodPressure")
 //@IdClass(BloodPressureEntityPK.class)

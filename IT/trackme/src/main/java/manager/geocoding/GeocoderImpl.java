@@ -50,8 +50,12 @@ public class GeocoderImpl implements Geocoder {
         try {
             addresses = request.search(query);
         }catch (IOException e){
-            System.out.println(e);
+            e.printStackTrace();
+            return null;
         }
+
+        if(addresses == null || addresses.size() == 0)
+            return null;
 
         //filtering the results, taking the most relevant result
         Address address = addresses.get(0);

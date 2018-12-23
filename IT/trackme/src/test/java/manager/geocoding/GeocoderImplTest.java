@@ -37,6 +37,7 @@ public class GeocoderImplTest {
         assertEquals(demoGeocoder.getLocation("Roma").getLatitude(),41.894802, DELTA);
         assertEquals(demoGeocoder.getLocation("Roma").getLongitude(),12.4853384, DELTA);
 
-
+        assertNull(demoGeocoder.getLocation("qwertmcaonvsjbdhjsbawaksaslij"));
+        assertNull(demoGeocoder.getLocation(null));
     }
 }

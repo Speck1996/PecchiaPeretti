@@ -1,5 +1,8 @@
 package manager;
 
+import manager.geocoding.FoundLocation;
+import manager.geocoding.Geocoder;
+import manager.geocoding.GeocoderImpl;
 import model.*;
 import model.anonymized.BloodPressureEntityAnonymized;
 
@@ -17,9 +20,13 @@ import java.util.List;
 @Stateless
 public class GroupRequestManager {
 
-    private final static int PRIVACY_NUM = 2;
+    private final static int PRIVACY_NUM = 0;
     private final static Date DEFAULT_MIN_BIRTHDATE = new Date(-5364610705443L);  //1800-01-01
     private final static Date DEFAULT_MAX_BIRTHDATE = new Date(7258170248082L);   //2200-01-01
+    private final static Double DEFAULT_MIN_LATITUDE = -90.0;
+    private final static Double DEFAULT_MAX_LATITUDE = 90.0;
+    private final static Double DEFAULT_MIN_LONGITUDE = -180.0;
+    private final static Double DEFAULT_MAX_LONGITUDE = 180.0;
 
     @PersistenceContext(unitName = "NewPersistenceUnit")
     private EntityManager em = null;
@@ -36,51 +43,46 @@ public class GroupRequestManager {
         dateMin = getDateFromAge(age_max);
         dateMax = getDateFromAge(age_min);
 
+        //call to the maps API
+        Geocoder geocoder = new GeocoderImpl();
+        FoundLocation foundLocation = geocoder.getLocation(location);
+        System.out.println("is foundLocation null: " + (foundLocation == null));
 
-        //TODO call to the maps service
 
 
-
-        //TODO specified location constraints
-        //Specific queries to the db
+        //Specific queries to the DB based on the 'views' value
         if((views & View.BLOOD_PRESSURE) > 0) {
             System.out.println("ok blood");
-            builder.append(bloodPressureQuery(location, dateMin, dateMax, sex, birthCountry));
+            builder.append(bloodPressureQuery(foundLocation, dateMin, dateMax, sex, birthCountry));
         }
 
         if((views & View.HEARTBEAT ) > 0) {
-            builder.append(heartbeatQuery(location, dateMin, dateMax, sex, birthCountry));
+            builder.append(heartbeatQuery(foundLocation, dateMin, dateMax, sex, birthCountry));
         }
 
         if((views & View.SLEEP_TIME) > 0) {
-            builder.append(sleepTimeQuery(location, dateMin, dateMax, sex, birthCountry));
+            builder.append(sleepTimeQuery(foundLocation, dateMin, dateMax, sex, birthCountry));
         }
 
         if((views & View.STEPS) > 0) {
-            builder.append(stepsQuery(location, dateMin, dateMax, sex, birthCountry));
+            builder.append(stepsQuery(foundLocation, dateMin, dateMax, sex, birthCountry));
         }
 
 
 
-
-        //TODO insert new GroupMonitoring in DB
-
+        //insert new GroupMonitoring in DB
         ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
         GroupMonitoringEntity group = new GroupMonitoringEntity(name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, location, age_min, age_max, sex, birthCountry, tp);
 
         try {
-//            em.getTransaction().begin();
             em.persist(group);
-//            em.getTransaction().commit();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-
-
         return builder.toString();
-
     }
 
 
@@ -89,7 +91,7 @@ public class GroupRequestManager {
 
 
     /*
-    Get a date o birth given an age (and the current date)
+    Get a date of birth given an age (and the current date)
      */
     private Date getDateFromAge(Byte age) {
         if(age == 0)
@@ -116,6 +118,21 @@ public class GroupRequestManager {
             query.setParameter("datemax", dateMax);
     }
 
+    private void setLocation(Query query, FoundLocation location) {
+
+        query.setParameter("maxlat", location.getBoxNorth());
+        query.setParameter("minlat", location.getBoxSouth());
+        query.setParameter("maxlong", location.getBoxEast());
+        query.setParameter("minlong", location.getBoxWest());
+
+    }
+
+    private void setCountry(Query query, String birthCountry) {
+        if(birthCountry == null)
+            query.setParameter("country", "%%");
+        else
+            query.setParameter("country", birthCountry);
+    }
 
 
 
@@ -126,48 +143,64 @@ public class GroupRequestManager {
     /*
     Perform a query for Blood Pressure data with the given constraints
      */
-    private String bloodPressureQuery(String location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private String bloodPressureQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
         System.out.println("blood req: " + location + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         StringBuilder builder = new StringBuilder();
 
         TypedQuery<BloodPressureEntityAnonymized> query = null;
 
+        boolean locationIsNull = (location == null),
+                dateMinIsNull = (dateMin == null),
+                dateMaxIsNull = (dateMax == null),
+                sexIsNull = (sex == null);
+
+
         /*
-        Set parameters
+        Choose the right query
          */
-        if(dateMax == null && dateMin == null && sex == null)
+        if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
             query = em.createNamedQuery("requestAnonymized", BloodPressureEntityAnonymized.class);
 
-        if(sex != null && (dateMin != null || dateMax != null)) {
-            query = em.createNamedQuery("requestDateSexAnonymized", BloodPressureEntityAnonymized.class);
+        if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
+            query = em.createNamedQuery("requestLocationAnonymized", BloodPressureEntityAnonymized.class);
 
-            query.setParameter("sex", sex);
-            setDates(query, dateMin, dateMax);
-        }
-
-        if(sex == null && (dateMin != null || dateMax != null)) {
+        if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
             query = em.createNamedQuery("requestDateAnonymized", BloodPressureEntityAnonymized.class);
 
-            setDates(query, dateMin, dateMax);
-        }
+        if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
+            query = em.createNamedQuery("requestLocationDateAnonymized", BloodPressureEntityAnonymized.class);
 
-        if(sex != null && (dateMin == null && dateMax == null)) {
+        if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
             query = em.createNamedQuery("requestSexAnonymized", BloodPressureEntityAnonymized.class);
-            query.setParameter("sex", sex);
-        }
 
-        if(birthCountry == null)
-            query.setParameter("country", "%%");
-        else
-            query.setParameter("country", birthCountry);
+        if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
+            query = em.createNamedQuery("requestLocationSexAnonymized", BloodPressureEntityAnonymized.class);
+
+        if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
+            query = em.createNamedQuery("requestDateSexAnonymized", BloodPressureEntityAnonymized.class);
+
+        if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
+            query = em.createNamedQuery("requestLocationDateSexAnonymized", BloodPressureEntityAnonymized.class);
+
+
+        //Set parameters
+        if(!locationIsNull)
+            setLocation(query, location);
+
+        if(!dateMaxIsNull || !dateMinIsNull)
+            setDates(query, dateMin, dateMax);
+
+        if(!sexIsNull)
+            query.setParameter("sex", sex);
+
+        setCountry(query, birthCountry);
+
 
 
         /*
         Run the query and construct results
          */
-
-
         List<BloodPressureEntityAnonymized> results = query.getResultList();
 
         builder.append("\nBLOOD PRESSURE\n");
@@ -191,7 +224,6 @@ public class GroupRequestManager {
         }
 
 
-
         return builder.toString();
 
     }
@@ -199,7 +231,7 @@ public class GroupRequestManager {
     /*
     Perform a query for Heartbeat data with the given constraints
      */
-    private String heartbeatQuery(String location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private String heartbeatQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
         StringBuilder builder = new StringBuilder();
 
 
@@ -212,7 +244,7 @@ public class GroupRequestManager {
     /*
     Perform a query for Sleep Time data with the given constraints
      */
-    private String sleepTimeQuery(String location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private String sleepTimeQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
         StringBuilder builder = new StringBuilder();
 
 
@@ -225,7 +257,7 @@ public class GroupRequestManager {
     /*
     Perform a query for Steps data with the given constraints
      */
-    private String stepsQuery(String location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private String stepsQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
         StringBuilder builder = new StringBuilder();
 
 
