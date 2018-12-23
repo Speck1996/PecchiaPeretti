@@ -7,21 +7,21 @@ import java.util.Objects;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "requestAnonymized",
-                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country"),
+                query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country"),
         @NamedQuery(name = "requestLocationAnonymized",
-                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "requestDateAnonymized",
-                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
+                query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
         @NamedQuery(name = "requestLocationDateAnonymized",
-                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "requestSexAnonymized",
-                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
+                query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "requestLocationSexAnonymized",
-                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "requestDateSexAnonymized",
-                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
+                query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "requestLocationDateSexAnonymized",
-                query = "SELECT new model.anonymized.BloodPressureEntityAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
 })
 @Table(name = "BloodPressure")
 //@IdClass(BloodPressureEntityPK.class)
@@ -35,13 +35,13 @@ public class BloodPressureEntity {
     private IndividualEntity individual;
     //private Timestamp ts;
     private short value;
-    private String latitude;
-    private String longitude;
+    private Double latitude;
+    private Double longitude;
 
     public BloodPressureEntity() {
     }
 
-    public BloodPressureEntity(IndividualEntity individual, Timestamp ts, short value, String latitude, String longitude) {
+    public BloodPressureEntity(IndividualEntity individual, Timestamp ts, short value, Double latitude, Double longitude) {
         this.individual = individual;
         this.value = value;
         this.latitude = latitude;
@@ -84,21 +84,21 @@ public class BloodPressureEntity {
 
     @Basic
     @Column(name = "latitude")
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
     @Basic
     @Column(name = "longitude")
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

@@ -6,6 +6,24 @@ import java.sql.Time;
 import java.util.Objects;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "requestAnonymizedSleeptime",
+                query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.country like :country"),
+        @NamedQuery(name = "requestLocationAnonymizedSleeptime",
+                query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "requestDateAnonymizedSleeptime",
+                query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
+        @NamedQuery(name = "requestLocationDateAnonymizedSleeptime",
+                query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "requestSexAnonymizedSleeptime",
+                query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
+        @NamedQuery(name = "requestLocationSexAnonymizedSleeptime",
+                query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "requestDateSexAnonymizedSleeptime",
+                query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
+        @NamedQuery(name = "requestLocationDateSexAnonymizedSleeptime",
+                query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+})
 @Table(name = "SleepTime")
 //@IdClass(SleepTimeEntityPK.class)
 public class SleepTimeEntity {
@@ -18,14 +36,17 @@ public class SleepTimeEntity {
     private IndividualEntity individual;
     //private Date day;
     private Time value;
-    private String latitude;
-    private String longitude;
+    private Double latitude;
+    private Double longitude;
 
     public SleepTimeEntity() {
     }
 
-    public SleepTimeEntity(IndividualEntity individual, Date day) {
+    public SleepTimeEntity(IndividualEntity individual, Date day, Time value, Double latitude, Double longitude) {
         this.individual = individual;
+        this.value = value;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.id = new SleepTimeEntityPK(individual.getTaxcode(), day);
     }
 
@@ -63,21 +84,21 @@ public class SleepTimeEntity {
 
     @Basic
     @Column(name = "latitude")
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
     @Basic
     @Column(name = "longitude")
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

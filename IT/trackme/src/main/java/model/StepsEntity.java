@@ -5,6 +5,24 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "requestAnonymizedSteps",
+                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country"),
+        @NamedQuery(name = "requestLocationAnonymizedSteps",
+                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "requestDateAnonymizedSteps",
+                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
+        @NamedQuery(name = "requestLocationDateAnonymizedSteps",
+                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "requestSexAnonymizedSteps",
+                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
+        @NamedQuery(name = "requestLocationSexAnonymizedSteps",
+                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "requestDateSexAnonymizedSteps",
+                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
+        @NamedQuery(name = "requestLocationDateSexAnonymizedSteps",
+                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+})
 @Table(name = "Steps")
 //@IdClass(StepsEntityPK.class)
 public class StepsEntity {
@@ -18,14 +36,17 @@ public class StepsEntity {
     private IndividualEntity individual;
     //private Date day;
     private int value;
-    private String latitude;
-    private String longitude;
+    private Double latitude;
+    private Double longitude;
 
     public StepsEntity() {
     }
 
-    public StepsEntity(IndividualEntity individual, Date day) {
+    public StepsEntity(IndividualEntity individual, Date day, int value, Double latitude, Double longitude) {
         this.individual = individual;
+        this.value = value;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.id = new StepsEntityPK(individual.getTaxcode(), day);
     }
 
@@ -63,21 +84,21 @@ public class StepsEntity {
 
     @Basic
     @Column(name = "latitude")
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
     @Basic
     @Column(name = "longitude")
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

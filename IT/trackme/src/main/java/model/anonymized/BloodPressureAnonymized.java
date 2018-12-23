@@ -2,12 +2,12 @@ package model.anonymized;
 
 import java.sql.Timestamp;
 
-public class BloodPressureEntityAnonymized {
+public class BloodPressureAnonymized {
 
     private Timestamp ts;
     private short value;
 
-    public BloodPressureEntityAnonymized(Timestamp ts, short value) {
+    public BloodPressureAnonymized(Timestamp ts, short value) {
         this.ts = ts;
         this.value = value;
     }
