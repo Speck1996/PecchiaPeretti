@@ -1,10 +1,12 @@
 package model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlRootElement
 @Entity
 @Table(name = "ThirdParty")
 public class ThirdPartyEntity {
