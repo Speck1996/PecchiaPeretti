@@ -10,15 +10,16 @@ import javax.ws.rs.core.MediaType;
 /**
  * Class used only for demo purpose
  */
-@Path("secured")
 @ApplicationPath("/login")
+@Path("/securedresource")
 public class SecuredResource extends Application {
 
     @GET
+    @Secured
     @Path("message")
     @Produces(MediaType.TEXT_PLAIN)
     public String securedMethod() {
-        return "You found me";
+        return "You got me";
     }
 
 }
