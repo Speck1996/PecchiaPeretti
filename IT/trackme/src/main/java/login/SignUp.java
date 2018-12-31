@@ -1,10 +1,10 @@
 package login;
 
+import model.IndividualEntity;
 import model.ThirdPartyEntity;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -32,8 +32,21 @@ public class SignUp extends Application {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/signup")
+    @Path("/signuptp")
     public void registerThirdParty(ThirdPartyEntity sentTp){
         em.persist(sentTp);
+    }
+
+
+    /**
+     * Method that adds the given user to the DB
+     * @param sentIndv the user to be added to the DB
+     */
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/signupin")
+    public void registerIndividual(IndividualEntity sentIndv){
+        em.persist(sentIndv);
     }
 }
