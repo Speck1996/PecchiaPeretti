@@ -61,6 +61,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         } catch (Exception e) {
             abortWithUnauthorized(requestContext);
+            return;
         }
 
 

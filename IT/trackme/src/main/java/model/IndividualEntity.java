@@ -1,8 +1,12 @@
 package model;
 
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +15,7 @@ import java.util.Objects;
 /**
  * Entity for individuals registered to trackme services
  */
+@XmlRootElement
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Individual.findByUsername",
@@ -23,6 +28,8 @@ public class IndividualEntity {
     private String name;
     private String surname;
     private String email;
+    //needed for REST easy parsing
+    private String birthDayString;
     private Date birthDate;
     private Sex sex;
     private String country;
@@ -30,6 +37,26 @@ public class IndividualEntity {
 
 
     private List<MonitoringEntity> monitorings = new ArrayList<>();
+
+    @Transient
+    public String getBirthDayString() {
+        return birthDayString;
+    }
+
+    public void setBirthDayString(String birthDayString) {
+
+        try {
+            this.birthDayString = birthDayString;
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = formatter.parse(birthDayString);
+            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+            birthDate = sqlStartDate;
+
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+    }
 
     public IndividualEntity() {
     }
@@ -51,6 +78,7 @@ public class IndividualEntity {
     public String getTaxcode() {
         return taxcode;
     }
+
 
     public void setTaxcode(String taxcode) {
         this.taxcode = taxcode;

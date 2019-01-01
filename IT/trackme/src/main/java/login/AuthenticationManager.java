@@ -3,8 +3,7 @@ package login;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import model.ThirdPartyEntity;
-
+import model.IndividualEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
@@ -50,7 +49,7 @@ public class AuthenticationManager{
      * @return Response containing the token if the credentials are valid, an error state if they are not
      */
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticateUser(Credentials credentials) {
 
@@ -85,18 +84,21 @@ public class AuthenticationManager{
     private void authenticate(String username, String password) throws Exception {
 
         //finding the third party
-        ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, username);
+        IndividualEntity in = em.createQuery(
+                "SELECT u from IndividualEntity u WHERE u.username = :username", IndividualEntity.class).
+                setParameter("username", username).getSingleResult();
 
-        //wrong password
-        if (!(tp.getPassword().equals(password))){
-            throw new LoginException("Wrong Password By user " + username);
-        }
 
         //no user with the given credentials found
-        else if(tp == null){
+        if(in == null){
 
             throw new LoginException("User not found " + username );
         }
+        //wrong password
+        else if (!(in.getPassword().equals(password))){
+            throw new LoginException("Wrong Password By user " + username);
+        }
+
     }
 
     /**
@@ -108,7 +110,7 @@ public class AuthenticationManager{
     private String issueToken(String username) throws JWTCreationException{
 
         //Claim used to store the username
-        Map<String, Object> headerClaims = new HashMap();
+        Map<String, Object> headerClaims = new HashMap<>();
         headerClaims.put(OWNERTAG, username);
 
         //Algorithm used to encrypt the token
@@ -119,7 +121,8 @@ public class AuthenticationManager{
                 .withHeader(headerClaims)
                 .withIssuer(ISSUER)
                 .sign(algorithm);
-         return token;
+
+        return token;
 
     }
 }

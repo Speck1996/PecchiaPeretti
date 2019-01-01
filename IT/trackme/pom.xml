@@ -11,6 +11,8 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- Use the latest version whenever possible. -->
+        <jackson.version>2.9.8</jackson.version>
     </properties>
 
     <dependencies>
@@ -84,6 +86,24 @@
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+        <dependency>
+            <!-- Note: core-annotations version x.y.0 is generally compatible with
+                 (identical to) version x.y.1, x.y.2, etc. -->
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.8</version>
+        </dependency>
     </dependencies>
 
 
