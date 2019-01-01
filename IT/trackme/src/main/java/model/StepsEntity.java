@@ -4,23 +4,26 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
+/**
+ * Entity for steps data
+ */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "requestAnonymizedSteps",
+        @NamedQuery(name = "Steps.requestAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country"),
-        @NamedQuery(name = "requestLocationAnonymizedSteps",
+        @NamedQuery(name = "Steps.requestLocationAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
-        @NamedQuery(name = "requestDateAnonymizedSteps",
+        @NamedQuery(name = "Steps.requestDateAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
-        @NamedQuery(name = "requestLocationDateAnonymizedSteps",
+        @NamedQuery(name = "Steps.requestLocationDateAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
-        @NamedQuery(name = "requestSexAnonymizedSteps",
+        @NamedQuery(name = "Steps.requestSexAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
-        @NamedQuery(name = "requestLocationSexAnonymizedSteps",
+        @NamedQuery(name = "Steps.requestLocationSexAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
-        @NamedQuery(name = "requestDateSexAnonymizedSteps",
+        @NamedQuery(name = "Steps.requestDateSexAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
-        @NamedQuery(name = "requestLocationDateSexAnonymizedSteps",
+        @NamedQuery(name = "Steps.requestLocationDateSexAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
 })
 @Table(name = "Steps")
@@ -50,7 +53,7 @@ public class StepsEntity {
         this.id = new StepsEntityPK(individual.getTaxcode(), day);
     }
 
-    public StepsEntityPK getId() {
+    public StepsEntityPK getPK() {
         return id;
     }
 

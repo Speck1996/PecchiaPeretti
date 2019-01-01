@@ -8,14 +8,24 @@ import javax.persistence.PersistenceContext;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+/**
+ * Bean that manages individual data requests
+ */
 @Stateless
 public class IndividualRequestManager {
 
     @PersistenceContext(unitName = "NewPersistenceUnit")
     private EntityManager em;
 
-    /*
-    A new request to access individual data. It creates in the DB a monitoring tuple with status 'PENDING'
+
+    /**
+     * A new request to access individual data. It creates in the DB a monitoring tuple with status 'PENDING'
+     * @param usernameTP The username of the Third Party that issues the request
+     * @param taxcode The taxcode of the Individual
+     * @param frequency The frequency of the updates
+     * @param views Indicates which data the Third Party is interested in
+     * @param attributes Indicates which attributes of the Individual the Third Party is interested in
+     * @return
      */
     public String newIndividualRequest(String usernameTP, String taxcode, UpdateFrequency frequency, short views, short attributes) {
         System.out.println("NEW REQUEST");
@@ -50,8 +60,10 @@ public class IndividualRequestManager {
     }
 
 
-    /*
-    Accept an existing individual data request
+    /**
+     * Accept an existing individual data request
+     * @param taxcode The taxcode of the individual that accept the request
+     * @param usernameTP The username of the Third Party that issued the request
      */
     public void acceptRequest(String taxcode, String usernameTP) {
         MonitoringEntity monitoring = em.find(MonitoringEntity.class, new MonitoringEntityPK(taxcode, usernameTP));
@@ -63,8 +75,10 @@ public class IndividualRequestManager {
         em.persist(monitoring);
     }
 
-    /*
-    Reject a pending request or block an already accepted request (remove the tuple from the DB)
+    /**
+     * Reject a pending request or block an already accepted request (remove the tuple from the DB)
+     * @param taxcode The taxcode of the individual that reject or block the request
+     * @param usernameTP The username of the Third Party that issued the request
      */
     public void rejectRequest(String taxcode, String usernameTP) {
         MonitoringEntity monitoring = em.find(MonitoringEntity.class, new MonitoringEntityPK(taxcode, usernameTP));

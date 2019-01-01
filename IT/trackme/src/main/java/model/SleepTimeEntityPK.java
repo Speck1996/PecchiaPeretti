@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+/**
+ * Primary key class for sleep time entity
+ * @see SleepTimeEntity
+ */
 @Embeddable
 public class SleepTimeEntityPK implements Serializable {
     private String individual;

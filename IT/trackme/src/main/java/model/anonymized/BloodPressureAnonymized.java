@@ -19,4 +19,12 @@ public class BloodPressureAnonymized {
     public short getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "BloodPressureAnonymized{" +
+                "ts=" + ts +
+                ", value=" + value +
+                '}';
+    }
 }

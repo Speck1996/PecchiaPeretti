@@ -19,4 +19,12 @@ public class SleepTimeAnonymized {
     public Time getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "SleepTimeAnonymized{" +
+                "day=" + day +
+                ", value=" + value +
+                '}';
+    }
 }

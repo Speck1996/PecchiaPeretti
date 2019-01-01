@@ -6,6 +6,10 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Primary key class for individual data requests
+ * @see MonitoringEntity
+ */
 @Embeddable
 public class MonitoringEntityPK implements Serializable {
     //@Column(name = "individual")

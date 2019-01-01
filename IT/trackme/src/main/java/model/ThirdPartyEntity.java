@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Entity for Third Party registered to trackme services
+ */
 @XmlRootElement
 @Entity
 @Table(name = "ThirdParty")
@@ -18,6 +21,17 @@ public class ThirdPartyEntity {
 
 
     private List<MonitoringEntity> monitorings = new ArrayList<>();
+
+    public ThirdPartyEntity() {
+    }
+
+    public ThirdPartyEntity(String username, String email, String name, String surname, String password) {
+        this.username = username;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+    }
 
     @Id
     @Column(name = "username")

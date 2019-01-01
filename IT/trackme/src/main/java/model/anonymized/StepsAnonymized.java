@@ -18,4 +18,12 @@ public class StepsAnonymized {
     public int getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "StepsAnonymized{" +
+                "day=" + day +
+                ", value=" + value +
+                '}';
+    }
 }

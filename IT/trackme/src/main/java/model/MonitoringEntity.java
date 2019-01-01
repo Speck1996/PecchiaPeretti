@@ -5,6 +5,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Objects;
 
+/**
+ * Entity for accepted or pending individual data requests
+ */
 @Entity
 @Table(name = "Monitoring")
 //@IdClass(MonitoringEntityPK.class)
@@ -54,9 +57,9 @@ public class MonitoringEntity {
         System.out.println("STATUS IN CONSTRUCTOR: " + this.status);
     }
 
-//    public MonitoringEntityPK getPk() {
-//        return id;
-//    }
+    public MonitoringEntityPK getPk() {
+        return id;
+    }
 
     /*@Id
     @Column(name = "individual")

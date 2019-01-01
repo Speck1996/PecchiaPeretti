@@ -18,4 +18,12 @@ public class HeartbeatAnonymized {
     public short getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "HeartbeatAnonymized{" +
+                "ts=" + ts +
+                ", value=" + value +
+                '}';
+    }
 }

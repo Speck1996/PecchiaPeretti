@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * Entity for the accepted group data requests
+ */
 @Entity
 @Table(name = "GroupMonitoring")
 public class GroupMonitoringEntity {

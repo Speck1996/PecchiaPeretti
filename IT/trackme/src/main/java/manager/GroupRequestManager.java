@@ -4,10 +4,7 @@ import manager.geocoding.FoundLocation;
 import manager.geocoding.Geocoder;
 import manager.geocoding.GeocoderImpl;
 import model.*;
-import model.anonymized.BloodPressureAnonymized;
-import model.anonymized.HeartbeatAnonymized;
-import model.anonymized.SleepTimeAnonymized;
-import model.anonymized.StepsAnonymized;
+import model.anonymized.*;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,10 +17,13 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Bean that manages the group requests
+ */
 @Stateless
 public class GroupRequestManager {
 
-    private final static int PRIVACY_NUM = 3;
+    private final static int PRIVACY_NUM = 0;
     private final static Date DEFAULT_MIN_BIRTHDATE = new Date(-5364610705443L);  //1800-01-01
     private final static Date DEFAULT_MAX_BIRTHDATE = new Date(7258170248082L);   //2200-01-01
     private final static Double DEFAULT_MIN_LATITUDE = -90.0;
@@ -40,9 +40,19 @@ public class GroupRequestManager {
     private EntityManager em = null;
 
 
-    /*
-     Create a new group data request with the specified parameters, asked by 'usernameTP' third party
-      */
+    /**
+     * Create a new group data request with the give parameters
+     * @param usernameTP The username of the Third Party who issues the request
+     * @param name The name that the Third Party has chosen for the request
+     * @param frequency The frequency of the updates
+     * @param views Indicates which data the Third Party is interested in
+     * @param location The location indicated by the Third Party
+     * @param age_min The minimum age indicated by the Third Party
+     * @param age_max The maximum age indicated by the Third Party
+     * @param sex The sex indicated by the Third Party
+     * @param birthCountry The country of birth indicated by the Third Party
+     * @return
+     */
     public String newGroupRequest(String usernameTP, String name, UpdateFrequency frequency, short views, String location, Byte age_min, Byte age_max, Sex sex, String birthCountry) {
 
         StringBuilder builder = new StringBuilder();
@@ -172,7 +182,7 @@ public class GroupRequestManager {
     Perform a query for Blood Pressure data with the given constraints
      */
     private String bloodPressureQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
-        System.out.println("blood req: " + location + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
+        System.out.println("blood req: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         StringBuilder builder = new StringBuilder();
 
@@ -184,28 +194,28 @@ public class GroupRequestManager {
         Choose the right query
          */
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("requestAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestAnonymized", BloodPressureAnonymized.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("requestLocationAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestLocationAnonymized", BloodPressureAnonymized.class);
 
         if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("requestDateAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestDateAnonymized", BloodPressureAnonymized.class);
 
         if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("requestLocationDateAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestLocationDateAnonymized", BloodPressureAnonymized.class);
 
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("requestSexAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestSexAnonymized", BloodPressureAnonymized.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("requestLocationSexAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestLocationSexAnonymized", BloodPressureAnonymized.class);
 
         if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("requestDateSexAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestDateSexAnonymized", BloodPressureAnonymized.class);
 
         if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("requestLocationDateSexAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestLocationDateSexAnonymized", BloodPressureAnonymized.class);
 
 
         //Set parameters
@@ -247,7 +257,7 @@ public class GroupRequestManager {
     Perform a query for Heartbeat data with the given constraints
      */
     private String heartbeatQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
-        System.out.println("heart req: " + location + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
+        System.out.println("heart req: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         StringBuilder builder = new StringBuilder();
 
@@ -258,28 +268,28 @@ public class GroupRequestManager {
         Choose the right query
          */
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("requestAnonymizedHeartbeat", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestAnonymized", HeartbeatAnonymized.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("requestLocationAnonymizedHeartbeat", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestLocationAnonymized", HeartbeatAnonymized.class);
 
         if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("requestDateAnonymizedHeartbeat", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestDateAnonymized", HeartbeatAnonymized.class);
 
         if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("requestLocationDateAnonymizedHeartbeat", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestLocationDateAnonymized", HeartbeatAnonymized.class);
 
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("requestSexAnonymizedHeartbeat", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestSexAnonymized", HeartbeatAnonymized.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("requestLocationSexAnonymizedHeartbeat", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestLocationSexAnonymized", HeartbeatAnonymized.class);
 
         if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("requestDateSexAnonymizedHeartbeat", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestDateSexAnonymized", HeartbeatAnonymized.class);
 
         if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("requestLocationDateSexAnonymizedHeartbeat", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestLocationDateSexAnonymized", HeartbeatAnonymized.class);
 
 
         //Set parameters
@@ -321,7 +331,7 @@ public class GroupRequestManager {
     Perform a query for Sleep Time data with the given constraints
      */
     private String sleepTimeQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
-        System.out.println("sleep req: " + location + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
+        System.out.println("sleep req: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         StringBuilder builder = new StringBuilder();
 
@@ -333,28 +343,28 @@ public class GroupRequestManager {
         Choose the right query
          */
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("requestAnonymizedSleeptime", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestAnonymized", SleepTimeAnonymized.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("requestLocationAnonymizedSleeptime", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestLocationAnonymized", SleepTimeAnonymized.class);
 
         if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("requestDateAnonymizedSleeptime", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestDateAnonymized", SleepTimeAnonymized.class);
 
         if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("requestLocationDateAnonymizedSleeptime", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestLocationDateAnonymized", SleepTimeAnonymized.class);
 
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("requestSexAnonymizedSleeptime", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestSexAnonymized", SleepTimeAnonymized.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("requestLocationSexAnonymizedSleeptime", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestLocationSexAnonymized", SleepTimeAnonymized.class);
 
         if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("requestDateSexAnonymizedSleeptime", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestDateSexAnonymized", SleepTimeAnonymized.class);
 
         if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("requestLocationDateSexAnonymizedSleeptime", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestLocationDateSexAnonymized", SleepTimeAnonymized.class);
 
 
         //Set parameters
@@ -396,7 +406,7 @@ public class GroupRequestManager {
     Perform a query for Steps data with the given constraints
      */
     private String stepsQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
-        System.out.println("steps req: " + location + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
+        System.out.println("steps req: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         StringBuilder builder = new StringBuilder();
 
@@ -408,28 +418,28 @@ public class GroupRequestManager {
         Choose the right query
          */
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("requestAnonymizedSteps", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestAnonymized", StepsAnonymized.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("requestLocationAnonymizedSteps", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestLocationAnonymized", StepsAnonymized.class);
 
         if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("requestDateAnonymizedSteps", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestDateAnonymized", StepsAnonymized.class);
 
         if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("requestLocationDateAnonymizedSteps", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestLocationDateAnonymized", StepsAnonymized.class);
 
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("requestSexAnonymizedSteps", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestSexAnonymized", StepsAnonymized.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("requestLocationSexAnonymizedSteps", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestLocationSexAnonymized", StepsAnonymized.class);
 
         if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("requestDateSexAnonymizedSteps", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestDateSexAnonymized", StepsAnonymized.class);
 
         if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("requestLocationDateSexAnonymizedSteps", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestLocationDateSexAnonymized", StepsAnonymized.class);
 
 
         //Set parameters

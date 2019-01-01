@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * Primary key class for blood pressure entity
+ * @see BloodPressureEntity
+ */
 @Embeddable
 public class BloodPressureEntityPK implements Serializable {
     private String individual;

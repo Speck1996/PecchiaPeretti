@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * Primary key class for heartbeat entity
+ * @see HeartbeatEntity
+ */
 @Embeddable
 public class HeartbeatEntityPK implements Serializable {
     private String individual;
@@ -17,7 +21,6 @@ public class HeartbeatEntityPK implements Serializable {
     }
 
     public HeartbeatEntityPK(String individual, Timestamp ts) {
-        System.out.printf("Building ok for: " + individual + " " + ts.toString());
         this.individual = individual;
         this.ts = ts;
     }

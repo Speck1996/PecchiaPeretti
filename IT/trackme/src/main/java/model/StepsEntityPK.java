@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+/**
+ * Primary key class for steps entity
+ * @see StepsEntity
+ */
 @Embeddable
 public class StepsEntityPK implements Serializable {
     private String individual;

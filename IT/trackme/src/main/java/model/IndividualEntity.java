@@ -8,7 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Entity for individuals registered to trackme services
+ */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Individual.findByUsername",
+                query = "SELECT i FROM IndividualEntity i WHERE i.username = :username")
+})
 @Table(name = "Individual")
 public class IndividualEntity {
     private String taxcode;
@@ -23,6 +30,21 @@ public class IndividualEntity {
 
 
     private List<MonitoringEntity> monitorings = new ArrayList<>();
+
+    public IndividualEntity() {
+    }
+
+    public IndividualEntity(String taxcode, String username, String name, String surname, String email, Date birthDate, Sex sex, String country, String password) {
+        this.taxcode = taxcode;
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.sex = sex;
+        this.country = country;
+        this.password = password;
+    }
 
     @Id
     @Column(name = "taxcode")
@@ -145,7 +167,21 @@ public class IndividualEntity {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "IndividualEntity{" +
+                "taxcode='" + taxcode + '\'' +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", birthDate=" + birthDate +
+                ", sex=" + sex +
+                ", country='" + country + '\'' +
+                ", password='" + password + '\'' +
+                ", monitorings=" + monitorings +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

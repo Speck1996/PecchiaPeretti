@@ -5,23 +5,26 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
 
+/**
+ * Entity for sleep time data
+ */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "requestAnonymizedSleeptime",
+        @NamedQuery(name = "SleepTime.requestAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.country like :country"),
-        @NamedQuery(name = "requestLocationAnonymizedSleeptime",
+        @NamedQuery(name = "SleepTime.requestLocationAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
-        @NamedQuery(name = "requestDateAnonymizedSleeptime",
+        @NamedQuery(name = "SleepTime.requestDateAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
-        @NamedQuery(name = "requestLocationDateAnonymizedSleeptime",
+        @NamedQuery(name = "SleepTime.requestLocationDateAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
-        @NamedQuery(name = "requestSexAnonymizedSleeptime",
+        @NamedQuery(name = "SleepTime.requestSexAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
-        @NamedQuery(name = "requestLocationSexAnonymizedSleeptime",
+        @NamedQuery(name = "SleepTime.requestLocationSexAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
-        @NamedQuery(name = "requestDateSexAnonymizedSleeptime",
+        @NamedQuery(name = "SleepTime.requestDateSexAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
-        @NamedQuery(name = "requestLocationDateSexAnonymizedSleeptime",
+        @NamedQuery(name = "SleepTime.requestLocationDateSexAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
 })
 @Table(name = "SleepTime")
@@ -50,7 +53,7 @@ public class SleepTimeEntity {
         this.id = new SleepTimeEntityPK(individual.getTaxcode(), day);
     }
 
-    public SleepTimeEntityPK getId() {
+    public SleepTimeEntityPK getPK() {
         return id;
     }
 
