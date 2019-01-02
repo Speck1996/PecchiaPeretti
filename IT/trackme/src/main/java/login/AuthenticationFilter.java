@@ -1,22 +1,16 @@
 package login;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 import java.security.Principal;
-
-import static login.AuthenticationManager.*;
+import java.util.Map;
 
 /**
  * Filter applied to all the resources that need authentication
@@ -39,62 +33,71 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
+        System.out.println("Filtering...");
 
+        String token = null;
+
+        // Try to extract the token from the cookies
+        token = tryCookieToken(requestContext);
+
+        try {
+            AuthenticationUtils.validateToken(token);
+
+            postAuthorization(requestContext, token);
+            return;
+        } catch (Exception e) {
+            //e.printStackTrace();
+            System.out.println("Not WebApp, let's try for Android");
+        }
+
+        // Try to extract the token from the Authorization header
+        token = tryHeaderToken(requestContext);
+
+        try {
+
+            // Validate the token
+            AuthenticationUtils.validateToken(token);
+            postAuthorization(requestContext, token);
+
+        } catch (Exception e) {
+            abortWithUnauthorized(requestContext);
+        }
+
+
+
+    }
+
+    private String tryCookieToken(ContainerRequestContext requestContext) {
+        String s = "Cookies:\n";
+
+        Map<String, Cookie> cookies = requestContext.getCookies();
+        for(String c: cookies.keySet()) {
+            s += c + " -> " + cookies.get(c).getValue() + "\n";
+        }
+
+        System.out.println(s);
+
+
+        Cookie authCookie = cookies.get(WebAppLogin.COOKIE_NAME);
+        String token = null;
+        if(authCookie != null)
+            token = authCookie.getValue();
+        System.out.println(token);
+        return token;
+    }
+
+    private String tryHeaderToken(ContainerRequestContext requestContext) {
         // Get the Authorization header from the request
         String authorizationHeader =
                 requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         // Validate the Authorization header
         if (!isTokenBasedAuthentication(authorizationHeader)) {
-            abortWithUnauthorized(requestContext);
-            return;
+            return null;
         }
 
-        // Extract the token from the Authorization header
-        String token = authorizationHeader
+        return authorizationHeader
                 .substring(AUTHENTICATION_SCHEME.length()).trim();
-
-        try {
-
-            // Validate the token
-            validateToken(token);
-
-        } catch (Exception e) {
-            abortWithUnauthorized(requestContext);
-            return;
-        }
-
-
-        //this part of the code is used to bind the user with the a principal that can be used to access the username
-        // itself in every path that is secured
-        final SecurityContext currentSecurityContext = requestContext.getSecurityContext();
-        requestContext.setSecurityContext(new SecurityContext() {
-
-            @Override
-            public Principal getUserPrincipal() {
-
-                //retrieving username from the token and binding it to the principal
-                DecodedJWT jwt = JWT.decode(token);
-                Claim claim = jwt.getHeaderClaim(OWNERTAG);
-                String username = claim.asString();
-                return () -> username;
-            }
-
-            @Override
-            public boolean isUserInRole(String role) {
-                return true;
-            }
-
-            @Override
-            public boolean isSecure() {
-                return currentSecurityContext.isSecure();
-            }
-
-            @Override
-            public String getAuthenticationScheme() {
-                return AUTHENTICATION_SCHEME;
-            }
-        });
     }
 
     /**
@@ -125,21 +128,36 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                         .build());
     }
 
-    /**
-     * Method used to validate the token.
-     * The validation is based uniquely on the issuer and the key for the encoding
-     * //TODO consider time validation
-     * @param token the token to be validated
-     * @throws JWTVerificationException if the token cannot be validated
-     */
-    private void validateToken(String token) throws JWTVerificationException {
 
-        Algorithm algorithm = Algorithm.HMAC256(TOKENKEY);
+    //this part of the code is used to bind the user with the a principal that can be used to access the username
+    // itself in every path that is secured
+    private void postAuthorization(ContainerRequestContext requestContext, String token) {
 
-        JWTVerifier verifier = JWT.require(algorithm)
-                .withIssuer(ISSUER)
-                .build(); //Reusable verifier instance
+        final SecurityContext currentSecurityContext = requestContext.getSecurityContext();
+        requestContext.setSecurityContext(new SecurityContext() {
 
-        DecodedJWT jwt = verifier.verify(token);
+            @Override
+            public Principal getUserPrincipal() {
+
+                //retrieving username from the token and binding it to the principal
+                String username = AuthenticationUtils.getUsernameFromToken(token);
+                return () -> username;
+            }
+
+            @Override
+            public boolean isUserInRole(String role) {
+                return true;
+            }
+
+            @Override
+            public boolean isSecure() {
+                return currentSecurityContext.isSecure();
+            }
+
+            @Override
+            public String getAuthenticationScheme() {
+                return AUTHENTICATION_SCHEME;
+            }
+        });
     }
 }

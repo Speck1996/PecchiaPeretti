@@ -4,5 +4,15 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
     http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
+    <managed-bean>
+        <managed-bean-name>webAppLogin</managed-bean-name>
+        <managed-bean-class>login.WebAppLogin</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>homeWebApp</managed-bean-name>
+        <managed-bean-class>webapp.HomeWebApp</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

@@ -21,22 +21,6 @@ import java.util.Map;
 public class AuthenticationManager{
 
     /**
-     * Key used for the encryption algorithm
-     */
-    static final String TOKENKEY = "TokenKey";
-
-    /**
-     * String used to decorate the token
-     */
-    static final String ISSUER = "Trackme";
-
-    /**
-     * Tag used to store user's username in the token
-     */
-    static final String OWNERTAG = "owner";
-
-
-    /**
      * Manager to check for username and password validity
      */
     @PersistenceContext(unitName = "NewPersistenceUnit")
@@ -62,7 +46,7 @@ public class AuthenticationManager{
             authenticate(username, password);
 
             // Issue a token for the user
-            String token = issueToken(username);
+            String token = AuthenticationUtils.issueToken(username);
 
             // Return the token on the response
             return Response.ok(token).build();
@@ -101,28 +85,5 @@ public class AuthenticationManager{
 
     }
 
-    /**
-     * Method that generates the token
-     * @param username used to personalize, and decorate the token
-     * @return the generated token
-     * @throws JWTCreationException if some invalid decorations are applied
-     */
-    private String issueToken(String username) throws JWTCreationException{
 
-        //Claim used to store the username
-        Map<String, Object> headerClaims = new HashMap<>();
-        headerClaims.put(OWNERTAG, username);
-
-        //Algorithm used to encrypt the token
-        Algorithm algorithm = Algorithm.HMAC256(TOKENKEY);
-
-        //Creating the token
-        String token = JWT.create()
-                .withHeader(headerClaims)
-                .withIssuer(ISSUER)
-                .sign(algorithm);
-
-        return token;
-
-    }
 }
