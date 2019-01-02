@@ -11,8 +11,36 @@ package model;
  * @see MonitoringEntity
  */
 public class Attribute {
-    public static final int SEX = 1;
-    public static final int AGE = 2;
-    public static final int COUNTRY = 4;
-    public static final int POSITION = 8;
+    public static final short SEX = 1;
+    public static final short AGE = 2;
+    public static final short COUNTRY = 4;
+    public static final short POSITION = 8;
+
+    public static short getNumericAttributes(String[] stringAttr) {
+        short attributes = 0;
+
+        if(stringAttr == null)
+            return attributes;
+
+        for(String a: stringAttr) {
+            switch (a) {
+                case "sex":
+                    attributes = (short) (attributes | SEX);
+                    break;
+                case "age":
+                    attributes = (short) (attributes | AGE);
+                    break;
+                case "country":
+                    attributes = (short) (attributes | COUNTRY);
+                    break;
+                case "position":
+                    attributes = (short) (attributes | POSITION);
+                    break;
+                default:
+                    System.out.println("Unexpected attribute: " + a);
+            }
+        }
+
+        return attributes;
+    }
 }

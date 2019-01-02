@@ -11,13 +11,17 @@
 </h:head>
 
 <h:body>
-<h1>Hi #{homeWebApp.retrievUsername()}, welcome to the homepage of Trackme</h1>
+    <h1>Hi #{homeWebApp.retrieveUsername()}, welcome to the homepage of Trackme</h1>
+
 
     <ul>
-        <li>Your requests</li>
-        <li>New individual request</li>
-        <li>New group request</li>
+        <li><h:link value="Your requests" outcome="requests.xhtml"/></li>
+        <li><h:link value="New individual request" outcome="newIndReq.xhtml"/></li>
+        <li><h:link value="New group request" outcome="newGroupReq.xhtml"/></li>
     </ul>
+    <h:form>
+    <h:commandButton value="Logout" action="#{webAppLogout.logout()}"/>
+    </h:form>
 </h:body>
 
 </html>

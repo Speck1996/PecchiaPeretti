@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Group request - Trackme</title>
+</h:head>
+
+<h:body>
+    <h2>New group request</h2>
+
+    <h:form>
+
+        <h:outputLabel value="Name of the request"/>
+        <h:inputText value="#{groupReq.name}"/>
+
+        <h5>eHealth data filters</h5>
+        <h:selectManyCheckbox value="#{groupReq.views}" layout="lineDirection" required="true" requiredMessage="Select some" id="views">
+            <f:selectItem itemValue="steps" itemLabel="Steps" />
+            <f:selectItem itemValue="sleep" itemLabel="Sleep Time" />
+            <f:selectItem itemValue="heart" itemLabel="Heart Rate" />
+            <f:selectItem itemValue="blood" itemLabel="Blood Pressure" />
+        </h:selectManyCheckbox>
+        <h:message for="views"/>
+
+        <h5>Individuals' attributes filters</h5>
+        <h:outputLabel value="Sex"/>
+        <h:selectOneRadio value="#{groupReq.sex}">
+            <f:selectItem itemValue="male" itemLabel="Male"/>
+            <f:selectItem itemValue="female" itemLabel="Female"/>
+        </h:selectOneRadio>
+
+        <h:outputLabel value="Age"/>
+        <h:inputText value="#{groupReq.minAge}" converterMessage="enter a number" id="minAge">
+            <f:convertNumber integerOnly="true"/>
+        </h:inputText>
+        <h:message for="minAge"/>
+
+        <h:inputText value="#{groupReq.maxAge}" converterMessage="enter a number" id="maxAge">
+            <f:convertNumber integerOnly="true"/>
+        </h:inputText>
+        <h:message for="maxAge"/>
+        <br/>
+
+        <h:outputLabel value="Country of birth"/>
+        <h:inputText value="#{groupReq.birthCountry}"/>
+        <br/>
+
+        <h:outputLabel value="Location"/>
+        <h:inputText value="#{groupReq.location}"/>
+
+        <br/><br/>
+
+
+        <h:commandButton value="Submit" action="#{groupReq.processRequest()}"/>
+    </h:form>
+
+    <p>#{groupReq.print()}</p>
+</h:body>
+</html>

@@ -15,4 +15,22 @@
         <managed-bean-class>webapp.HomeWebApp</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>webAppLogout</managed-bean-name>
+        <managed-bean-class>login.WebAppLogout</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>groupReq</managed-bean-name>
+        <managed-bean-class>webapp.GroupReq</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>individualReq</managed-bean-name>
+        <managed-bean-class>webapp.IndividualReq</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>

@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashMap;
 import java.util.Map;
 
 @Named
@@ -43,7 +44,9 @@ public class WebAppLogin {
 
 
             //create new cookie and store the token in it
-            FacesContext.getCurrentInstance().getExternalContext().addResponseCookie(COOKIE_NAME, token, null);
+            Map<String, Object> properties = new HashMap<>();
+            properties.put("path", "/");
+            FacesContext.getCurrentInstance().getExternalContext().addResponseCookie(COOKIE_NAME, token, properties);
 
             error = false;
 

@@ -1,5 +1,7 @@
 package model;
 
+import manager.GroupRequestManager;
+
 /**
  * Definitions of integer constants used for data type viewed by third parties in Group Data Requests and Individual Requests.
  * These constants are used in bitwise operations.
@@ -11,8 +13,41 @@ package model;
  * @see MonitoringEntity
  */
 public class View {
-    public static final int HEARTBEAT = 1;
-    public static final int BLOOD_PRESSURE = 2;
-    public static final int SLEEP_TIME = 4;
-    public static final int STEPS = 8;
+    public static final short HEARTBEAT = 1;
+    public static final short BLOOD_PRESSURE = 2;
+    public static final short SLEEP_TIME = 4;
+    public static final short STEPS = 8;
+
+    /**
+     * Transform the array of views (string format) into the corresponding number
+     * @param stringsView Array of string representing which views are of interest
+     * @return The views in numeric format, as expected by {@link GroupRequestManager}
+     */
+    public static short getNumericViews(String[] stringsView) {
+        short views = 0;
+
+        if(stringsView == null)
+            return views;
+
+        for(String v: stringsView) {
+            switch (v) {
+                case "steps":
+                    views = (short) (views | View.STEPS);
+                    break;
+                case "sleep":
+                    views = (short) (views | View.SLEEP_TIME);
+                    break;
+                case "heart":
+                    views = (short) (views | View.HEARTBEAT);
+                    break;
+                case "blood":
+                    views = (short) (views | View.BLOOD_PRESSURE);
+                    break;
+                default:
+                    System.out.println("Unexpected view: " + v);
+            }
+        }
+
+        return views;
+    }
 }

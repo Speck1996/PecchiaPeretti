@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import javax.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,10 +74,24 @@ public class AuthenticationUtils {
 
 
     public static String getUsernameFromToken(String token) {
+        if(token == null)
+            return null;
         DecodedJWT jwt = JWT.decode(token);
         Claim claim = jwt.getHeaderClaim(OWNERTAG);
         String username = claim.asString();
 
         return username;
+    }
+
+    public static String getUsernameByCookies(Map<String, Object> cookies) {
+        if(cookies != null) {
+            Cookie c = (Cookie) cookies.get(WebAppLogin.COOKIE_NAME);
+            if(c != null) {
+                String token = c.getValue();
+                return AuthenticationUtils.getUsernameFromToken(token);
+            }
+        }
+
+        return null;
     }
 }
