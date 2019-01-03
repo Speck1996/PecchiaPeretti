@@ -22,11 +22,20 @@ public class IndividualReq {
     @PersistenceContext(unitName = "NewPersistenceUnit")
     private EntityManager em;
 
+    private String name;
     private String identifier;
     private String idType;
     private String description;
     private String[] view;
     private String[] attr;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getIdentifier() {
         return identifier;
@@ -91,7 +100,7 @@ public class IndividualReq {
         short views = View.getNumericViews(view);
         short attributes = Attribute.getNumericAttributes(attr);
 
-        requestManager.newIndividualRequest(username, taxcode, null, views, attributes);
+        requestManager.newIndividualRequest(username, taxcode, name, null, views, attributes);
 
         System.out.println("Request completed");
 

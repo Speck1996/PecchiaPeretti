@@ -15,8 +15,8 @@ INSERT INTO ThirdParty (username, email, name, surname, password)
 	VALUES	('mydoc', 'doc@mail.com', NULL, NULL, 'aanjanjn'),
 			('cardiologist', 'heart@mail.org', 'Luigi', 'Verdi', 'quiqhi');
 
-INSERT INTO Monitoring (individual, third_party, ts, views, attributes, status)
-	VALUES	('ABCDE', 'mydoc', '2018-12-04 11:22:00', 5, 1, 'ACCEPTED');
+INSERT INTO Monitoring (individual, third_party, name, ts, views, attributes, status)
+	VALUES	('ABCDE', 'mydoc', 'Paziente99','2018-12-04 11:22:00', 5, 1, 'ACCEPTED');
 
 INSERT INTO GroupMonitoring (third_party, name, ts, frequency, views, location, age_min, age_max, sex)
 	VALUES ('cardiologist', 'Italians', '2018-12-04 11:22:00', NULL, 3, 'Milano', '18', '35', 'FEMALE');

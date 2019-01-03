@@ -167,17 +167,17 @@ public class IndividualEntity {
 
 
 
-    @OneToMany(mappedBy = "individual", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "individual", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<MonitoringEntity> getMonitorings() {
         return monitorings;
     }
 
-    private void setMonitorings(List<MonitoringEntity> monitoring) {
-
+    private void setMonitorings(List<MonitoringEntity> monitorings) {
+        this.monitorings = monitorings;
     }
 
-    public void addThirdPartyMonitoring(ThirdPartyEntity thirdParty, Timestamp ts, UpdateFrequency frequency, short views, short attributes) {
-        MonitoringEntity monitoring = new MonitoringEntity(this, thirdParty, ts, frequency, views, attributes);
+    public void addThirdPartyMonitoring(ThirdPartyEntity thirdParty, String name, Timestamp ts, UpdateFrequency frequency, short views, short attributes) {
+        MonitoringEntity monitoring = new MonitoringEntity(this, thirdParty, name, ts, frequency, views, attributes);
         monitorings.add(monitoring);
         thirdParty.getMonitorings().add(monitoring);
     }

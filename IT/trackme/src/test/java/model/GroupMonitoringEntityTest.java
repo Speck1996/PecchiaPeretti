@@ -23,7 +23,7 @@ public class GroupMonitoringEntityTest {
     public void testConstructor() {
         GroupMonitoringEntity group = new GroupMonitoringEntity(name, ts, frequency, views, location, ageMin, ageMax, sex, country, tp);
 
-        assertEquals(name, group.getName());
+        assertEquals(name, group.getPK().getName());
         assertEquals(ts, group.getTs());
         assertEquals(frequency, group.getFrequency());
         assertEquals(views, group.getViews());

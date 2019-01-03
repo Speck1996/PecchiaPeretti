@@ -2,7 +2,6 @@ package model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Objects;
 
 /**
@@ -29,6 +28,7 @@ public class MonitoringEntity {
     @JoinColumn(name = "third_party")
     private ThirdPartyEntity thirdParty;
 
+    private String name;
     private Timestamp ts;
     private UpdateFrequency frequency;
     private short views;
@@ -44,9 +44,10 @@ public class MonitoringEntity {
     public MonitoringEntity() {
     }
 
-    public MonitoringEntity(IndividualEntity individual, ThirdPartyEntity thirdParty, Timestamp ts, UpdateFrequency frequency, short views, short attributes) {
+    public MonitoringEntity(IndividualEntity individual, ThirdPartyEntity thirdParty, String name, Timestamp ts, UpdateFrequency frequency, short views, short attributes) {
         this.individual = individual;
         this.thirdParty = thirdParty;
+        this.name = name;
         this.ts = ts;
         this.frequency = frequency;
         this.views = views;
@@ -99,6 +100,16 @@ public class MonitoringEntity {
 
     public void setThirdParty(ThirdPartyEntity thirdParty) {
         this.thirdParty = thirdParty;
+    }
+
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Basic

@@ -29,6 +29,7 @@ CREATE TABLE Monitoring
 (
 	individual VARCHAR (30),
 	third_party VARCHAR (30),
+	name VARCHAR (40) NOT NULL,
 	ts TIMESTAMP NOT NULL,
 	frequency ENUM('WEEK', 'MONTH', 'QUARTER', 'SEMESTER', 'YEAR'),
 	views SMALLINT NOT NULL,
@@ -42,7 +43,6 @@ CREATE TABLE Monitoring
 
 CREATE TABLE GroupMonitoring
 (
-	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	third_party VARCHAR (30) NOT NULL,
 	name VARCHAR (40) NOT NULL,
 	ts TIMESTAMP NOT NULL,
@@ -54,6 +54,7 @@ CREATE TABLE GroupMonitoring
 	sex ENUM('MALE', 'FEMALE'),
 	birth_country VARCHAR (40),
 
+	PRIMARY KEY (third_party, name),
 	FOREIGN KEY (third_party) REFERENCES ThirdParty(username) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

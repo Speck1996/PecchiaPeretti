@@ -13,6 +13,9 @@
     <h2>New individual request</h2>
 
     <h:form>
+        <h:outputLabel value="Name of the request"/><br/>
+        <h:inputText value="#{individualReq.name}" required="true"/>
+        <br/><h:outputLabel value="Username or taxcode of the individual"/><br/>
         <h:inputText value="#{individualReq.identifier}"/>
         <h:selectOneRadio value="#{individualReq.idType}">
             <f:selectItem itemValue="username" itemLabel="Username"/>

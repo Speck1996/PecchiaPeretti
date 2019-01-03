@@ -50,12 +50,13 @@ public class IndividualEntityTest {
         individual = new IndividualEntity(taxcode, username, name, surname, email, bd, sex, country, password);
         ThirdPartyEntity tp = new ThirdPartyEntity("tp", "tp@mail.com", "name", "surname", "admin");
 
+        String monitorName = "monitor";
         Timestamp ts = new Timestamp(202030);
         UpdateFrequency frequency = UpdateFrequency.QUARTER;
         short views = 3;
         short attributes = 7;
 
-        individual.addThirdPartyMonitoring(tp, ts, frequency, views, attributes);
+        individual.addThirdPartyMonitoring(tp, monitorName, ts, frequency, views, attributes);
 
         boolean found = false;
         for(MonitoringEntity monitoring: individual.getMonitorings()) {
@@ -63,6 +64,7 @@ public class IndividualEntityTest {
 
             if(monitoring.getThirdParty().equals(tp)) {
                 found = true;
+                assertEquals(monitorName, monitoring.getName());
                 assertEquals(ts, monitoring.getTs());
                 assertEquals(frequency, monitoring.getFrequency());
                 assertEquals(views, monitoring.getViews());

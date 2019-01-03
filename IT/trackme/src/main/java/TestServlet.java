@@ -32,8 +32,18 @@ public class TestServlet extends HttpServlet {
 //        String s = bean.test();
 //        out.println(s);
 
-        String s = bean.newGroupRequest("mydoc", "Polimiers", null , (short) 15, "Milano", (byte) 10, (byte) 127, null, null);
-        out.println(s);
+        //test new group requests
+        String s = "";
+        for(int i=0; i<5; i++) {
+            s += "REQ n. " + i + "\n";
+            s += bean.newGroupRequest("mario", "Polimiers" + i, null, (short) 15, "Milano", (byte) 10, (byte) 127, null, null);
+            s += "\n";
+        }
+            out.println(s);
+
+        //test retrieve of group requests
+        out.println(bean.getRequestsTest("mario"));
+
 
 
 //        bean2.acceptRequest("FGHI", "cardiologist");

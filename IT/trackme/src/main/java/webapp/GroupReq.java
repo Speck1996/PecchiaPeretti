@@ -90,8 +90,14 @@ public class GroupReq {
 
         Sex sexEnum = getEnumSex();
 
+        if(location != null && location.equals(""))
+            location = null;
+        if(birthCountry != null && birthCountry.equals(""))
+            birthCountry = null;
+
         //Forward the request to the requests manager
-        requestManager.newGroupRequest(username, name, null, numericViews, location, minAge == null ? null : (byte) ((int) minAge), maxAge == null ? null : (byte) ((int) maxAge), sexEnum, birthCountry);
+        requestManager.newGroupRequest(username, name, null, numericViews, location, minAge == null ? null : (byte) ((int) minAge),
+                maxAge == null ? null : (byte) ((int) maxAge), sexEnum, birthCountry);
         System.out.println("Request forwarded");
     }
 

@@ -67,11 +67,8 @@ public class GroupRequestManager {
         System.out.println("is foundLocation null: " + (foundLocation == null));
 
 
-        //flag for queries
-        locationIsNull = (foundLocation == null);
-        dateMinIsNull = (dateMin == null);
-        dateMaxIsNull = (dateMax == null);
-        sexIsNull = (sex == null);
+        //set flag for queries
+        setFlags(foundLocation, dateMin, dateMax, sex);
 
 
 
@@ -97,10 +94,11 @@ public class GroupRequestManager {
 
         //insert new GroupMonitoring in DB
         ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
-        GroupMonitoringEntity group = new GroupMonitoringEntity(name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, location, age_min, age_max, sex, birthCountry, tp);
+        tp.addGroupMonitorings(name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, location, age_min, age_max, sex, birthCountry);
+        //GroupMonitoringEntity group = new GroupMonitoringEntity(name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, location, age_min, age_max, sex, birthCountry, tp);
 
         try {
-            em.persist(group);
+            em.persist(tp);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,15 +108,68 @@ public class GroupRequestManager {
         return builder.toString();
     }
 
+    private List<?> getData(GroupMonitoringEntity groupMonitoring, short view) {
+        Date dateMin, dateMax;
+
+        dateMin = getDateFromAge(groupMonitoring.getAgeMax());
+        dateMax = getDateFromAge(groupMonitoring.getAgeMin());
+
+        FoundLocation foundLocation = getLocation(groupMonitoring.getLocation());
+        System.out.println("is foundLocation null: " + (foundLocation == null));
+
+        setFlags(foundLocation, dateMin, dateMax, groupMonitoring.getSex());
+
+        switch (view) {
+            case View.BLOOD_PRESSURE:
+                return bloodPressureQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry());
+            case View.HEARTBEAT:
+                return heartbeatQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry());
+            case View.SLEEP_TIME:
+                return sleepTimeQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry());
+            case View.STEPS:
+                return stepsQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry());
+        }
+
+        return null;
+    }
+
+    public List<BloodPressureAnonymized> getBloodPressureData(GroupMonitoringEntity groupMonitoring) {
+        return (List<BloodPressureAnonymized>) getData(groupMonitoring, View.BLOOD_PRESSURE);
+    }
+
+    public List<HeartbeatAnonymized> getHeartBeatData(GroupMonitoringEntity groupMonitoring) {
+        return (List<HeartbeatAnonymized>) getData(groupMonitoring, View.HEARTBEAT);
+    }
+
+    public List<SleepTimeAnonymized> getSleepTimeData(GroupMonitoringEntity groupMonitoring) {
+        return (List<SleepTimeAnonymized>) getData(groupMonitoring, View.SLEEP_TIME);
+    }
+
+    public List<StepsAnonymized> getStepsData(GroupMonitoringEntity groupMonitoring) {
+        return (List<StepsAnonymized>) getData(groupMonitoring, View.STEPS);
+    }
 
 
+    private FoundLocation getLocation(String location) {
+        Geocoder geocoder = new GeocoderImpl();
+        return geocoder.getLocation(location);
+    }
 
+    private void setFlags(FoundLocation foundLocation, Date dateMin, Date dateMax, Sex sex) {
+        locationIsNull = (foundLocation == null);
+        dateMinIsNull = (dateMin == null);
+        dateMaxIsNull = (dateMax == null);
+        sexIsNull = (sex == null);
+    }
 
 
     /*
     Get a date of birth given an age (and the current date)
      */
     private Date getDateFromAge(Byte age) {
+        if(age == null)
+            return null;
+
         if(age == 0)
             return null;
 
@@ -175,16 +226,11 @@ public class GroupRequestManager {
 
 
 
-
-
-
     /*
     Perform a query for Blood Pressure data with the given constraints
      */
-    private String bloodPressureQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
-        System.out.println("blood req: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
-
-        StringBuilder builder = new StringBuilder();
+    private List<?> bloodPressureQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+        //System.out.println("blood query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         TypedQuery<BloodPressureAnonymized> query = null;
 
@@ -227,39 +273,19 @@ public class GroupRequestManager {
         Run the query and construct results
          */
         List<BloodPressureAnonymized> results = query.getResultList();
-
-        builder.append("\nBLOOD PRESSURE\n");
-
-        if(results.size() < PRIVACY_NUM) {
-            builder.append("Not enough data about Blood Pressure, size: ");
-            builder.append(results.size());
-            builder.append("\n");
-        }
-        else {
-            int i = 1;
-            for(Iterator<BloodPressureAnonymized> iterator = results.iterator(); iterator.hasNext(); i++) {
-                BloodPressureAnonymized b = iterator.next();
-                builder.append(i);
-                builder.append(") Timestamp: ");
-                builder.append(b.getTs());
-                builder.append(" value: ");
-                builder.append(b.getValue());
-                builder.append("\n");
-            }
+        if(isNotAnonymized(results)) {
+            //TODO
+            return null;
         }
 
-
-        return builder.toString();
-
+        return results;
     }
 
     /*
     Perform a query for Heartbeat data with the given constraints
      */
-    private String heartbeatQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
-        System.out.println("heart req: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
-
-        StringBuilder builder = new StringBuilder();
+    private List<?> heartbeatQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+        //System.out.println("heart query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         TypedQuery<HeartbeatAnonymized> query = null;
 
@@ -301,39 +327,20 @@ public class GroupRequestManager {
         Run the query and construct results
          */
         List<HeartbeatAnonymized> results = query.getResultList();
-
-        builder.append("\nHEARTBEAT\n");
-
-        if(results.size() < PRIVACY_NUM) {
-            builder.append("Not enough data about Heartbeat, size: ");
-            builder.append(results.size());
-            builder.append("\n");
-        }
-        else {
-            int i = 1;
-            for(Iterator<HeartbeatAnonymized> iterator = results.iterator(); iterator.hasNext(); i++) {
-                HeartbeatAnonymized h = iterator.next();
-                builder.append(i);
-                builder.append(") Timestamp: ");
-                builder.append(h.getTs());
-                builder.append(" value: ");
-                builder.append(h.getValue());
-                builder.append("\n");
-            }
+        if(isNotAnonymized(results)) {
+            return null;
         }
 
-
-        return builder.toString();
-
+        return results;
     }
 
     /*
     Perform a query for Sleep Time data with the given constraints
      */
-    private String sleepTimeQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
-        System.out.println("sleep req: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
+    private List<?> sleepTimeQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+        //System.out.println("sleep query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
-        StringBuilder builder = new StringBuilder();
+//        StringBuilder builder = new StringBuilder();
 
         TypedQuery<SleepTimeAnonymized> query = null;
 
@@ -376,39 +383,19 @@ public class GroupRequestManager {
         Run the query and construct results
          */
         List<SleepTimeAnonymized> results = query.getResultList();
-
-        builder.append("\nSLEEP TIME\n");
-
-        if(results.size() < PRIVACY_NUM) {
-            builder.append("Not enough data about Sleep Time, size: ");
-            builder.append(results.size());
-            builder.append("\n");
-        }
-        else {
-            int i = 1;
-            for(Iterator<SleepTimeAnonymized> iterator = results.iterator(); iterator.hasNext(); i++) {
-                SleepTimeAnonymized b = iterator.next();
-                builder.append(i);
-                builder.append(") Day: ");
-                builder.append(b.getDay());
-                builder.append(" value: ");
-                builder.append(b.getValue());
-                builder.append("\n");
-            }
+        if(isNotAnonymized(results)) {
+            return null;
         }
 
-
-        return builder.toString();
+        return results;
 
     }
 
     /*
     Perform a query for Steps data with the given constraints
      */
-    private String stepsQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
-        System.out.println("steps req: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
-
-        StringBuilder builder = new StringBuilder();
+    private List<?> stepsQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+        //System.out.println("steps query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         TypedQuery<StepsAnonymized> query = null;
 
@@ -451,34 +438,71 @@ public class GroupRequestManager {
         Run the query and construct results
          */
         List<StepsAnonymized> results = query.getResultList();
-
-        builder.append("\nSTEPS\n");
-
-        if(results.size() < PRIVACY_NUM) {
-            builder.append("Not enough data about Steps, size: ");
-            builder.append(results.size());
-            builder.append("\n");
-        }
-        else {
-            int i = 1;
-            for(Iterator<StepsAnonymized> iterator = results.iterator(); iterator.hasNext(); i++) {
-                StepsAnonymized b = iterator.next();
-                builder.append(i);
-                builder.append(") Day: ");
-                builder.append(b.getDay());
-                builder.append(" value: ");
-                builder.append(b.getValue());
-                builder.append("\n");
-            }
+        if(isNotAnonymized(results)) {
+            return null;
         }
 
+        return results;
+    }
 
-        return builder.toString();
+    private boolean isNotAnonymized(List<?> results) {
+        return results.size() < PRIVACY_NUM;
+    }
 
+
+    public List<GroupMonitoringEntity> getRequests(String usernameTP) {
+        ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
+
+        if(tp == null)
+            return null;
+
+        return tp.getGroupMonitorings();
+    }
+
+    public GroupMonitoringEntity getRequest(String usernameTP, String name) {
+        return em.find(GroupMonitoringEntity.class, new GroupMonitoringEntityPK(usernameTP, name));
+    }
+
+
+    public void setFrequency(String usernameTP, String name, UpdateFrequency frequency) {
+        if(name == null) {
+            System.out.println("NULLLLLL");
+            return;
+        }
+
+        TypedQuery<GroupMonitoringEntity> query = em.createNamedQuery("GroupMonitoring.findByTPandName", GroupMonitoringEntity.class);
+        query.setParameter("usernameTP", usernameTP);
+        query.setParameter("name", name);
+
+        System.out.println("tp: " +usernameTP + " name: " + name);
+
+        GroupMonitoringEntity monitoring = query.getSingleResult();
+
+        if(monitoring == null)
+            return;
+
+        monitoring.setFrequency(frequency);
+        em.persist(monitoring);
     }
 
 
 
+
+
+
+    public String getRequestsTest(String usernameTP) {
+        ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
+        if(tp == null)
+            return "null";
+
+        List<GroupMonitoringEntity> list = tp.getGroupMonitorings();
+        String s = "";
+        for(GroupMonitoringEntity m: list) {
+            s += "\t" + m.toString() + "\n";
+        }
+
+        return s;
+    }
 
     public String test() {
         /*new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value)*/

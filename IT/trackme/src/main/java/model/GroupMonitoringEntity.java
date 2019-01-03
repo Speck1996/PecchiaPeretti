@@ -8,25 +8,63 @@ import java.util.Objects;
  * Entity for the accepted group data requests
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "GroupMonitoring.findByTPandName", query = "SELECT m FROM GroupMonitoringEntity m WHERE m.id.thirdParty = :usernameTP and m.id.name = :name")
+})
 @Table(name = "GroupMonitoring")
 public class GroupMonitoringEntity {
-    private int id;
-    private String name;
-    private Timestamp ts;
-    private UpdateFrequency frequency;
-    private short views;
-    private String location;
-    private Byte ageMin;
-    private Byte ageMax;
-    private Sex sex;
-    private String country;
+
+    @EmbeddedId
+    private GroupMonitoringEntityPK id;
+
+    @ManyToOne
+    @MapsId("thirdParty")
+    @JoinColumn(name = "third_party")
     private ThirdPartyEntity thirdParty;
+
+    //private int id;
+    //private String name;
+    @Basic
+    @Column(name = "ts")
+    private Timestamp ts;
+
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "frequency")
+    private UpdateFrequency frequency;
+
+    @Basic
+    @Column(name = "views")
+    private short views;
+
+    @Basic
+    @Column(name = "location")
+    private String location;
+
+    @Basic
+    @Column(name = "age_min")
+    private Byte ageMin;
+
+    @Basic
+    @Column(name = "age_max")
+    private Byte ageMax;
+
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sex")
+    private Sex sex;
+
+    @Basic
+    @Column(name = "birth_country")
+    private String country;
+
 
     public GroupMonitoringEntity() {
     }
 
-    public GroupMonitoringEntity(String name, Timestamp ts, UpdateFrequency frequency, short views, String location, Byte ageMin, Byte ageMax, Sex sex, String country, ThirdPartyEntity thirdParty) {
-        this.name = name;
+    GroupMonitoringEntity(String name, Timestamp ts, UpdateFrequency frequency, short views, String location, Byte ageMin, Byte ageMax, Sex sex, String country, ThirdPartyEntity thirdParty) {
+        this.id = new GroupMonitoringEntityPK(thirdParty.getUsername(), name);
+
         this.ts = ts;
         this.frequency = frequency;
         this.views = views;
@@ -38,28 +76,15 @@ public class GroupMonitoringEntity {
         this.thirdParty = thirdParty;
     }
 
-    @Id
-    @Column(name = "id")
-    public int getId() {
+    public GroupMonitoringEntityPK getPK() {
         return id;
     }
 
-    public void setId(int id) {
+    private void setPK(GroupMonitoringEntityPK id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Basic
-    @Column(name = "ts")
     public Timestamp getTs() {
         return ts;
     }
@@ -68,9 +93,6 @@ public class GroupMonitoringEntity {
         this.ts = ts;
     }
 
-    @Basic
-    @Enumerated(EnumType.STRING)
-    @Column(name = "frequency")
     public UpdateFrequency getFrequency() {
         return frequency;
     }
@@ -79,8 +101,6 @@ public class GroupMonitoringEntity {
         this.frequency = frequency;
     }
 
-    @Basic
-    @Column(name = "views")
     public short getViews() {
         return views;
     }
@@ -89,8 +109,6 @@ public class GroupMonitoringEntity {
         this.views = views;
     }
 
-    @Basic
-    @Column(name = "location")
     public String getLocation() {
         return location;
     }
@@ -99,8 +117,6 @@ public class GroupMonitoringEntity {
         this.location = location;
     }
 
-    @Basic
-    @Column(name = "age_min")
     public Byte getAgeMin() {
         return ageMin;
     }
@@ -109,8 +125,6 @@ public class GroupMonitoringEntity {
         this.ageMin = ageMin;
     }
 
-    @Basic
-    @Column(name = "age_max")
     public Byte getAgeMax() {
         return ageMax;
     }
@@ -119,9 +133,6 @@ public class GroupMonitoringEntity {
         this.ageMax = ageMax;
     }
 
-    @Basic
-    @Enumerated(EnumType.STRING)
-    @Column(name = "sex")
     public Sex getSex() {
         return sex;
     }
@@ -130,8 +141,6 @@ public class GroupMonitoringEntity {
         this.sex = sex;
     }
 
-    @Basic
-    @Column(name = "birth_country")
     public String getCountry() {
         return country;
     }
@@ -140,8 +149,6 @@ public class GroupMonitoringEntity {
         this.country = country;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "third_party")
     public ThirdPartyEntity getThirdParty() {
         return thirdParty;
     }
@@ -170,5 +177,21 @@ public class GroupMonitoringEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, ts, frequency, views, location, ageMin, ageMax, sex);
+    }
+
+    @Override
+    public String toString() {
+        return "GroupMonitoringEntity{" +
+                "id=" + id +
+                ", thirdParty=" + thirdParty +
+                ", ts=" + ts +
+                ", frequency=" + frequency +
+                ", views=" + views +
+                ", location='" + location + '\'' +
+                ", ageMin=" + ageMin +
+                ", ageMax=" + ageMax +
+                ", sex=" + sex +
+                ", country='" + country + '\'' +
+                '}';
     }
 }

@@ -21,7 +21,7 @@ public class TestServlet2 extends HttpServlet {
             String tc = req.getParameter("tc");
 
             System.out.println("username: " + un + " taxcode: " + tc);
-            String res = bean.newIndividualRequest(un, tc, null, (short) 3, (short) 6);
+            String res = bean.newIndividualRequest(un, tc,null, null, (short) 3, (short) 6);
 
             resp.getWriter().println(res);
         } catch (Exception e) {

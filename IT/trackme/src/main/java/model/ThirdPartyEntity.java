@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,7 @@ public class ThirdPartyEntity {
 
 
     private List<MonitoringEntity> monitorings = new ArrayList<>();
+    private List<GroupMonitoringEntity> groupMonitorings = new ArrayList<>();
 
     public ThirdPartyEntity() {
     }
@@ -83,12 +85,27 @@ public class ThirdPartyEntity {
         this.password = password;
     }
 
-    @OneToMany(mappedBy = "thirdParty", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "thirdParty", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<MonitoringEntity> getMonitorings() {
         return monitorings;
     }
 
     private void setMonitorings(List<MonitoringEntity> monitorings) {
+        this.monitorings = monitorings;
+    }
+
+    @OneToMany(mappedBy = "thirdParty", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<GroupMonitoringEntity> getGroupMonitorings() {
+        return groupMonitorings;
+    }
+
+    private void setGroupMonitorings(List<GroupMonitoringEntity> groupMonitorings) {
+        this.groupMonitorings = groupMonitorings;
+    }
+
+    public void addGroupMonitorings(String name, Timestamp ts, UpdateFrequency frequency, short views, String location, Byte ageMin, Byte ageMax, Sex sex, String birthCountry) {
+        GroupMonitoringEntity monitoring = new GroupMonitoringEntity(name, ts, frequency, views, location, ageMin, ageMax, sex, birthCountry, this);
+        groupMonitorings.add(monitoring);
     }
 
     @Override

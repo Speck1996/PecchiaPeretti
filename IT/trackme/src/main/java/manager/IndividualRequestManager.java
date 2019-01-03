@@ -1,12 +1,15 @@
 package manager;
 
 import model.*;
+import webapp.IndividualReq;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Bean that manages individual data requests
@@ -27,7 +30,7 @@ public class IndividualRequestManager {
      * @param attributes Indicates which attributes of the Individual the Third Party is interested in
      * @return
      */
-    public String newIndividualRequest(String usernameTP, String taxcode, UpdateFrequency frequency, short views, short attributes) {
+    public String newIndividualRequest(String usernameTP, String taxcode, String name, UpdateFrequency frequency, short views, short attributes) {
         System.out.println("NEW REQUEST");
 
         //Check whether the username is correct
@@ -49,7 +52,7 @@ public class IndividualRequestManager {
 
 
         //Create new monitoring request
-        individual.addThirdPartyMonitoring(thirdParty, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, attributes);
+        individual.addThirdPartyMonitoring(thirdParty, name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, attributes);
         System.out.println("Created manytomany");
 
         em.persist(individual);
@@ -87,5 +90,15 @@ public class IndividualRequestManager {
             return;
 
         em.remove(monitoring);
+    }
+
+    public List<MonitoringEntity> getRequests(String usernameTP) {
+        ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
+        IndividualEntity ind = em.find(IndividualEntity.class, "FGHI");
+
+        if(tp == null)
+            return null;
+
+        return tp.getMonitorings();
     }
 }

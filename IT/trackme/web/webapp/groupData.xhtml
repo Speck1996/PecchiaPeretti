@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Group Data Visualization - Trackme</title>
+</h:head>
+
+<h:body>
+    <h2>Group Data Visualization</h2>
+
+
+    <br/><br/>
+
+    <h4>Group name: #{groupData.nameReq}</h4>
+
+
+    <h:panelGroup rendered="#{groupData.wantsBlood()}">
+    <table>
+        <caption>Blood Pressure</caption>
+        <tr>
+            <th>Timestamp</th>
+            <th>Value</th>
+        </tr>
+
+        <tbody>
+            <ui:repeat value="#{groupData.bloodPressureData}" var="d">
+                <tr>
+                    <td>#{d.ts}</td>
+                    <td>#{d.value}</td>
+                </tr>
+            </ui:repeat>
+        </tbody>
+    </table>
+    <br/>
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{groupData.wantsHeart()}">
+    <table>
+        <caption>Heart Rate</caption>
+        <tr>
+            <th>Timestamp</th>
+            <th>Value</th>
+        </tr>
+
+        <tbody>
+        <ui:repeat value="#{groupData.heartBeatData}" var="d">
+            <tr>
+                <td>#{d.ts}</td>
+                <td>#{d.value}</td>
+            </tr>
+        </ui:repeat>
+        </tbody>
+    </table>
+    <br/>
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{groupData.wantsSleep()}">
+    <table>
+        <caption>Sleep Time</caption>
+        <tr>
+            <th>Day</th>
+            <th>Value</th>
+        </tr>
+
+        <tbody>
+        <ui:repeat value="#{groupData.sleepTimeData}" var="d">
+            <tr>
+                <td>#{d.day}</td>
+                <td>#{d.value}</td>
+            </tr>
+        </ui:repeat>
+        </tbody>
+    </table>
+    <br/>
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{groupData.wantsSteps()}">
+    <table>
+        <caption>Steps</caption>
+        <tr>
+            <th>Day</th>
+            <th>Value</th>
+        </tr>
+
+        <tbody>
+        <ui:repeat value="#{groupData.stepsData}" var="d">
+            <tr>
+                <td>#{d.day}</td>
+                <td>#{d.value}</td>
+            </tr>
+        </ui:repeat>
+        </tbody>
+    </table>
+    </h:panelGroup>
+    <br/>
+
+</h:body>
+</html>

@@ -11,6 +11,12 @@
     </managed-bean>
 
     <managed-bean>
+        <managed-bean-name>webAppSignUp</managed-bean-name>
+        <managed-bean-class>login.WebAppSignUp</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
         <managed-bean-name>homeWebApp</managed-bean-name>
         <managed-bean-class>webapp.HomeWebApp</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
@@ -31,6 +37,24 @@
     <managed-bean>
         <managed-bean-name>individualReq</managed-bean-name>
         <managed-bean-class>webapp.IndividualReq</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>requests</managed-bean-name>
+        <managed-bean-class>webapp.Requests</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>groupData</managed-bean-name>
+        <managed-bean-class>webapp.GroupData</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>subscriptionController</managed-bean-name>
+        <managed-bean-class>webapp.SubscriptionController</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 </faces-config>

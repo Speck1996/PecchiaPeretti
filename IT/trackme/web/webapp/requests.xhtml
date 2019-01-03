@@ -11,6 +11,29 @@
 
 <h:body>
     <h2>Requests</h2>
+    <hr/>
+    <h4>Individual requests</h4>
+
+    <ul>
+        <ui:repeat value="#{requests.retrieveIndividualRequests()}" var="req">
+            <li>#{req.name} --- #{req.ts} ++++++ #{req.status}</li>
+        </ui:repeat>
+    </ul>
+
+
+    <hr/>
+    <h4>Group Requests</h4>
+
+    <ul>
+        <ui:repeat id="id4" value="#{requests.retrieveGroupRequests()}" var="req">
+            <li id="id3">#{req.name} - Requested on: #{req.ts} -> <a href="groupData.xhtml?#{req.link}">LINK</a> --
+                <h:panelGroup id="id2" rendered="#{req.subscribed}"><a href="unsub.xhtml?#{req.link}">Unsubscribe</a></h:panelGroup>
+                <h:panelGroup rendered="#{not req.subscribed}"><a href="sub.xhtml?#{req.link}">Subscribe</a></h:panelGroup>
+            </li>
+        </ui:repeat>
+    </ul>
+
+
 </h:body>
 
 </html>

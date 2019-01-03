@@ -11,6 +11,7 @@ public class MonitoringEntityTest {
 
     private ThirdPartyEntity tp = new ThirdPartyEntity("tp", "tp@mail.com", "name", "surname", "admin");
     private IndividualEntity individual = new IndividualEntity("taxcode", "username", "name", "surname", "email", new Date(345678), Sex.MALE, "country", "password");
+    private String name = "name";
     private Timestamp ts = new Timestamp(123445);
     private UpdateFrequency freq = UpdateFrequency.MONTH;
     private short views = 6;
@@ -18,10 +19,11 @@ public class MonitoringEntityTest {
 
     @Test
     public void testConstructor() {
-        MonitoringEntity monitoring = new MonitoringEntity(individual, tp, ts, freq, views, attributes);
+        MonitoringEntity monitoring = new MonitoringEntity(individual, tp, name, ts, freq, views, attributes);
 
         assertEquals(individual, monitoring.getIndividual());
         assertEquals(tp, monitoring.getThirdParty());
+        assertEquals(name, monitoring.getName());
         assertEquals(ts, monitoring.getTs());
         assertEquals(freq, monitoring.getFrequency());
         assertEquals(views, monitoring.getViews());
