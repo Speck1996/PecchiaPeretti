@@ -74,7 +74,8 @@ CREATE TABLE BloodPressure
 (
 	individual VARCHAR (30),
 	ts TIMESTAMP,
-	value SMALLINT NOT NULL,
+	value_min SMALLINT NOT NULL,
+	value_max SMALLINT NOT NULL,
 	latitude DOUBLE,
 	longitude DOUBLE,
 
