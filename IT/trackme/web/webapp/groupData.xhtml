@@ -10,6 +10,8 @@
 </h:head>
 
 <h:body>
+    <a href="home.xhtml">HOME</a>
+    <a href="requests.xhtml">REQUEST</a>
     <h2>Group Data Visualization</h2>
 
 
@@ -23,16 +25,30 @@
         <caption>Blood Pressure</caption>
         <tr>
             <th>Timestamp</th>
-            <th>Value</th>
+            <th>Value Min</th>
+            <th>Value Max</th>
         </tr>
 
         <tbody>
             <ui:repeat value="#{groupData.bloodPressureData}" var="d">
                 <tr>
-                    <td>#{d.ts}</td>
-                    <td>#{d.value}</td>
+                    <td>#{d.getPK().ts}</td>
+                    <td>#{d.valueMin}</td>
+                    <td>#{d.valueMax}</td>
                 </tr>
+
+                <h:panelGroup rendered="#{empty d}">
+                    <tr><td colspan="2">
+                        Not enough data to show
+                    </td></tr>
+                </h:panelGroup>
             </ui:repeat>
+
+            <h:panelGroup rendered="#{groupData.bloodError}">
+                <tr><td colspan="2">
+                    Not enough data to show
+                </td></tr>
+            </h:panelGroup>
         </tbody>
     </table>
     <br/>
@@ -49,10 +65,16 @@
         <tbody>
         <ui:repeat value="#{groupData.heartBeatData}" var="d">
             <tr>
-                <td>#{d.ts}</td>
+                <td>#{d.getPK().ts}</td>
                 <td>#{d.value}</td>
             </tr>
         </ui:repeat>
+
+        <h:panelGroup rendered="#{groupData.heartError}">
+            <tr><td colspan="2">
+                Not enough data to show
+            </td></tr>
+        </h:panelGroup>
         </tbody>
     </table>
     <br/>
@@ -69,10 +91,16 @@
         <tbody>
         <ui:repeat value="#{groupData.sleepTimeData}" var="d">
             <tr>
-                <td>#{d.day}</td>
+                <td>#{d.getPK().day}</td>
                 <td>#{d.value}</td>
             </tr>
         </ui:repeat>
+
+        <h:panelGroup rendered="#{groupData.sleepError}">
+            <tr><td colspan="2">
+                Not enough data to show
+            </td></tr>
+        </h:panelGroup>
         </tbody>
     </table>
     <br/>
@@ -89,10 +117,16 @@
         <tbody>
         <ui:repeat value="#{groupData.stepsData}" var="d">
             <tr>
-                <td>#{d.day}</td>
+                <td>#{d.getPK().day}</td>
                 <td>#{d.value}</td>
             </tr>
         </ui:repeat>
+
+        <h:panelGroup rendered="#{groupData.stepsError}">
+            <tr><td colspan="2">
+                Not enough data to show
+            </td></tr>
+        </h:panelGroup>
         </tbody>
     </table>
     </h:panelGroup>

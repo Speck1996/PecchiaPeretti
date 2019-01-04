@@ -62,7 +62,7 @@ public class GroupMonitoringEntity {
     public GroupMonitoringEntity() {
     }
 
-    GroupMonitoringEntity(String name, Timestamp ts, UpdateFrequency frequency, short views, String location, Byte ageMin, Byte ageMax, Sex sex, String country, ThirdPartyEntity thirdParty) {
+    public GroupMonitoringEntity(String name, Timestamp ts, UpdateFrequency frequency, short views, String location, Byte ageMin, Byte ageMax, Sex sex, String country, ThirdPartyEntity thirdParty) {
         this.id = new GroupMonitoringEntityPK(thirdParty.getUsername(), name);
 
         this.ts = ts;

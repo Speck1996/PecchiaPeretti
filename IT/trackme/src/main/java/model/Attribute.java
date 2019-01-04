@@ -15,6 +15,8 @@ public class Attribute {
     public static final short AGE = 2;
     public static final short COUNTRY = 4;
     public static final short POSITION = 8;
+    public static final short NAME = 16;
+    public static final short SURNAME = 32;
 
     public static short getNumericAttributes(String[] stringAttr) {
         short attributes = 0;
@@ -24,6 +26,12 @@ public class Attribute {
 
         for(String a: stringAttr) {
             switch (a) {
+                case "name":
+                    attributes = (short) (attributes | NAME);
+                    break;
+                case "surname":
+                    attributes = (short) (attributes | SURNAME);
+                    break;
                 case "sex":
                     attributes = (short) (attributes | SEX);
                     break;

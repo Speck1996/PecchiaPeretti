@@ -12,7 +12,8 @@ public class BloodPressureEntityTest {
     private String taxcode = "ABCD";
     private Timestamp ts = new Timestamp(4000);
     private IndividualEntity individual = new IndividualEntity();
-    private short value = 4;
+    private short valueMin = 4;
+    private short valueMax = 10;
     private double lat = 3.3;
     private double longi = 4.4;
 
@@ -21,10 +22,10 @@ public class BloodPressureEntityTest {
     @Test
     public void testConstruction() {
         individual.setTaxcode(taxcode);
-        BloodPressureEntity bloodPressure = new BloodPressureEntity(individual, ts, value, lat, longi);
+        BloodPressureEntity bloodPressure = new BloodPressureEntity(individual, ts, valueMin, valueMax, lat, longi);
 
         assertEquals(individual, bloodPressure.getIndividual());
-        assertEquals(value, bloodPressure.getValue());
+        assertEquals(valueMin, bloodPressure.getValueMin());
         assertEquals(lat, bloodPressure.getLatitude(), DELTA);
         assertEquals(longi, bloodPressure.getLongitude(), DELTA);
 

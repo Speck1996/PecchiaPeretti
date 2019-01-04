@@ -73,7 +73,7 @@ public class AuthenticationUtils {
     }
 
 
-    public static String getUsernameFromToken(String token) {
+    static String getUsernameFromToken(String token) {
         if(token == null)
             return null;
         DecodedJWT jwt = JWT.decode(token);
@@ -83,7 +83,7 @@ public class AuthenticationUtils {
         return username;
     }
 
-    public static String getUsernameByCookies(Map<String, Object> cookies) {
+    public static String getUsernameByCookiesMap(Map<String, Object> cookies) {
         if(cookies != null) {
             Cookie c = (Cookie) cookies.get(WebAppLogin.COOKIE_NAME);
             if(c != null) {

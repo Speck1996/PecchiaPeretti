@@ -11,10 +11,104 @@
 </h:head>
 
 <h:body>
+
+    <a href="home.xhtml">HOME</a>
+    <a href="requests.xhtml">REQUEST</a>
     <h2>Individual Data Vidualization</h2>
+    <br/>
 
-    <br/><br/>
+    <h4>Request name: #{indivData.getNameRequest()}</h4>
 
-    <h4>Request name: </h4>
+
+    <h:panelGroup rendered="#{indivData.wantsBlood()}">
+        <table border="1">
+            <caption>Blood Pressure</caption>
+            <tr>
+                <th>Timestamp</th>
+                <th>Value Min</th>
+                <th>Value Max</th>
+                <th>Location</th>
+            </tr>
+
+            <tbody>
+            <ui:repeat value="#{indivData.bloodPressureData}" var="d">
+                <tr>
+                    <td>#{d.getPK().ts}</td>
+                    <td>#{d.valueMin}</td>
+                    <td>#{d.valueMax}</td>
+                    <td>#{d.latitude} &emsp; #{d.longitude}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+        <br/>
+    </h:panelGroup>
+    <h:panelGroup rendered="#{indivData.wantsHeart()}">
+        <table border="1">
+            <caption>Heart Rate</caption>
+            <tr>
+                <th>Timestamp</th>
+                <th>Value</th>
+                <th>Location</th>
+            </tr>
+
+            <tbody>
+            <ui:repeat value="#{indivData.heartBeatData}" var="d">
+                <tr>
+                    <td>#{d.getPK().ts}</td>
+                    <td>#{d.value}</td>
+                    <td>#{d.latitude} &emsp; #{d.longitude}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+        <br/>
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{indivData.wantsSleep()}">
+        <table border="1">
+            <caption>Sleep Time</caption>
+            <tr>
+                <th>Day</th>
+                <th>Value</th>
+                <th>Location</th>
+            </tr>
+
+            <tbody>
+            <ui:repeat value="#{indivData.sleepTimeData}" var="d">
+                <tr>
+                    <td>#{d.getPK().day}</td>
+                    <td>#{d.value}</td>
+                    <td>#{d.latitude} &emsp; #{d.longitude}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+        <br/>
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{indivData.wantsSteps()}">
+        <table border="1">
+            <caption>Steps</caption>
+            <tr>
+                <th>Day</th>
+                <th>Value</th>
+                <th>Location</th>
+            </tr>
+
+            <tbody>
+            <ui:repeat value="#{indivData.stepsData}" var="d">
+                <tr>
+                    <td>#{d.getPK().day}</td>
+                    <td>#{d.value}</td>
+                    <td>#{d.latitude} &emsp; #{d.longitude}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+    </h:panelGroup>
+    <br/>
+
+
 </h:body>
 </html>

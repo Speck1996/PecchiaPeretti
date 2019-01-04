@@ -53,6 +53,12 @@
     </managed-bean>
 
     <managed-bean>
+        <managed-bean-name>indivData</managed-bean-name>
+        <managed-bean-class>webapp.IndivData</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
         <managed-bean-name>subscriptionController</managed-bean-name>
         <managed-bean-class>webapp.SubscriptionController</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>

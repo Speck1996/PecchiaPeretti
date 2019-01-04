@@ -22,18 +22,19 @@ public class DataCollector {
     /**
      *
      * @param taxcode The taxcode of the individual
-     * @param value The value of the Blood Pressure to be store
+     * @param valueMin The min value of the Blood Pressure to be store
+     * @param valueMax The max value of the Blood Pressure to be store
      * @param latitude The latitude of the data collection
      * @param longitude The longitude of the data collection
      */
-    public void insertBloodPressureData(String taxcode, short value, Double latitude, Double longitude) {
+    public void insertBloodPressureData(String taxcode, short valueMin, short valueMax, Double latitude, Double longitude) {
 
         IndividualEntity individual = em.find(IndividualEntity.class, taxcode);
 
         if(individual == null)
             return;
 
-        BloodPressureEntity bloodPressure = new BloodPressureEntity(individual, new Timestamp(Calendar.getInstance().getTimeInMillis()), value, latitude, longitude);
+        BloodPressureEntity bloodPressure = new BloodPressureEntity(individual, new Timestamp(Calendar.getInstance().getTimeInMillis()), valueMin, valueMax, latitude, longitude);
 
         em.persist(bloodPressure);
     }

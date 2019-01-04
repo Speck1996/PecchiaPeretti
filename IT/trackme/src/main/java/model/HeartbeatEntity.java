@@ -10,21 +10,22 @@ import java.util.Objects;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Heartbeat.requestAnonymized",
-                query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.country like :country"),
+                query = "SELECT b FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.country like :country"),
         @NamedQuery(name = "Heartbeat.requestLocationAnonymized",
-                query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT b FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "Heartbeat.requestDateAnonymized",
-                query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
+                query = "SELECT b FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
         @NamedQuery(name = "Heartbeat.requestLocationDateAnonymized",
-                query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT b FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "Heartbeat.requestSexAnonymized",
-                query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
+                query = "SELECT b FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "Heartbeat.requestLocationSexAnonymized",
-                query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT b FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "Heartbeat.requestDateSexAnonymized",
-                query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
+                query = "SELECT b FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "Heartbeat.requestLocationDateSexAnonymized",
-                query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT b FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "Heartbeat.requestIndividual", query = "SELECT h FROM HeartbeatEntity h WHERE h.id.individual = :taxcode"),
 })
 @Table(name = "Heartbeat")
 //@IdClass(HeartbeatEntityPK.class)

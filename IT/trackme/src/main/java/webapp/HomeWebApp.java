@@ -10,6 +10,6 @@ import javax.inject.Named;
 public class HomeWebApp {
 
     public String retrieveUsername() {
-        return AuthenticationUtils.getUsernameByCookies(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap());
+        return AuthenticationUtils.getUsernameByCookiesMap(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap());
     }
 }

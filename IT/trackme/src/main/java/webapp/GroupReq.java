@@ -2,6 +2,7 @@ package webapp;
 
 import login.AuthenticationUtils;
 import manager.GroupRequestManager;
+import manager.RequestExistsException;
 import model.Sex;
 import model.View;
 
@@ -22,6 +23,8 @@ public class GroupReq {
     private Integer maxAge;
     private String birthCountry;
     private String location;
+
+    private boolean nameError;
 
 
     public String getName() {
@@ -80,11 +83,18 @@ public class GroupReq {
         this.location = location;
     }
 
+    public boolean isNameError() {
+        return nameError;
+    }
+
+    public void setNameError(boolean nameError) {
+        this.nameError = nameError;
+    }
+
     public void processRequest() {
         System.out.println(print());
 
-        String username = AuthenticationUtils.getUsernameByCookies(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap());
-        //short numericViews = getNumericViews();
+        String username = AuthenticationUtils.getUsernameByCookiesMap(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap());
         short numericViews = View.getNumericViews(views);
         checkAges();
 
@@ -96,15 +106,21 @@ public class GroupReq {
             birthCountry = null;
 
         //Forward the request to the requests manager
-        requestManager.newGroupRequest(username, name, null, numericViews, location, minAge == null ? null : (byte) ((int) minAge),
-                maxAge == null ? null : (byte) ((int) maxAge), sexEnum, birthCountry);
+        try {
+            requestManager.newGroupRequest(username, name, null, numericViews, location, minAge == null ? null : (byte) ((int) minAge),
+                    maxAge == null ? null : (byte) ((int) maxAge), sexEnum, birthCountry);
+        } catch (RequestExistsException e) {
+            nameError = true;
+            return;
+        }
+
         System.out.println("Request forwarded");
     }
 
 
-    private boolean checkAges() {
+    private void checkAges() {
         if((maxAge != null && maxAge <= 0) || (minAge != null && maxAge != null && minAge > maxAge))
-            return false;
+            return;
 
         if(maxAge != null && maxAge > Byte.MAX_VALUE)
             maxAge = (int) Byte.MAX_VALUE;
@@ -112,7 +128,7 @@ public class GroupReq {
         if(minAge != null && minAge <= 0)
             minAge = 0;
 
-        return true;
+        return;
     }
 
     private Sex getEnumSex() {

@@ -21,6 +21,7 @@
             <f:selectItem itemValue="year" itemLabel="Year"/>
         </h:selectOneMenu>
         <h:inputHidden name="name" value="#{subscriptionController.nameReq}"/>
+        <h:inputHidden name="taxcode" value="#{subscriptionController.taxcode}"/>
         <h:commandButton value="confirm" action="#{subscriptionController.subscribe()}"/>
 
     </h:form>

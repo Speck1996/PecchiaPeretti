@@ -30,6 +30,10 @@ public class MonitoringEntity {
 
     private String name;
     private Timestamp ts;
+
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "frequency")
     private UpdateFrequency frequency;
     private short views;
     private short attributes;
@@ -122,9 +126,6 @@ public class MonitoringEntity {
         this.ts = ts;
     }
 
-    @Basic
-    @Enumerated(EnumType.STRING)
-    @Column(name = "frequency")
     public UpdateFrequency getFrequency() {
         return frequency;
     }
