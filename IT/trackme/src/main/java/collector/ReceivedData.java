@@ -24,7 +24,10 @@ public class ReceivedData {
     /**
      *
      */
-    private int bloodPressure;
+    private int bloodPressureMin;
+
+    private int bloodPressureMax;
+
 
     /**
      *
@@ -78,16 +81,32 @@ public class ReceivedData {
      *
      * @return
      */
-    public int getBloodPressure() {
-        return bloodPressure;
+    public int getBloodPressureMin() {
+        return bloodPressureMin;
     }
 
     /**
      *
-     * @param bloodPressure
+     * @param bloodPressureMin
      */
-    public void setBloodPressure(int bloodPressure) {
-        this.bloodPressure = bloodPressure;
+    public void setBloodPressureMin(int bloodPressureMin) {
+        this.bloodPressureMin = bloodPressureMin;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getBloodPressureMax() {
+        return bloodPressureMax;
+    }
+
+    /**
+     *
+     * @param bloodPressureMax
+     */
+    public void setBloodPressureMax(int bloodPressureMax) {
+        this.bloodPressureMin = bloodPressureMax;
     }
 
 

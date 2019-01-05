@@ -32,10 +32,16 @@ public class IndividualData {
     private int steps;
 
     /**
-     * Blood pressure value
+     * Blood pressure min value
      */
-    @SerializedName("bloodPressure")
-    private int bloodPressure;
+    @SerializedName("bloodPressureMin")
+    private int bloodPressureMin;
+
+    /**
+     * Blood pressure max value
+     */
+    @SerializedName("bloodPressureMax")
+    private int bloodPressureMax;
 
     /**
      * Latitude value
@@ -118,19 +124,35 @@ public class IndividualData {
 
 
     /**
-     * Getter for the bloodPressure
-     * @return the bloodPressure value
+     * Getter for the bloodPressure min
+     * @return the bloodPressure min value
      */
-    public int getBloodPressure() {
-        return bloodPressure;
+    public int getBloodPressureMin() {
+        return bloodPressureMin;
     }
 
     /**
      * Setter for the bloodPressure value
-     * @param bloodPressure value to be associated to bloodPressure field
+     * @param bloodPressureMin value to be associated to bloodPressureMin field
      */
-    public void setBloodPressure(int bloodPressure) {
-        this.bloodPressure = bloodPressure;
+    public void setBloodPressureMin(int bloodPressureMin) {
+        this.bloodPressureMin = bloodPressureMin;
+    }
+
+    /**
+     * Getter for the bloodPressure max
+     * @return the bloodPressure max value
+     */
+    public int getBloodPressureMax() {
+        return bloodPressureMax;
+    }
+
+    /**
+     * Setter for the bloodPressure max value
+     * @param bloodPressureMax value to be associated to bloodPressureMax field
+     */
+    public void setBloodPressureMax(int bloodPressureMax) {
+        this.bloodPressureMax = bloodPressureMax;
     }
 
     /**

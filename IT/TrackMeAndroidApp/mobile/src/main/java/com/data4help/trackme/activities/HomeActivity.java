@@ -234,13 +234,15 @@ public class HomeActivity extends AppCompatActivity {
         //Generating some random data
         int heartBeatValue = rand.nextInt((220 - 30) + 1) + 30;
         Time sleepTimeValue = new Time(ThreadLocalRandom.current().nextLong(86400000L));
-        int bloodPressureValue = rand.nextInt((170 - 90) + 1) + 90;
+        int bloodPressureMinValue = rand.nextInt((160 - 70) + 1) + 70;
+        int bloodPressureMaxValue = rand.nextInt((160 - bloodPressureMinValue) + 1) + bloodPressureMinValue;
         int stepsValue = rand.nextInt(70000);
 
         //filling the object that will be sent  to the server
         final IndividualData data = new IndividualData();
 
-        data.setBloodPressure(bloodPressureValue);
+        data.setBloodPressureMin(bloodPressureMinValue);
+        data.setBloodPressureMax(bloodPressureMaxValue);
         data.setHeartRate(heartBeatValue);
         data.setSteps(stepsValue);
         data.setSleepTime(sleepTimeValue.toString());
@@ -270,7 +272,7 @@ public class HomeActivity extends AppCompatActivity {
                     //visualizing data
                     heartbeat.setText(String.valueOf(data.getHeartRate()));
                     heartbeat.append(" bpm");
-                    bloodPressure.setText(String.valueOf(data.getBloodPressure()));
+                    bloodPressure.setText(String.valueOf(data.getBloodPressureMax()) + "/" + String.valueOf(data.getBloodPressureMin()));
                     bloodPressure.append(" mmHg");
                     steps.setText(String.valueOf(data.getSteps()));
                     steps.append(" steps");
