@@ -1,6 +1,7 @@
 package webapp;
 
 import model.RequestStatus;
+import model.UpdateFrequency;
 
 import java.sql.Timestamp;
 
@@ -11,17 +12,19 @@ public class DisplayIndividualReq {
     private String link;
     private boolean subscribed;
     private boolean accepted;
+    private UpdateFrequency frequency;
 
     public DisplayIndividualReq() {
     }
 
-    public DisplayIndividualReq(String name, Timestamp ts, RequestStatus status, String taxcode, boolean subscribed, boolean accepted) {
+    public DisplayIndividualReq(String name, Timestamp ts, RequestStatus status, String taxcode, boolean subscribed, boolean accepted, UpdateFrequency frequency) {
         this.name = name;
         this.ts = ts;
         this.status = status;
         this.link = Requests.TAXCODE_PARAM + "=" + taxcode + "&" + Requests.NAME_PARAM + "=" + name;
         this.subscribed = subscribed;
         this.accepted = accepted;
+        this.frequency = frequency;
     }
 
     public String getName() {
@@ -70,5 +73,13 @@ public class DisplayIndividualReq {
 
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public UpdateFrequency getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(UpdateFrequency frequency) {
+        this.frequency = frequency;
     }
 }

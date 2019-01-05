@@ -10,11 +10,13 @@
 </h:head>
 
 <h:body>
-    <h5>Do you want delete?</h5>
+    <h5>Do you want to delete #{deletionController.nameReq}?</h5>
 
     <h:form>
-        <h:commandButton value="yes" action="requests.xhtml"/>
-        <h:commandButton value="no" action="requests.xhtml"/>
+        <h:inputHidden name="name" value="#{deletionController.nameReq}"/>
+        <h:inputHidden name="taxcode" value="#{deletionController.taxcode}"/>
+        <h:commandButton value="yes" action="#{deletionController.delete()}"/>
+        <h:commandButton value="no" action="requests.xhtml?faces-redirect=true"/>
     </h:form>
 </h:body>
 </html>

@@ -1,5 +1,7 @@
 package webapp;
 
+import model.UpdateFrequency;
+
 import java.sql.Timestamp;
 
 public class DisplayGroupReq {
@@ -7,15 +9,17 @@ public class DisplayGroupReq {
     private Timestamp ts;
     private String link;
     private boolean subscribed;
+    private UpdateFrequency frequency;
 
     public DisplayGroupReq() {
     }
 
-    public DisplayGroupReq(String name, Timestamp ts, boolean subscribed) {
+    public DisplayGroupReq(String name, Timestamp ts, boolean subscribed, UpdateFrequency frequency) {
         this.name = name;
         this.ts = ts;
         this.link = Requests.NAME_PARAM + "=" + name;
         this.subscribed = subscribed;
+        this.frequency = frequency;
     }
 
     public String getName() {
@@ -47,5 +51,13 @@ public class DisplayGroupReq {
 
     public void setSubscribed(boolean subscribed) {
         this.subscribed = subscribed;
+    }
+
+    public UpdateFrequency getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(UpdateFrequency frequency) {
+        this.frequency = frequency;
     }
 }

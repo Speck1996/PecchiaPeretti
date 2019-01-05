@@ -63,4 +63,10 @@
         <managed-bean-class>webapp.SubscriptionController</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>deletionController</managed-bean-name>
+        <managed-bean-class>webapp.DeletionController</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>
