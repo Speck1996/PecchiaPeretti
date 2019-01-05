@@ -10,38 +10,55 @@
 </h:head>
 
 <h:body>
+    <a href="home.xhtml">HOME</a>
     <h2>New individual request</h2>
 
     <h:form>
         <h:outputLabel value="Name of the request"/><br/>
-        <h:inputText value="#{individualReq.name}" required="true"/>
-        <br/><h:outputLabel value="Username or taxcode of the individual"/><br/>
-        <h:inputText value="#{individualReq.identifier}"/>
-        <h:selectOneRadio value="#{individualReq.idType}">
+        <h:inputText id="name" value="#{individualReq.name}" required="true" requiredMessage="Mandatory field"/>
+        <h:message for="name"/>
+        <br/>
+
+        <h:outputLabel value="Username or taxcode of the individual"/><br/>
+        <h:inputText id="individual" value="#{individualReq.identifier}" required="true" requiredMessage="Mandatory field"/>
+        <h:message for="individual"/>
+        <h:panelGroup rendered="#{individualReq.usernameError}">Username not found</h:panelGroup>
+        <h:panelGroup rendered="#{individualReq.taxcodeError}">Taxcode not found</h:panelGroup>
+        <h:panelGroup rendered="#{individualReq.requestAlreadyExists}">You have alreay a request for this individual</h:panelGroup>
+
+        <h:selectOneRadio id="idType" value="#{individualReq.idType}" required="true" requiredMessage="Mandatory field">
             <f:selectItem itemValue="username" itemLabel="Username"/>
             <f:selectItem itemValue="taxcode" itemLabel="Taxcode"/>
         </h:selectOneRadio>
+        <h:message for="idType"/>
 
+        <br/>
+        <h:outputLabel value="Description"/><br/>
         <h:inputTextarea value="#{individualReq.description}"/>
 
         <h5>Check which eHealth data you want to access</h5>
-        <h:selectManyCheckbox value="#{individualReq.view}" required="true">
+        <h:selectManyCheckbox id="views" value="#{individualReq.view}" required="true" requiredMessage="Mandatory field">
             <f:selectItem itemValue="sleep" itemLabel="Sleep Time"/>
             <f:selectItem itemValue="steps" itemLabel="Steps"/>
             <f:selectItem itemValue="blood" itemLabel="Blood Pressure"/>
             <f:selectItem itemValue="heart" itemLabel="Heart Rate"/>
         </h:selectManyCheckbox>
+        <h:message for="views"/>
 
         <h5>Check which attributes you want to access</h5>
-        <h:selectManyCheckbox value="#{individualReq.attr}" required="true">
+        <h:selectManyCheckbox id="attr" value="#{individualReq.attr}" required="true" requiredMessage="Mandatory field">
+            <f:selectItem itemValue="name" itemLabel="Name"/>
+            <f:selectItem itemValue="surname" itemLabel="Surname"/>
             <f:selectItem itemValue="sex" itemLabel="Sex"/>
             <f:selectItem itemValue="age" itemLabel="Age"/>
             <f:selectItem itemValue="country" itemLabel="Country of birth"/>
             <f:selectItem itemValue="position" itemLabel="Last position"/>
         </h:selectManyCheckbox>
+        <h:message for="attr"/>
         <br/>
 
         <h:commandButton value="Submit" action="#{individualReq.processRequest()}"/>
+        <input type="reset" value="Reset"/>
     </h:form>
 
     <p>#{individualReq.print()}</p>

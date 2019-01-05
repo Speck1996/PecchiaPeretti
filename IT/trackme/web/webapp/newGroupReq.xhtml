@@ -10,15 +10,18 @@
 </h:head>
 
 <h:body>
+    <a href="home.xhtml">HOME</a>
     <h2>New group request</h2>
 
     <h:form>
 
         <h:outputLabel value="Name of the request"/>
-        <h:inputText value="#{groupReq.name}"/>
+        <h:inputText id="name" value="#{groupReq.name}" required="true" requiredMessage="Mandatory field"/>
+        <h:message for="name"/>
+        <h:panelGroup rendered="#{groupReq.nameError}">You have alreay a request with this name</h:panelGroup>
 
         <h5>eHealth data filters</h5>
-        <h:selectManyCheckbox value="#{groupReq.views}" layout="lineDirection" required="true" requiredMessage="Select some" id="views">
+        <h:selectManyCheckbox value="#{groupReq.views}" layout="lineDirection" required="true" requiredMessage="Mandatory field" id="views">
             <f:selectItem itemValue="steps" itemLabel="Steps" />
             <f:selectItem itemValue="sleep" itemLabel="Sleep Time" />
             <f:selectItem itemValue="heart" itemLabel="Heart Rate" />
@@ -56,6 +59,7 @@
 
 
         <h:commandButton value="Submit" action="#{groupReq.processRequest()}"/>
+        <input type="reset" value="Reset"/>
     </h:form>
 
     <p>#{groupReq.print()}</p>

@@ -30,6 +30,7 @@
         <h:inputSecret value="#{webAppSignUp.confPassword}" required="true"/>
         <br/>
         <h:commandButton value="Submit" action="#{webAppSignUp.signup()}"/>
+        <input type="reset" value="Reset"/>
     </h:form>
     <h:panelGroup rendered="#{webAppSignUp.error}" layout="block" class="error">Passwords do not match</h:panelGroup>
 </h:body>
