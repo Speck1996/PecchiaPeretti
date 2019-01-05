@@ -26,6 +26,8 @@ import java.util.Objects;
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "SleepTime.requestLocationDateSexAnonymized",
                 query = "SELECT new model.anonymized.SleepTimeAnonymized(b.id.day, b.value) FROM IndividualEntity i, SleepTimeEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "SleepTime.updateData",
+                query = "UPDATE SleepTimeEntity st SET st.value = :sleep, st.latitude = :latitude, st.longitude = :longitude WHERE st.id.day = :day and st.id.individual = :individual")
 })
 @Table(name = "SleepTime")
 //@IdClass(SleepTimeEntityPK.class)

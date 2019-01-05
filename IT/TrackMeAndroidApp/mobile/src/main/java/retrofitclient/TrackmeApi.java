@@ -1,10 +1,13 @@
 package retrofitclient;
 
+import model.IndividualData;
 import model.User;
 import model.Individual;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -25,10 +28,21 @@ public interface TrackmeApi {
     /**
      * Sign up api
      * @param individual to be passed to the server
-     * @return the response of the server
+     * @return response from the server
      */
     @POST("register/home/signupin")
     @Headers("Content-Type: application/json")
     Call<ResponseBody> signup(@Body Individual individual);
+
+    /**
+     * Send data API
+     * @param data data to be sent
+     * @param token token needed to authorize the client
+     * @return response from the server
+     */
+    @POST("datareceiver/sendata")
+    @Headers("Content-Type: application/json")
+    Call<ResponseBody> sendData(@Body IndividualData data, @Header("Authorization") String token);
+
 
 }

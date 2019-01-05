@@ -25,6 +25,8 @@ import java.util.Objects;
                 query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "Heartbeat.requestLocationDateSexAnonymized",
                 query = "SELECT new model.anonymized.HeartbeatAnonymized(b.id.ts, b.value) FROM IndividualEntity i, HeartbeatEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "HeartBeat.updateData",
+                query = "UPDATE HeartbeatEntity hb SET hb.value = :heartbeat, hb.latitude = :latitude, hb.longitude = :longitude WHERE hb.id.ts = :ts and hb.id.individual = :individual")
 })
 @Table(name = "Heartbeat")
 //@IdClass(HeartbeatEntityPK.class)
