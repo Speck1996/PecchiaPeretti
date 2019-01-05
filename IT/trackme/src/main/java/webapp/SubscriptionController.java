@@ -2,6 +2,7 @@ package webapp;
 
 import login.AuthenticationUtils;
 import manager.GroupRequestManager;
+import manager.IndividualRequestManager;
 import model.UpdateFrequency;
 
 import javax.annotation.PostConstruct;
@@ -9,25 +10,39 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.IOException;
+import java.util.Map;
 
 @Named
 public class SubscriptionController {
 
     @EJB
-    GroupRequestManager requestManager;
+    GroupRequestManager groupRequestManager;
 
-    private String username;
-    private String nameReq;
+    @EJB
+    IndividualRequestManager individualRequestManager;
+
+    private String usernameTP;
+    private String nameReq = null;
+    private String taxcode = null;
     private String freq;
 
     @PostConstruct
     public void init() {
 
-        username = AuthenticationUtils.getUsernameByCookies(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap());
-        String par = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(Requests.NAME_PARAM);
-        if(par != null)
-            nameReq = par;
+        usernameTP = AuthenticationUtils.getUsernameByCookiesMap(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap());
+        Map<String, String> parameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 
+
+        if(parameters != null) {
+            String par = parameters.get(Requests.NAME_PARAM);
+
+            if (par != null)
+                nameReq = par;
+
+            par = parameters.get(Requests.TAXCODE_PARAM);
+            if(par != null)
+                taxcode = par;
+        }
     }
 
     public String getNameReq() {
@@ -36,6 +51,14 @@ public class SubscriptionController {
 
     public void setNameReq(String nameReq) {
         this.nameReq = nameReq;
+    }
+
+    public String getTaxcode() {
+        return taxcode;
+    }
+
+    public void setTaxcode(String taxcode) {
+        this.taxcode = taxcode;
     }
 
     public String getFreq() {
@@ -48,7 +71,12 @@ public class SubscriptionController {
 
     public void unsubscribe() {
 
-        requestManager.setFrequency(username, nameReq, null);
+        if(nameReq != null) {
+            if(taxcode != null && !taxcode.equals(""))
+                individualRequestManager.setFrequency(usernameTP, taxcode, null);
+            else
+                groupRequestManager.setFrequency(usernameTP, nameReq, null);
+        }
 
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("requests.xhtml");
@@ -58,8 +86,13 @@ public class SubscriptionController {
     }
 
     public void subscribe() {
-                requestManager.setFrequency(username, nameReq, UpdateFrequency.getFrequency(freq));
 
+        if(nameReq != null) {
+            if (taxcode != null && !taxcode.equals(""))
+                individualRequestManager.setFrequency(usernameTP, taxcode, UpdateFrequency.getFrequency(freq));
+            else
+                groupRequestManager.setFrequency(usernameTP, nameReq, UpdateFrequency.getFrequency(freq));
+        }
 
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("requests.xhtml");

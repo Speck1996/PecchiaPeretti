@@ -1,16 +1,13 @@
 package login;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
+
 import model.IndividualEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
+
 
 
 /**
@@ -67,15 +64,13 @@ public class AuthenticationManager{
      */
     private void authenticate(String username, String password) throws Exception {
 
-        //finding the third party
-        IndividualEntity in = em.createQuery(
-                "SELECT u from IndividualEntity u WHERE u.username = :username", IndividualEntity.class).
-                setParameter("username", username).getSingleResult();
-
+        //finding the individual
+        IndividualEntity in = em.createNamedQuery("Individual.findByUsername", IndividualEntity.class)
+                .setParameter("username", username)
+                .getSingleResult();
 
         //no user with the given credentials found
         if(in == null){
-
             throw new LoginException("User not found " + username );
         }
         //wrong password

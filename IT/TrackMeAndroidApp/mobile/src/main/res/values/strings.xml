@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TrackMe</string>
     <string name="register_here"><u>Register here</u></string>
-    <string name="user">Username or taxcode</string>
+    <string name="user">Username</string>
     <string name="password">Password</string>
     <string name="title">Data4Help</string>
     <string name="form_user">Insert Username</string>
@@ -12,6 +12,9 @@
     <string name="form_tc">Insert Tax Code</string>
     <string name="form_name">Insert Name</string>
     <string name="form_surname">Insert Surname</string>
+    <string name="home_title">My Data</string>
+    <string name="req_title">Third party requests</string>
+    <string name="no_data">No data uploaded</string>
     <string-array name="sex">
         <item>Mr</item>
         <item>Mrs</item>

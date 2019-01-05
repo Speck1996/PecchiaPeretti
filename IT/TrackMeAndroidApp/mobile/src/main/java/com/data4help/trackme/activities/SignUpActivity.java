@@ -122,54 +122,78 @@ public class SignUpActivity extends AppCompatActivity {
 
                         Sex sexValue = Sex.getEnum(sexSpin.getSelectedItem().toString());
                         individual.setSex(sexValue);
+
+
                         individual.setName(nameText.getText().toString());
                         individual.setSurname(surnameText.getText().toString());
                         individual.setCountry(countrySpin.getSelectedItem().toString());
-                        individual.setUsername(usernameText.getText().toString());
-                        individual.setEmail(emailText.getText().toString());
-                        individual.setTaxcode(taxCodeText.getText().toString());
 
-                        //special care needed for the date, since there is some mess in json
-                        //handling the sql format, for the communication a string is used
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                        try {
-
-                            //getting date object from the first string
-                            Date date = formatter.parse(birthDateText.getText().toString());
-
-                            //transforming it in a sql compatible date
-                            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-
-                            //associating it as a string to the individual
-                            individual.setBirthDate(sqlStartDate.toString());
-
-                        } catch (ParseException e) {
-
-                            //only the dd/MM/yyyy date formaat is accepted
-                            Toast.makeText(SignUpActivity.this, "Invalid date format",
+                        if(usernameText.getText() != null) {
+                            individual.setUsername(usernameText.getText().toString());
+                        }
+                        else {
+                            Toast.makeText(SignUpActivity.this, "Please fill all the mandatory field",
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
 
+
+                        individual.setEmail(emailText.getText().toString());
+
+                        if(taxCodeText.getText()!= null) {
+                            individual.setTaxcode(taxCodeText.getText().toString());
+                            Toast.makeText(SignUpActivity.this, "Please fill all the mandatory field",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         //special care for password: checking if the two password
                         // fields are filled with the same string
-                        String password = passwordText.getText().toString();
-                        String confirmPassword = confirmPasswordText.getText().toString();
+                        if(passwordText.getText()!= null && confirmPasswordText.getText()!= null) {
 
-                        //password matches
-                        if (password.equals(confirmPassword)) {
-                            individual.setPassword(passwordText.getText().toString());
+                            String password = passwordText.getText().toString();
+                            String confirmPassword = confirmPasswordText.getText().toString();
+
+
+                            //password matches
+                            if (password.equals(confirmPassword)) {
+
+                                individual.setPassword(passwordText.getText().toString());
+
+                            } else {
+
+                                //passwords don't match
+                                Toast.makeText(SignUpActivity.this, "Passwords do not match!",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
-                        else{
-                            //passwords don't match
-                            Toast.makeText(SignUpActivity.this, "Passwords do not match!",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
+
+
+                        if(birthDateText.getText() != null) {
+                            //special care needed for the date, since there is some mess in json
+                            //handling the sql format, for the communication a string is used
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                            try {
+
+                                //getting date object from the first string
+                                Date date = formatter.parse(birthDateText.getText().toString());
+
+                                //transforming it in a sql compatible date
+                                java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+
+                                //associating it as a string to the individual
+                                individual.setBirthDate(sqlStartDate.toString());
+
+                            } catch (ParseException e) {
+
+                                //only the dd/MM/yyyy date formaat is accepted
+                                Toast.makeText(SignUpActivity.this, "Invalid date format",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
 
-
-                        //TODO check if all the fields are completed
 
                         //time to call the api
                         Call call = rClient.getApi().signup(individual);

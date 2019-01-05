@@ -10,21 +10,24 @@ import java.util.Objects;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Steps.requestAnonymized",
-                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country"),
+                query = "SELECT b FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country"),
         @NamedQuery(name = "Steps.requestLocationAnonymized",
-                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT b FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "Steps.requestDateAnonymized",
-                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
+                query = "SELECT b FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country"),
         @NamedQuery(name = "Steps.requestLocationDateAnonymized",
-                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT b FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "Steps.requestSexAnonymized",
-                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
+                query = "SELECT b FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "Steps.requestLocationSexAnonymized",
-                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT b FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
         @NamedQuery(name = "Steps.requestDateSexAnonymized",
-                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
+                query = "SELECT b FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "Steps.requestLocationDateSexAnonymized",
-                query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+                query = "SELECT b FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
+        @NamedQuery(name = "Steps.updateData",
+                query = "UPDATE StepsEntity step SET step.value = :step, step.latitude = :latitude, step.longitude = :longitude WHERE step.id.day = :day and step.id.individual = :individual"),
+        @NamedQuery(name = "Steps.requestIndividual", query = "SELECT s FROM StepsEntity s WHERE s.id.individual = :taxcode"),
 })
 @Table(name = "Steps")
 //@IdClass(StepsEntityPK.class)

@@ -8,6 +8,10 @@ import java.util.Objects;
  * Entity for accepted or pending individual data requests
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Monitoring.findPending",
+                query = "SELECT i FROM MonitoringEntity i WHERE i.individual.taxcode = :taxcode and i.status = :status")
+})
 @Table(name = "Monitoring")
 //@IdClass(MonitoringEntityPK.class)
 public class MonitoringEntity {
@@ -30,6 +34,10 @@ public class MonitoringEntity {
 
     private String name;
     private Timestamp ts;
+
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "frequency")
     private UpdateFrequency frequency;
     private short views;
     private short attributes;
@@ -122,9 +130,6 @@ public class MonitoringEntity {
         this.ts = ts;
     }
 
-    @Basic
-    @Enumerated(EnumType.STRING)
-    @Column(name = "frequency")
     public UpdateFrequency getFrequency() {
         return frequency;
     }

@@ -4,7 +4,6 @@ import manager.geocoding.FoundLocation;
 import manager.geocoding.Geocoder;
 import manager.geocoding.GeocoderImpl;
 import model.*;
-import model.anonymized.*;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -53,7 +52,11 @@ public class GroupRequestManager {
      * @param birthCountry The country of birth indicated by the Third Party
      * @return
      */
-    public String newGroupRequest(String usernameTP, String name, UpdateFrequency frequency, short views, String location, Byte age_min, Byte age_max, Sex sex, String birthCountry) {
+    public String newGroupRequest(String usernameTP, String name, UpdateFrequency frequency, short views, String location, Byte age_min, Byte age_max, Sex sex, String birthCountry) throws RequestExistsException {
+
+        //check if there exists already a request with this name
+        if(em.find(GroupMonitoringEntity.class, new GroupMonitoringEntityPK(usernameTP, name)) != null)
+            throw new RequestExistsException();
 
         StringBuilder builder = new StringBuilder();
         Date dateMin, dateMax;
@@ -133,20 +136,20 @@ public class GroupRequestManager {
         return null;
     }
 
-    public List<BloodPressureAnonymized> getBloodPressureData(GroupMonitoringEntity groupMonitoring) {
-        return (List<BloodPressureAnonymized>) getData(groupMonitoring, View.BLOOD_PRESSURE);
+    public List<BloodPressureEntity> getBloodPressureData(GroupMonitoringEntity groupMonitoring) {
+        return (List<BloodPressureEntity>) getData(groupMonitoring, View.BLOOD_PRESSURE);
     }
 
-    public List<HeartbeatAnonymized> getHeartBeatData(GroupMonitoringEntity groupMonitoring) {
-        return (List<HeartbeatAnonymized>) getData(groupMonitoring, View.HEARTBEAT);
+    public List<HeartbeatEntity> getHeartBeatData(GroupMonitoringEntity groupMonitoring) {
+        return (List<HeartbeatEntity>) getData(groupMonitoring, View.HEARTBEAT);
     }
 
-    public List<SleepTimeAnonymized> getSleepTimeData(GroupMonitoringEntity groupMonitoring) {
-        return (List<SleepTimeAnonymized>) getData(groupMonitoring, View.SLEEP_TIME);
+    public List<SleepTimeEntity> getSleepTimeData(GroupMonitoringEntity groupMonitoring) {
+        return (List<SleepTimeEntity>) getData(groupMonitoring, View.SLEEP_TIME);
     }
 
-    public List<StepsAnonymized> getStepsData(GroupMonitoringEntity groupMonitoring) {
-        return (List<StepsAnonymized>) getData(groupMonitoring, View.STEPS);
+    public List<StepsEntity> getStepsData(GroupMonitoringEntity groupMonitoring) {
+        return (List<StepsEntity>) getData(groupMonitoring, View.STEPS);
     }
 
 
@@ -232,7 +235,7 @@ public class GroupRequestManager {
     private List<?> bloodPressureQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
         //System.out.println("blood query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
-        TypedQuery<BloodPressureAnonymized> query = null;
+        TypedQuery<BloodPressureEntity> query = null;
 
 
 
@@ -240,28 +243,28 @@ public class GroupRequestManager {
         Choose the right query
          */
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("BloodPressure.requestAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestAnonymized", BloodPressureEntity.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("BloodPressure.requestLocationAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestLocationAnonymized", BloodPressureEntity.class);
 
         if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("BloodPressure.requestDateAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestDateAnonymized", BloodPressureEntity.class);
 
         if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("BloodPressure.requestLocationDateAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestLocationDateAnonymized", BloodPressureEntity.class);
 
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("BloodPressure.requestSexAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestSexAnonymized", BloodPressureEntity.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("BloodPressure.requestLocationSexAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestLocationSexAnonymized", BloodPressureEntity.class);
 
         if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("BloodPressure.requestDateSexAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestDateSexAnonymized", BloodPressureEntity.class);
 
         if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("BloodPressure.requestLocationDateSexAnonymized", BloodPressureAnonymized.class);
+            query = em.createNamedQuery("BloodPressure.requestLocationDateSexAnonymized", BloodPressureEntity.class);
 
 
         //Set parameters
@@ -272,9 +275,10 @@ public class GroupRequestManager {
         /*
         Run the query and construct results
          */
-        List<BloodPressureAnonymized> results = query.getResultList();
-        if(isNotAnonymized(results)) {
-            //TODO
+        List<BloodPressureEntity> results = query.getResultList();
+
+        //check privacy
+        if(results.stream().map(b -> b.getPK().getIndividual()).distinct().count() < PRIVACY_NUM) {
             return null;
         }
 
@@ -287,35 +291,35 @@ public class GroupRequestManager {
     private List<?> heartbeatQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
         //System.out.println("heart query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
-        TypedQuery<HeartbeatAnonymized> query = null;
+        TypedQuery<HeartbeatEntity> query = null;
 
 
         /*
         Choose the right query
          */
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("Heartbeat.requestAnonymized", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestAnonymized", HeartbeatEntity.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("Heartbeat.requestLocationAnonymized", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestLocationAnonymized", HeartbeatEntity.class);
 
         if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("Heartbeat.requestDateAnonymized", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestDateAnonymized", HeartbeatEntity.class);
 
         if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("Heartbeat.requestLocationDateAnonymized", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestLocationDateAnonymized", HeartbeatEntity.class);
 
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("Heartbeat.requestSexAnonymized", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestSexAnonymized", HeartbeatEntity.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("Heartbeat.requestLocationSexAnonymized", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestLocationSexAnonymized", HeartbeatEntity.class);
 
         if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("Heartbeat.requestDateSexAnonymized", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestDateSexAnonymized", HeartbeatEntity.class);
 
         if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("Heartbeat.requestLocationDateSexAnonymized", HeartbeatAnonymized.class);
+            query = em.createNamedQuery("Heartbeat.requestLocationDateSexAnonymized", HeartbeatEntity.class);
 
 
         //Set parameters
@@ -326,8 +330,8 @@ public class GroupRequestManager {
         /*
         Run the query and construct results
          */
-        List<HeartbeatAnonymized> results = query.getResultList();
-        if(isNotAnonymized(results)) {
+        List<HeartbeatEntity> results = query.getResultList();
+        if(results.stream().map(h -> h.getPK().getIndividual()).distinct().count() < PRIVACY_NUM) {
             return null;
         }
 
@@ -342,7 +346,7 @@ public class GroupRequestManager {
 
 //        StringBuilder builder = new StringBuilder();
 
-        TypedQuery<SleepTimeAnonymized> query = null;
+        TypedQuery<SleepTimeEntity> query = null;
 
 
 
@@ -350,28 +354,28 @@ public class GroupRequestManager {
         Choose the right query
          */
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("SleepTime.requestAnonymized", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestAnonymized", SleepTimeEntity.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("SleepTime.requestLocationAnonymized", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestLocationAnonymized", SleepTimeEntity.class);
 
         if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("SleepTime.requestDateAnonymized", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestDateAnonymized", SleepTimeEntity.class);
 
         if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("SleepTime.requestLocationDateAnonymized", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestLocationDateAnonymized", SleepTimeEntity.class);
 
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("SleepTime.requestSexAnonymized", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestSexAnonymized", SleepTimeEntity.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("SleepTime.requestLocationSexAnonymized", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestLocationSexAnonymized", SleepTimeEntity.class);
 
         if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("SleepTime.requestDateSexAnonymized", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestDateSexAnonymized", SleepTimeEntity.class);
 
         if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("SleepTime.requestLocationDateSexAnonymized", SleepTimeAnonymized.class);
+            query = em.createNamedQuery("SleepTime.requestLocationDateSexAnonymized", SleepTimeEntity.class);
 
 
         //Set parameters
@@ -382,8 +386,8 @@ public class GroupRequestManager {
         /*
         Run the query and construct results
          */
-        List<SleepTimeAnonymized> results = query.getResultList();
-        if(isNotAnonymized(results)) {
+        List<SleepTimeEntity> results = query.getResultList();
+        if(results.stream().map(s -> s.getPK().getIndividual()).distinct().count() < PRIVACY_NUM) {
             return null;
         }
 
@@ -397,7 +401,7 @@ public class GroupRequestManager {
     private List<?> stepsQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
         //System.out.println("steps query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
-        TypedQuery<StepsAnonymized> query = null;
+        TypedQuery<StepsEntity> query = null;
 
 
 
@@ -405,28 +409,28 @@ public class GroupRequestManager {
         Choose the right query
          */
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("Steps.requestAnonymized", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestAnonymized", StepsEntity.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && sexIsNull)
-            query = em.createNamedQuery("Steps.requestLocationAnonymized", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestLocationAnonymized", StepsEntity.class);
 
         if(locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("Steps.requestDateAnonymized", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestDateAnonymized", StepsEntity.class);
 
         if(!locationIsNull && (!dateMaxIsNull || !dateMinIsNull) & sexIsNull)
-            query = em.createNamedQuery("Steps.requestLocationDateAnonymized", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestLocationDateAnonymized", StepsEntity.class);
 
         if(locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("Steps.requestSexAnonymized", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestSexAnonymized", StepsEntity.class);
 
         if(!locationIsNull && dateMaxIsNull && dateMinIsNull && !sexIsNull)
-            query = em.createNamedQuery("Steps.requestLocationSexAnonymized", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestLocationSexAnonymized", StepsEntity.class);
 
         if(locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("Steps.requestDateSexAnonymized", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestDateSexAnonymized", StepsEntity.class);
 
         if(!locationIsNull  && (!dateMaxIsNull || !dateMinIsNull) && !sexIsNull)
-            query = em.createNamedQuery("Steps.requestLocationDateSexAnonymized", StepsAnonymized.class);
+            query = em.createNamedQuery("Steps.requestLocationDateSexAnonymized", StepsEntity.class);
 
 
         //Set parameters
@@ -437,16 +441,12 @@ public class GroupRequestManager {
         /*
         Run the query and construct results
          */
-        List<StepsAnonymized> results = query.getResultList();
-        if(isNotAnonymized(results)) {
+        List<StepsEntity> results = query.getResultList();
+        if(results.stream().map(s -> s.getPK().getIndividual()).distinct().count() < PRIVACY_NUM) {
             return null;
         }
 
         return results;
-    }
-
-    private boolean isNotAnonymized(List<?> results) {
-        return results.size() < PRIVACY_NUM;
     }
 
 
@@ -466,7 +466,6 @@ public class GroupRequestManager {
 
     public void setFrequency(String usernameTP, String name, UpdateFrequency frequency) {
         if(name == null) {
-            System.out.println("NULLLLLL");
             return;
         }
 
@@ -474,7 +473,6 @@ public class GroupRequestManager {
         query.setParameter("usernameTP", usernameTP);
         query.setParameter("name", name);
 
-        System.out.println("tp: " +usernameTP + " name: " + name);
 
         GroupMonitoringEntity monitoring = query.getSingleResult();
 
@@ -507,7 +505,7 @@ public class GroupRequestManager {
     public String test() {
         /*new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value)*/
         String s;
-        s = "SELECT i.taxcode, b.id.ts, b.value  FROM IndividualEntity as i , BloodPressureEntity as b WHERE i = b.individual and i.sex = :p";
+        s = "SELECT i.taxcode, b.id.ts, b.valueMin  FROM IndividualEntity as i , BloodPressureEntity as b WHERE i = b.individual and i.sex = :p";
 
 //        TypedQuery<BloodPressureAnonymized> query = em.createQuery(s, BloodPressureAnonymized.class);
         Query query = em.createQuery(s);

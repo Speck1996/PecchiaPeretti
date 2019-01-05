@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = "/test")
+/*@WebServlet(urlPatterns = "/test")
 public class TestServlet extends HttpServlet {
 
     @EJB
@@ -23,7 +23,7 @@ public class TestServlet extends HttpServlet {
     @EJB
     private DataCollector bean3;
 
-    @Override
+  /*  @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
 
@@ -33,7 +33,7 @@ public class TestServlet extends HttpServlet {
 //        out.println(s);
 
         //test new group requests
-        String s = "";
+       /* String s = "";
         for(int i=0; i<5; i++) {
             s += "REQ n. " + i + "\n";
             s += bean.newGroupRequest("mario", "Polimiers" + i, null, (short) 15, "Milano", (byte) 10, (byte) 127, null, null);
@@ -52,4 +52,4 @@ public class TestServlet extends HttpServlet {
 //        bean3.insertStepsData("ABCDE", 2000, null, null);
         out.println("ok");
     }
-}
+    */

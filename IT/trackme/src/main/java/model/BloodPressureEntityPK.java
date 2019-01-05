@@ -57,4 +57,12 @@ public class BloodPressureEntityPK implements Serializable {
     public int hashCode() {
         return Objects.hash(individual, ts);
     }
+
+    @Override
+    public String toString() {
+        return "BloodPressureEntityPK{" +
+                "individual='" + individual + '\'' +
+                ", ts=" + ts +
+                '}';
+    }
 }

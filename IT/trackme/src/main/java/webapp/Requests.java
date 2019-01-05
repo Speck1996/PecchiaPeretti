@@ -5,6 +5,7 @@ import manager.GroupRequestManager;
 import manager.IndividualRequestManager;
 import model.GroupMonitoringEntity;
 import model.MonitoringEntity;
+import model.RequestStatus;
 
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Requests {
 
     public final static String NAME_PARAM = "n";
+    public final static String TAXCODE_PARAM = "tc";
 
     @EJB
     GroupRequestManager groupRequestManager;
@@ -24,7 +26,7 @@ public class Requests {
     IndividualRequestManager individualRequestManager;
 
     public List<DisplayGroupReq> retrieveGroupRequests() {
-        List<GroupMonitoringEntity> monitorings = groupRequestManager.getRequests(AuthenticationUtils.getUsernameByCookies(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap()));
+        List<GroupMonitoringEntity> monitorings = groupRequestManager.getRequests(AuthenticationUtils.getUsernameByCookiesMap(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap()));
 
         if(monitorings != null) {
             List<DisplayGroupReq> results = new ArrayList<>();
@@ -43,7 +45,7 @@ public class Requests {
     }
 
     public List<DisplayIndividualReq> retrieveIndividualRequests() {
-        List<MonitoringEntity> monitorings = individualRequestManager.getRequests(AuthenticationUtils.getUsernameByCookies(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap()));
+        List<MonitoringEntity> monitorings = individualRequestManager.getRequests(AuthenticationUtils.getUsernameByCookiesMap(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap()));
 
         if(monitorings == null)
             return null;
@@ -52,7 +54,7 @@ public class Requests {
 
         for(MonitoringEntity m: monitorings) {
             //String display = m.getPk().getIndividual() + " - Requested on: " +m.getTs() + " status: " + m.getStatus();
-            DisplayIndividualReq display = new DisplayIndividualReq(m.getName(), m.getTs(), m.getStatus());
+            DisplayIndividualReq display = new DisplayIndividualReq(m.getName(), m.getTs(), m.getStatus(), m.getPk().getIndividual(), m.getFrequency() != null, m.getStatus() == RequestStatus.ACCEPTED);
             results.add(display);
         }
 

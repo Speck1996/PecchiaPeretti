@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_mydata"
+            android:icon="@drawable/mydataico"
+            android:title="@string/home_title" />
+        <item
+            android:id="@+id/nav_tpreq"
+            android:icon="@drawable/mailogo"
+            android:title="@string/req_title" />
+    </group>
+</menu>

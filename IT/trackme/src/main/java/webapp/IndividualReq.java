@@ -1,17 +1,18 @@
 package webapp;
 
 import login.AuthenticationUtils;
+import manager.IllegalRequestArgumentException;
 import manager.IndividualRequestManager;
+import manager.RequestExistsException;
 import model.Attribute;
 import model.IndividualEntity;
 import model.View;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 @Named
 public class IndividualReq {
@@ -28,6 +29,10 @@ public class IndividualReq {
     private String description;
     private String[] view;
     private String[] attr;
+
+    private boolean usernameError;
+    private boolean taxcodeError;
+    private boolean requestAlreadyExists;
 
     public String getName() {
         return name;
@@ -77,10 +82,34 @@ public class IndividualReq {
         this.attr = attr;
     }
 
+    public boolean isUsernameError() {
+        return usernameError;
+    }
+
+    public void setUsernameError(boolean usernameError) {
+        this.usernameError = usernameError;
+    }
+
+    public boolean isTaxcodeError() {
+        return taxcodeError;
+    }
+
+    public void setTaxcodeError(boolean taxcodeError) {
+        this.taxcodeError = taxcodeError;
+    }
+
+    public boolean isRequestAlreadyExists() {
+        return requestAlreadyExists;
+    }
+
+    public void setRequestAlreadyExists(boolean requestAlreadyExists) {
+        this.requestAlreadyExists = requestAlreadyExists;
+    }
+
     public void processRequest() {
         System.out.println(print());
 
-        String username = AuthenticationUtils.getUsernameByCookies(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap());
+        String username = AuthenticationUtils.getUsernameByCookiesMap(FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap());
 
         String taxcode = null;
 
@@ -90,7 +119,15 @@ public class IndividualReq {
             TypedQuery<IndividualEntity> query = em.createNamedQuery("Individual.findByUsername", IndividualEntity.class);
             query.setParameter("username", identifier);
 
-            IndividualEntity result = query.getSingleResult();
+            IndividualEntity result;
+
+            try {
+                result = query.getSingleResult();
+            } catch (NoResultException e) {
+                usernameError = true;
+                return;
+            }
+
             if(result == null)
                 return;
 
@@ -100,7 +137,17 @@ public class IndividualReq {
         short views = View.getNumericViews(view);
         short attributes = Attribute.getNumericAttributes(attr);
 
-        requestManager.newIndividualRequest(username, taxcode, name, null, views, attributes);
+        try {
+            requestManager.newIndividualRequest(username, taxcode, name, null, views, attributes);
+        } catch (IllegalRequestArgumentException e) {
+            taxcodeError = true;
+            return;
+        } catch (RequestExistsException e) {
+            requestAlreadyExists = true;
+            return;
+        } catch (Exception e) {
+            System.out.println("Unexpected exception");
+        }
 
         System.out.println("Request completed");
 
