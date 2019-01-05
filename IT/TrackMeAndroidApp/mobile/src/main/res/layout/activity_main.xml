@@ -18,10 +18,8 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="250dp"
         android:ems="10"
-        android:textColorHint="#a3d7d8"
         android:hint="@string/user"
         android:inputType="textPersonName"
-        app:backgroundTint="#00d8b2"
         android:textColor="@android:color/white" />
 
     <EditText
@@ -35,8 +33,6 @@
         android:layout_marginLeft="0dp"
         android:layout_marginTop="26dp"
         android:ems="10"
-        app:backgroundTint="#00d8b2"
-        android:textColorHint="#a3d7d8"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:textColor="@android:color/white" />
@@ -72,9 +68,7 @@
         app:cardCornerRadius="25dp"
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardElevation="10dp"
-        android:layout_marginTop="68dp"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground">
+        android:layout_marginTop="68dp" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -102,8 +96,7 @@
         android:fontFamily="@font/roboto_medium"
         android:text="@string/register_here"
         android:textAllCaps="false"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
+
         android:textColor="@color/colorPrimary"
         android:textSize="18sp" />
 </RelativeLayout>

@@ -25,8 +25,6 @@ import java.util.Objects;
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "Steps.requestLocationDateSexAnonymized",
                 query = "SELECT new model.anonymized.StepsAnonymized(b.id.day, b.value) FROM IndividualEntity i, StepsEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
-        @NamedQuery(name = "Steps.updateData",
-                query = "UPDATE StepsEntity step SET step.value = :step, step.latitude = :latitude, step.longitude = :longitude WHERE step.id.day = :day and step.id.individual = :individual")
 })
 @Table(name = "Steps")
 //@IdClass(StepsEntityPK.class)

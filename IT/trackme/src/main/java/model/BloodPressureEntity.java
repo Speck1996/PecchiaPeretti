@@ -25,8 +25,6 @@ import java.util.Objects;
                 query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex"),
         @NamedQuery(name = "BloodPressure.requestLocationDateSexAnonymized",
                 query = "SELECT new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value) FROM IndividualEntity i, BloodPressureEntity b WHERE i = b.individual and i.birthDate >= :datemin and i.birthDate <= :datemax and i.country like :country and i.sex = :sex and b.latitude >= :minlat and b.latitude <= :maxlat and b.longitude >= :minlong and b.longitude <= :maxlong"),
-        @NamedQuery(name = "BloodPressure.updateData",
-                query = "UPDATE BloodPressureEntity bp SET bp.value = :bloodpressure, bp.latitude = :latitude, bp.longitude = :longitude WHERE bp.id.ts = :ts and bp.id.individual = :individual")
 })
 @Table(name = "BloodPressure")
 //@IdClass(BloodPressureEntityPK.class)

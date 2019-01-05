@@ -254,5 +254,3 @@ IT/trackme/out/
 .idea/*
 IT/trackme/target/
 IT/trackme/src/main/target/classes/META-INF/persistence.xml
-*.class
-*.jar

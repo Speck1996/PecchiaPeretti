@@ -2,9 +2,6 @@ package com.data4help.trackme.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -78,9 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         //binding view element with class attributes
         usernameText = findViewById(R.id.username);
-
         passwordText = findViewById(R.id.password);
-
         login_btn = findViewById(R.id.loginButton);
 
         //setting the click action
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         //taking the fields value
-                        final String username = usernameText.getText().toString();
+                        String username = usernameText.getText().toString();
                         String password = passwordText.getText().toString();
 
                         //fields filled
@@ -120,10 +115,6 @@ public class MainActivity extends AppCompatActivity {
                                         //when needed
                                         SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
                                         preferences.edit().putString("token", token).apply();
-                                        preferences.edit().putString("username",username).apply();
-
-                                        Log.d("Loggin: ", username + " with token: " + token);
-
 
                                         //notification of success
                                         Toast.makeText(MainActivity.this, "User and Password is correct",
