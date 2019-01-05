@@ -33,13 +33,11 @@ public class DataCollector extends Application {
     /**
      *
      * @param username The username of the individual
-     * @param valueMin The min value of the Blood Pressure to be store
-        @param valueMax The max value of the Blood Pressure to be store
+     * @param value The value of the Blood Pressure to be store
      * @param latitude The latitude of the data collection
      * @param longitude The longitude of the data collection
      */
-
-    public void insertBloodPressureData(String username, short valueMin, short valueMax, Double latitude, Double longitude) {
+    private void insertBloodPressureData(String username, short value, Double latitude, Double longitude) {
 
         //finding the individual
         IndividualEntity individual = em.createNamedQuery("Individual.findByUsername", IndividualEntity.class)
@@ -60,15 +58,14 @@ public class DataCollector extends Application {
         if(oldBloodPressure == null){
 
             //setting up a new entity
-            BloodPressureEntity bloodPressure = new BloodPressureEntity(individual, new Timestamp(Calendar.getInstance().getTimeInMillis()), valueMin, valueMax, latitude, longitude);
+            BloodPressureEntity bloodPressure = new BloodPressureEntity(individual, primaryKey.getTs(), value, latitude, longitude);
             em.persist(bloodPressure);
 
         }else{
 
             //updating the already present entity
             Query query = em.createNamedQuery("BloodPressure.updateData", BloodPressureEntity.class)
-                    .setParameter("bloodpressuremin", valueMin)
-                    .setParameter("bloodpressuremax", valueMax)
+                    .setParameter("bloodpressure", value)
                     .setParameter("latitude", latitude)
                     .setParameter("longitude", longitude)
                     .setParameter("ts", primaryKey.getTs())
@@ -239,15 +236,15 @@ public class DataCollector extends Application {
         }
 
         //blood pressure data accessible with location
-        if (data.getBloodPressureMin() != -1 && data.getBloodPressureMax() !=-1 && locationSet){
+        if (data.getBloodPressure() != -1 && locationSet){
 
 
-            this.insertBloodPressureData(data.getUsername(), (short) data.getBloodPressureMin(),(short) data.getBloodPressureMax(), latitude, longitude);
+            this.insertBloodPressureData(data.getUsername(), (short) data.getBloodPressure(), latitude, longitude);
 
             //blood pressure data accessible but without location
-        }else if(data.getBloodPressureMin() != -1 && data.getBloodPressureMax() != -1 && !locationSet){
+        }else if(data.getBloodPressure() != -1 && !locationSet){
 
-            this.insertBloodPressureData(data.getUsername(), (short)data.getBloodPressureMin(), (short)data.getBloodPressureMax(), null,null);
+            this.insertBloodPressureData(data.getUsername(), (short)data.getBloodPressure(), null,null);
         }
 
         //steps data accessible with location
