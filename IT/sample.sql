@@ -1,4 +1,7 @@
 use trackme;
+
+SET SQL_SAFE_UPDATES = 0;
+
 DELETE from Individual;
 DELETE from ThirdParty;
 DELETE from Monitoring;
@@ -30,12 +33,13 @@ INSERT INTO SleepTime (individual, day, value, latitude, longitude)
 			('ABCDE', '2018-12-10', '4:20:30', '87.1', '-9.191926500000022'),
 			('ABCDE', '2018-11-01 16:39:00', '6:30:00', '45.4640976', '9.191926500000022');
 
-INSERT INTO BloodPressure (individual, ts, value, latitude, longitude)
-	VALUES	('ABCDE', '2018-12-01 11:39:00', 111, '45.4640976', '9.191926500000022'),
-			('ABCDE', '2018-12-01 12:39:00', 115, NULL, NULL),
-			('ABCDE', '2018-12-01 13:39:00', 120, '45.4640976', '9.191926500000022'),
-			('AHJ28', '2018-12-01 3:39:00', 104, NULL, NULL),
-			('FGHI', '2018-12-01 10:39:00', 99, '45.4640976', '9.191926500000022');
+INSERT INTO BloodPressure (individual, ts, value_min, value_max, latitude, longitude)
+	VALUES	('ABCDE', '2018-12-01 11:39:00', 111, 120, '45.4640976', '9.191926500000022'),
+			('ABCDE', '2018-12-01 12:39:00', 115, 125, NULL, NULL),
+			('ABCDE', '2018-12-01 13:39:00', 120, 130, '45.4640976', '9.191926500000022'),
+			('AHJ28', '2018-12-01 3:39:00', 104, 135, NULL, NULL),
+			('ABCDE', '2019-01-01 10:10:10', 100, 101, 45.2, 9.1),
+			('FGHI', '2018-12-01 10:39:00', 99, 140, '45.4640976', '9.191926500000022');
 
 INSERT INTO Steps (individual, day, value, latitude, longitude)
 	VALUES	('ABCDE', '2018-12-03', '3401', '45.4640976', '9.191926500000022'),
