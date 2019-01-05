@@ -53,7 +53,6 @@ public class WebAppLogin {
             //return "/login/securedresource/message?faces-redirect=true";
             String r = "webapp/home.xhtml?faces-redirect=true";
             System.out.println("returning: " + r);
-            //return "indreq.html?faces-redirect=true";
             return r;
 
         } catch (Exception e) {
@@ -73,14 +72,5 @@ public class WebAppLogin {
         if(!tp.getPassword().equals(password)) {
             throw new LoginException("Wrong password by user: " + username);
         }
-    }
-
-    public String redir() {
-        //return "login.xhtml?faces-redirect=true";
-        return "test/test.xhtml?faces-redirect=true";
-    }
-
-    public String redirr() {
-        return "indreq.html";
     }
 }

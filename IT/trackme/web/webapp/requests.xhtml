@@ -35,6 +35,8 @@
             <li>#{req.name} - Requested on: #{req.ts} -> <a href="groupData.xhtml?#{req.link}">LINK</a> --
                 <h:panelGroup rendered="#{req.subscribed}"><a href="unsub.xhtml?#{req.link}">Unsubscribe</a></h:panelGroup>
                 <h:panelGroup rendered="#{not req.subscribed}"><a href="sub.xhtml?#{req.link}">Subscribe</a></h:panelGroup>
+                 --
+                <a href="delete.xhtml">Delete</a>
             </li>
         </ui:repeat>
     </ul>
