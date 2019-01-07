@@ -9,8 +9,8 @@ import java.util.Objects;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Monitoring.findPending",
-                query = "SELECT i FROM MonitoringEntity i WHERE i.individual.taxcode = :taxcode and i.status = :status")
+        @NamedQuery(name = "Monitoring.findReq",
+                query = "SELECT i FROM MonitoringEntity i WHERE i.individual.taxcode = :taxcode")
 })
 @Table(name = "Monitoring")
 //@IdClass(MonitoringEntityPK.class)

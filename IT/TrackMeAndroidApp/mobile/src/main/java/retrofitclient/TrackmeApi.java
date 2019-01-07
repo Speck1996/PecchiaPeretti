@@ -48,11 +48,11 @@ public interface TrackmeApi {
     Call<ResponseBody> sendData(@Body IndividualData data, @Header("Authorization") String token);
 
 
-    @GET("requestmanager/givepending")
-    @Headers("Content-Type: application/json")
+    @POST("requestmanager/requests/get")
+    @Headers("Content-Type: text/plain")
     Call<List<ThirdPartyRequest>> getPendingRequests(@Body String username, @Header("Authorization") String token);
 
-    @POST("requestmanager/giveresponse")
+    @POST("requestmanager/requests/response")
     @Headers("Content-Type: application/json")
     Call<ResponseBody> receiveRequestResponse(@Body ThirdPartyRequest request, @Header("Authorization") String token);
 
