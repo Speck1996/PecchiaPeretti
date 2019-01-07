@@ -29,9 +29,9 @@ INSERT INTO HeartBeat (individual, ts, value, latitude, longitude)
 			('FGHI', '2018-12-04 11:22:00', 120, '45.4640976', '9.191926500000022');
 
 INSERT INTO SleepTime (individual, day, value, latitude, longitude)
-	VALUES	('ABCDE', '2018-12-01 16:39:00', '8:30:00', '45.4640976', '9.191926500000022'),
+	VALUES	('ABCDE', '2018-12-01', '8:30:00', '45.4640976', '9.191926500000022'),
 			('ABCDE', '2018-12-10', '4:20:30', '87.1', '-9.191926500000022'),
-			('ABCDE', '2018-11-01 16:39:00', '6:30:00', '45.4640976', '9.191926500000022');
+			('ABCDE', '2018-11-01', '6:30:00', '45.4640976', '9.191926500000022');
 
 INSERT INTO BloodPressure (individual, ts, value_min, value_max, latitude, longitude)
 	VALUES	('ABCDE', '2018-12-01 11:39:00', 111, 120, '45.4640976', '9.191926500000022'),
