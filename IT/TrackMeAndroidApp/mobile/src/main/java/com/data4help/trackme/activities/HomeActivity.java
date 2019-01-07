@@ -10,7 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.data4help.trackme.R;
@@ -49,11 +51,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navSubTitle = findViewById(R.id.nav_subtitle);
 
         SharedPreferences preferences = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
         String individualUsername = preferences.getString("username", "");
-        navSubTitle.setText("Welcome: " + individualUsername);
+
+
+/*
+        navSubTitle = drawer.findViewById(R.id.nav_subtitle);
+        navSubTitle.setText("Welcome: " + individualUsername);*/
+
+
+
+
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,
