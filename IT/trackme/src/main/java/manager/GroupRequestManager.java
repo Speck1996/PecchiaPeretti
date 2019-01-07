@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -52,53 +53,16 @@ public class GroupRequestManager {
      * @param birthCountry The country of birth indicated by the Third Party
      * @return
      */
-    public String newGroupRequest(String usernameTP, String name, UpdateFrequency frequency, short views, String location, Byte age_min, Byte age_max, Sex sex, String birthCountry) throws RequestExistsException {
+    public void newGroupRequest(String usernameTP, String name, UpdateFrequency frequency, short views, String location, Byte age_min, Byte age_max, Sex sex, String birthCountry) throws RequestExistsException {
 
         //check if there exists already a request with this name
         if(em.find(GroupMonitoringEntity.class, new GroupMonitoringEntityPK(usernameTP, name)) != null)
             throw new RequestExistsException();
 
-        StringBuilder builder = new StringBuilder();
-        Date dateMin, dateMax;
-
-        dateMin = getDateFromAge(age_max);
-        dateMax = getDateFromAge(age_min);
-
-        //call to the maps API
-        Geocoder geocoder = new GeocoderImpl();
-        FoundLocation foundLocation = geocoder.getLocation(location);
-        System.out.println("is foundLocation null: " + (foundLocation == null));
-
-
-        //set flag for queries
-        setFlags(foundLocation, dateMin, dateMax, sex);
-
-
-
-        //Specific queries to the DB based on the 'views' value
-        if((views & View.BLOOD_PRESSURE) > 0) {
-            System.out.println("ok blood");
-            builder.append(bloodPressureQuery(foundLocation, dateMin, dateMax, sex, birthCountry));
-        }
-
-        if((views & View.HEARTBEAT ) > 0) {
-            builder.append(heartbeatQuery(foundLocation, dateMin, dateMax, sex, birthCountry));
-        }
-
-        if((views & View.SLEEP_TIME) > 0) {
-            builder.append(sleepTimeQuery(foundLocation, dateMin, dateMax, sex, birthCountry));
-        }
-
-        if((views & View.STEPS) > 0) {
-            builder.append(stepsQuery(foundLocation, dateMin, dateMax, sex, birthCountry));
-        }
-
-
 
         //insert new GroupMonitoring in DB
         ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
         tp.addGroupMonitorings(name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, location, age_min, age_max, sex, birthCountry);
-        //GroupMonitoringEntity group = new GroupMonitoringEntity(name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, location, age_min, age_max, sex, birthCountry, tp);
 
         try {
             em.persist(tp);
@@ -106,9 +70,6 @@ public class GroupRequestManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-        return builder.toString();
     }
 
     private List<?> getData(GroupMonitoringEntity groupMonitoring, short view) {
@@ -124,13 +85,13 @@ public class GroupRequestManager {
 
         switch (view) {
             case View.BLOOD_PRESSURE:
-                return bloodPressureQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry());
+                return bloodPressureQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry(), UpdateFrequency.getLastUpdate(groupMonitoring.getTs(), groupMonitoring.getFrequency()));
             case View.HEARTBEAT:
-                return heartbeatQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry());
+                return heartbeatQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry(), UpdateFrequency.getLastUpdate(groupMonitoring.getTs(), groupMonitoring.getFrequency()));
             case View.SLEEP_TIME:
-                return sleepTimeQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry());
+                return sleepTimeQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry(), UpdateFrequency.getLastUpdate(groupMonitoring.getTs(), groupMonitoring.getFrequency()));
             case View.STEPS:
-                return stepsQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry());
+                return stepsQuery(foundLocation, dateMin, dateMax, groupMonitoring.getSex(), groupMonitoring.getCountry(), UpdateFrequency.getLastUpdate(groupMonitoring.getTs(), groupMonitoring.getFrequency()));
         }
 
         return null;
@@ -213,7 +174,7 @@ public class GroupRequestManager {
             query.setParameter("country", birthCountry);
     }
 
-    private void setParam(Query query, FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private void setParam(Query query, FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
         if(!locationIsNull)
             setLocation(query, location);
 
@@ -224,6 +185,11 @@ public class GroupRequestManager {
             query.setParameter("sex", sex);
 
         setCountry(query, birthCountry);
+
+        if(lastUpdate == null)
+            query.setParameter("lastupdate", new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        else
+            query.setParameter("lastupdate", lastUpdate);
     }
 
 
@@ -232,7 +198,7 @@ public class GroupRequestManager {
     /*
     Perform a query for Blood Pressure data with the given constraints
      */
-    private List<?> bloodPressureQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private List<?> bloodPressureQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
         //System.out.println("blood query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         TypedQuery<BloodPressureEntity> query = null;
@@ -268,7 +234,7 @@ public class GroupRequestManager {
 
 
         //Set parameters
-        setParam(query, location, dateMin, dateMax, sex, birthCountry);
+        setParam(query, location, dateMin, dateMax, sex, birthCountry, lastUpdate);
 
 
 
@@ -288,7 +254,7 @@ public class GroupRequestManager {
     /*
     Perform a query for Heartbeat data with the given constraints
      */
-    private List<?> heartbeatQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private List<?> heartbeatQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
         //System.out.println("heart query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         TypedQuery<HeartbeatEntity> query = null;
@@ -323,7 +289,7 @@ public class GroupRequestManager {
 
 
         //Set parameters
-        setParam(query, location, dateMin, dateMax, sex, birthCountry);
+        setParam(query, location, dateMin, dateMax, sex, birthCountry, lastUpdate);
 
 
 
@@ -341,7 +307,7 @@ public class GroupRequestManager {
     /*
     Perform a query for Sleep Time data with the given constraints
      */
-    private List<?> sleepTimeQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private List<?> sleepTimeQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
         //System.out.println("sleep query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
 //        StringBuilder builder = new StringBuilder();
@@ -379,7 +345,7 @@ public class GroupRequestManager {
 
 
         //Set parameters
-        setParam(query, location, dateMin, dateMax, sex, birthCountry);
+        setParam(query, location, dateMin, dateMax, sex, birthCountry, lastUpdate);
 
 
 
@@ -398,7 +364,7 @@ public class GroupRequestManager {
     /*
     Perform a query for Steps data with the given constraints
      */
-    private List<?> stepsQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry) {
+    private List<?> stepsQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
         //System.out.println("steps query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         TypedQuery<StepsEntity> query = null;
@@ -434,7 +400,7 @@ public class GroupRequestManager {
 
 
         //Set parameters
-        setParam(query, location, dateMin, dateMax, sex, birthCountry);
+        setParam(query, location, dateMin, dateMax, sex, birthCountry, lastUpdate);
 
 
 
@@ -449,7 +415,11 @@ public class GroupRequestManager {
         return results;
     }
 
-
+    /**
+     * Retrieve alla the requests issued by a third party
+     * @param usernameTP Username of the third party
+     * @return List of requests issued by the third party
+     */
     public List<GroupMonitoringEntity> getRequests(String usernameTP) {
         ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
 
@@ -459,11 +429,22 @@ public class GroupRequestManager {
         return tp.getGroupMonitorings();
     }
 
+    /**
+     * Retrieve a specific request
+     * @param usernameTP Username of the third party
+     * @param name Name of the request
+     * @return The request identified by the usernameTP and name
+     */
     public GroupMonitoringEntity getRequest(String usernameTP, String name) {
         return em.find(GroupMonitoringEntity.class, new GroupMonitoringEntityPK(usernameTP, name));
     }
 
-
+    /**
+     * Set a frequency for update
+     * @param usernameTP Username of the third party
+     * @param name Name of the request
+     * @param frequency New update frequency
+     */
     public void setFrequency(String usernameTP, String name, UpdateFrequency frequency) {
         if(name == null) {
             return;
@@ -483,49 +464,19 @@ public class GroupRequestManager {
         em.persist(monitoring);
     }
 
+    /**
+     * Delete a request (Group Monitoring)
+     * @param usernameTP Username of the third party
+     * @param name Name of the request
+     */
+    public void deleteRequest(String usernameTP, String name) {
+        System.out.println("DELETTO");
+        GroupMonitoringEntity monitoring = em.find(GroupMonitoringEntity.class, new GroupMonitoringEntityPK(usernameTP, name));
 
+        if(monitoring != null)
+            em.remove(monitoring);
 
-
-
-
-    public String getRequestsTest(String usernameTP) {
-        ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
-        if(tp == null)
-            return "null";
-
-        List<GroupMonitoringEntity> list = tp.getGroupMonitorings();
-        String s = "";
-        for(GroupMonitoringEntity m: list) {
-            s += "\t" + m.toString() + "\n";
-        }
-
-        return s;
-    }
-
-    public String test() {
-        /*new model.anonymized.BloodPressureAnonymized(b.id.ts, b.value)*/
-        String s;
-        s = "SELECT i.taxcode, b.id.ts, b.valueMin  FROM IndividualEntity as i , BloodPressureEntity as b WHERE i = b.individual and i.sex = :p";
-
-//        TypedQuery<BloodPressureAnonymized> query = em.createQuery(s, BloodPressureAnonymized.class);
-        Query query = em.createQuery(s);
-        query.setParameter("p", null);
-        List res = query.getResultList();
-
-        String ret = "";
-        int i=1;
-//        for(Iterator<BloodPressureAnonymized> iterator = res.iterator(); iterator.hasNext(); i++) {
-//            BloodPressureAnonymized b = iterator.next();
-//            ret += "" + i + ")" + b.getTs() + "  " + b.getValue() + "\n";
-//        }
-
-        for(Iterator<Object[]> it = res.iterator(); it.hasNext(); i++) {
-            Object[] o = it.next();
-            ret += o[0] + " " + o[1] + " " + o[2] + "\n";
-        }
-
-//        ret += "size: " + res.size() + "subzise: " + res.get(0);
-
-        return ret;
+        //Clear the cache in order to refresh the view
+        em.getEntityManagerFactory().getCache().evictAll();
     }
 }

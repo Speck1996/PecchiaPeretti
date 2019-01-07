@@ -6,10 +6,12 @@ import manager.IndividualRequestManager;
 import model.GroupMonitoringEntity;
 import model.MonitoringEntity;
 import model.RequestStatus;
+import model.UpdateFrequency;
 
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class Requests {
 
             for(GroupMonitoringEntity m: monitorings) {
                 //String display = m.getPK().getName() + " - Requested on: " + m.getTs().toString();
-                DisplayGroupReq display = new DisplayGroupReq(m.getPK().getName(), m.getTs(), m.getFrequency() != null);
+                DisplayGroupReq display = new DisplayGroupReq(m.getPK().getName(), m.getTs(), m.getFrequency() != null, m.getFrequency());
                 results.add(display);
             }
 
@@ -54,19 +56,18 @@ public class Requests {
 
         for(MonitoringEntity m: monitorings) {
             //String display = m.getPk().getIndividual() + " - Requested on: " +m.getTs() + " status: " + m.getStatus();
-            DisplayIndividualReq display = new DisplayIndividualReq(m.getName(), m.getTs(), m.getStatus(), m.getPk().getIndividual(), m.getFrequency() != null, m.getStatus() == RequestStatus.ACCEPTED);
+            DisplayIndividualReq display = new DisplayIndividualReq(m.getName(), m.getTs(), m.getStatus(), m.getPk().getIndividual(), m.getFrequency() != null, m.getStatus() == RequestStatus.ACCEPTED, m.getFrequency());
             results.add(display);
         }
 
         return results;
     }
 
-    public void unsubscribe() {
+    public Timestamp lastUpdate(Timestamp ts, UpdateFrequency frequency) {
 
-        String name = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
-        System.out.println("unsubscribe: " + name);
+        System.out.println("ts: " + ts + " freq: " + frequency);
+
+        return UpdateFrequency.getLastUpdate(ts, frequency);
     }
-
-
 
 }

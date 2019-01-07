@@ -108,12 +108,7 @@ public class IndividualRequestManager extends Application {
      * @param usernameTP The username of the Third Party that issued the request
      */
     public void rejectRequest(String taxcode, String usernameTP) {
-        MonitoringEntity monitoring = em.find(MonitoringEntity.class, new MonitoringEntityPK(taxcode, usernameTP));
-
-        if(monitoring == null)
-            return;
-
-        em.remove(monitoring);
+        deleteRequest(taxcode, usernameTP);
     }
 
     public List<MonitoringEntity> getRequests(String usernameTP) {
@@ -170,6 +165,18 @@ public class IndividualRequestManager extends Application {
             monitoring.setFrequency(frequency);
             em.persist(monitoring);
         }
+    }
+
+    public void deleteRequest(String taxcode, String usernameTP) {
+        MonitoringEntity monitoring = em.find(MonitoringEntity.class, new MonitoringEntityPK(taxcode, usernameTP));
+
+        if(monitoring == null)
+            return;
+
+        em.remove(monitoring);
+
+        em.getEntityManagerFactory().getCache().evictAll();
+
     }
 
     @POST
