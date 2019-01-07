@@ -42,6 +42,14 @@ public class IndivData {
         return monitoring.getName();
     }
 
+    public String getTaxcode() {
+        return taxcode;
+    }
+
+    public void setTaxcode(String taxcode) {
+        this.taxcode = taxcode;
+    }
+
     public boolean wantsBlood() {
         return (monitoring.getViews() & View.BLOOD_PRESSURE) > 0;
     }

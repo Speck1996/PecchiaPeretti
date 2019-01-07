@@ -1,6 +1,11 @@
 package model;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import manager.geocoding.FoundLocation;
+import org.hibernate.annotations.ListIndexBase;
+
 import javax.persistence.*;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -58,6 +63,73 @@ public class GroupMonitoringEntity {
     @Column(name = "birth_country")
     private String country;
 
+    @Basic
+    @Column(name = "found_location")
+    private byte[] byteFoundLocation;
+
+    @Transient
+    private FoundLocation foundLocation;
+
+    public byte[] getByteFoundLocation() {
+        return byteFoundLocation;
+    }
+
+    public void setByteFoundLocation(byte[] byteFoundLocation) {
+        this.byteFoundLocation = byteFoundLocation;
+        //TODO
+        System.out.println("Setto il bytarray");
+
+        ByteArrayInputStream bais;
+        ObjectInputStream in;
+
+        try {
+            bais = new ByteArrayInputStream(byteFoundLocation);
+            in = new ObjectInputStream(bais);
+
+            foundLocation = (FoundLocation) in.readObject();
+            in.close();
+
+            this.byteFoundLocation = byteFoundLocation;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public FoundLocation getFoundLocation() {
+        if(byteFoundLocation == null)
+            return null;
+
+        try {
+            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteFoundLocation));
+            FoundLocation location = (FoundLocation) in.readObject();
+            return location;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void setFoundLocation(FoundLocation foundLocation) {
+        this.foundLocation = foundLocation;
+        //TODO
+
+        ByteArrayOutputStream baos;
+        ObjectOutputStream out;
+        baos = new ByteArrayOutputStream();
+
+        try {
+            out = new ObjectOutputStream(baos);
+            out.writeObject(foundLocation);
+            out.close();
+
+            this.byteFoundLocation = baos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public GroupMonitoringEntity() {
     }

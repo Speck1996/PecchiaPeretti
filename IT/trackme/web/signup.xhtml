@@ -4,34 +4,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
     <title>Signup - Trackme</title>
+    <h:outputStylesheet library="css" name="login.css"/>
 </h:head>
 
 <h:body>
-    <h1>Trackme - Third Party Signup</h1>
 
-    <h:form>
-        <h:outputLabel value="username "/>
-        <h:inputText value="#{webAppSignUp.username}" required="true"/>
-        <h:outputLabel value="email "/>
-        <h:inputText value="#{webAppSignUp.email}" required="true"/>
-        <br/>
-        <h:outputLabel value="name "/>
-        <h:inputText value="#{webAppSignUp.name}"/>
-        <h:outputLabel value="surname "/>
-        <h:inputText value="#{webAppSignUp.surname}"/>
-        <br/>
-        <h:outputLabel value="password "/>
-        <h:inputSecret value="#{webAppSignUp.password}" required="true"/>
-        <h:outputLabel value="confirm password "/>
-        <h:inputSecret value="#{webAppSignUp.confPassword}" required="true"/>
-        <br/>
-        <h:commandButton value="Submit" action="#{webAppSignUp.signup()}"/>
-        <input type="reset" value="Reset"/>
-    </h:form>
-    <h:panelGroup rendered="#{webAppSignUp.error}" layout="block" class="error">Passwords do not match</h:panelGroup>
+    <h1 class="title">Trackme - Third Party Signup</h1>
+
+    <div class="login-page signup">
+
+        <div class="form formSignup">
+
+            <h:form>
+
+                <h:inputText binding="#{webAppSignUp.usernameInput}" class="#{webAppSignUp.getErrorUsername()}" id="username" value="#{webAppSignUp.username}" required="true"  pt:placeholder="username"/>
+                <h:inputText binding="#{webAppSignUp.emailInput}" class="#{webAppSignUp.getErrorEmail()}" id="email" value="#{webAppSignUp.email}" required="true" pt:placeholder="email"/>
+                <br/>
+
+                <h:inputText value="#{webAppSignUp.name}" pt:placeholder="name"/>
+                <h:inputText value="#{webAppSignUp.surname}" pt:placeholder="surname"/>
+                <br/>
+
+                <h:inputSecret binding="#{webAppSignUp.passwordInput}" class="#{webAppSignUp.getErrorPassword()}" id="password" value="#{webAppSignUp.password}" required="true" requiredMessage="choose a password" pt:placeholder="password"/>
+                <h:inputSecret binding="#{webAppSignUp.confirmInput}" class="#{webAppSignUp.getErrorConfirm()}" id="confirm" value="#{webAppSignUp.confPassword}" required="true" requiredMessage="confirm password" pt:placeholder="confirm password"/>
+                <br/>
+                <h:commandButton pt:class="button" value="Submit" action="#{webAppSignUp.signup()}"/>
+                <input class="button" type="reset" value="Reset"/>
+            </h:form>
+
+            <p class="message">Already registered? <a href="login.xhtml">Login</a></p>
+            <h:panelGroup rendered="#{webAppSignUp.error}" layout="block" class="error">Passwords do not match</h:panelGroup>
+
+        </div>
+    </div>
 </h:body>
 </html>

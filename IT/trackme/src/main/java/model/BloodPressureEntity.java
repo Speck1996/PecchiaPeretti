@@ -1,6 +1,10 @@
 package model;
 
+import model.xml.TimestampAdapter;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -33,8 +37,10 @@ import java.util.Objects;
 @Table(name = "BloodPressure")
 //@IdClass(BloodPressureEntityPK.class)
 public class BloodPressureEntity {
+
     @EmbeddedId
     private BloodPressureEntityPK id;
+
 
     @ManyToOne
     @MapsId("individual")
@@ -89,11 +95,20 @@ public class BloodPressureEntity {
         return id;
     }
 
+    @XmlElement
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
+    public Timestamp getTs() {
+        return getPK().getTs();
+    }
+
+    public void setTs(Timestamp ts) {
+    }
 
     /**
      * Return the individual that produce this data
      * @return The individual that produce this data
      */
+    @XmlTransient
     public IndividualEntity getIndividual() {
         return individual;
     }
@@ -106,15 +121,6 @@ public class BloodPressureEntity {
         this.individual = individual;
     }
 
-//    @Id
-//    @Column(name = "ts")
-//    public Timestamp getTs() {
-//        return ts;
-//    }
-//
-//    public void setTs(Timestamp ts) {
-//        this.ts = ts;
-//    }
 
     /**
      * Return this entry's value of the blood pressure
@@ -153,6 +159,7 @@ public class BloodPressureEntity {
      * Return the latitude of this data
      * @return The latitude
      */
+    @XmlTransient
     public Double getLatitude() {
         return latitude;
     }
@@ -169,6 +176,7 @@ public class BloodPressureEntity {
      * Return the longitude of this data
      * @return The longitude
      */
+    @XmlTransient
     public Double getLongitude() {
         return longitude;
     }

@@ -2,25 +2,72 @@ package login;
 
 import model.ThirdPartyEntity;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @Named
 public class WebAppLogin {
 
+    public final static String COOKIE_NAME = "auth";
+
     private final static String FORM_ID = "loginForm";
     private final static String USERNAME_ID = "username";
     private final static String PASSWORD_ID = "password";
-    public final static String COOKIE_NAME = "auth";
+
+    private UIComponent usernameInput;
+    private UIComponent passwordInput;
 
     private boolean error = false;
 
     @PersistenceContext(unitName = "NewPersistenceUnit")
     private EntityManager em;
+
+    public UIComponent getUsernameInput() {
+        return usernameInput;
+    }
+
+    public void setUsernameInput(UIComponent usernameInput) {
+        this.usernameInput = usernameInput;
+    }
+
+    public String getErrorUsername() {
+        return fieldError(usernameInput);
+    }
+
+    public UIComponent getPasswordInput() {
+        return passwordInput;
+    }
+
+
+    public void setPasswordInput(UIComponent passwordInput) {
+        this.passwordInput = passwordInput;
+    }
+
+    public String getErrorPassword() {
+        return fieldError(passwordInput);
+    }
+
+    private String fieldError(UIComponent component) {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        String clientId = component.getClientId(context);
+        Iterator<FacesMessage> messages = context.getMessages(clientId);
+
+        while (messages.hasNext()) {
+            if (messages.next().getSeverity().compareTo(
+                    FacesMessage.SEVERITY_ERROR) >= 0) {
+                return "input-error";
+            }
+        }
+        return null;
+    }
 
     public boolean isError() {
         return error;

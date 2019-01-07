@@ -4,29 +4,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
     <title>Login</title>
+    <h:outputStylesheet library="css" name="login.css"/>
 </h:head>
 
 <h:body>
-    <h1>Trackme - Third Party login</h1>
 
-    <h:form id="loginForm">
-        <h:outputLabel value="Username"/>
-        <h:inputText id="username" required="true" requiredMessage="Please fill me!"/>
-        <h:message for="username"/>
-        <br/>
+    <h1 class="title">Trackme</h1>
 
-        <h:outputLabel value="Passowrd"/>
-        <h:inputSecret id="password" required="true" requiredMessage="Please fill me!"/>
-        <h:message for="password"/>
-        <br/>
+    <div class="login-page">
 
-        <h:commandButton value="Submit" action="#{webAppLogin.login}"/><br/>
-    </h:form>
+        <div class="form">
 
-    <h:panelGroup rendered="#{webAppLogin.error}" layout="block" class="error">Username or password wrong, please try again</h:panelGroup>
+            <h:form id="loginForm">
+                <h:inputText id="username" binding="#{webAppLogin.usernameInput}" required="true" class="#{webAppLogin.getErrorUsername()}" pt:placeholder="username"/>
+                <br/>
+
+                <h:inputSecret id="password" binding="#{webAppLogin.passwordInput}" required="true" class="#{webAppLogin.getErrorPassword()}" pt:placeholder="password"/>
+                <br/>
+
+                <h:commandButton pt:class="button" value="Submit" action="#{webAppLogin.login}"/><br/>
+            </h:form>
+
+            <p class="message">New user? <a href="signup.xhtml">Register</a></p>
+
+            <h:panelGroup rendered="#{webAppLogin.error}" layout="block" class="error">Username or password wrong, please try again</h:panelGroup>
+        </div>
+    </div>
 </h:body>
 </html>

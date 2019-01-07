@@ -1,6 +1,10 @@
 package model;
 
+import model.xml.DateAdapter;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -40,9 +44,17 @@ public class StepsEntity {
     @MapsId("individual")
     @JoinColumn(name = "individual")
     private IndividualEntity individual;
-    //private Date day;
+
+    @Basic
+    @Column(name = "value")
     private int value;
+
+    @Basic
+    @Column(name = "latitude")
     private Double latitude;
+
+    @Basic
+    @Column(name = "longitude")
     private Double longitude;
 
     public StepsEntity() {
@@ -60,6 +72,16 @@ public class StepsEntity {
         return id;
     }
 
+    @XmlJavaTypeAdapter(DateAdapter.class)
+    public Date getDay() {
+        return getPK().getDay();
+    }
+
+    public void setDay() {
+
+    }
+
+    @XmlTransient
     public IndividualEntity getIndividual() {
         return individual;
     }
@@ -68,18 +90,7 @@ public class StepsEntity {
         this.individual = individual;
     }
 
-//    @Id
-//    @Column(name = "day")
-//    public Date getDay() {
-//        return day;
-//    }
-//
-//    public void setDay(Date day) {
-//        this.day = day;
-//    }
 
-    @Basic
-    @Column(name = "value")
     public int getValue() {
         return value;
     }
@@ -88,8 +99,7 @@ public class StepsEntity {
         this.value = value;
     }
 
-    @Basic
-    @Column(name = "latitude")
+    @XmlTransient
     public Double getLatitude() {
         return latitude;
     }
@@ -98,8 +108,7 @@ public class StepsEntity {
         this.latitude = latitude;
     }
 
-    @Basic
-    @Column(name = "longitude")
+    @XmlTransient
     public Double getLongitude() {
         return longitude;
     }

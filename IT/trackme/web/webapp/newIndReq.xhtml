@@ -4,62 +4,96 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <title>Individual request - Trackme</title>
+    <h:outputStylesheet library="css" name="request.css"/>
 </h:head>
 
 <h:body>
-    <a href="home.xhtml">HOME</a>
-    <h2>New individual request</h2>
 
-    <h:form>
-        <h:outputLabel value="Name of the request"/><br/>
-        <h:inputText id="name" value="#{individualReq.name}" required="true" requiredMessage="Mandatory field"/>
-        <h:message for="name"/>
-        <br/>
+    <div class="header">
+        <div class="header-left">
+            <p>Hi, #{homeWebApp.retrieveUsername()}</p>
+        </div>
+        <div class="header-left">
+            <a href="home.xhtml" class="headerButton">HOME</a>
+        </div>
+        <div class="header-right">
+            <h:form>
+                <h:commandButton styleClass="headerButton" value="Logout" action="#{webAppLogout.logout()}"/>
+            </h:form>
+        </div>
+    </div>
 
-        <h:outputLabel value="Username or taxcode of the individual"/><br/>
-        <h:inputText id="individual" value="#{individualReq.identifier}" required="true" requiredMessage="Mandatory field"/>
-        <h:message for="individual"/>
-        <h:panelGroup rendered="#{individualReq.usernameError}">Username not found</h:panelGroup>
-        <h:panelGroup rendered="#{individualReq.taxcodeError}">Taxcode not found</h:panelGroup>
-        <h:panelGroup rendered="#{individualReq.requestAlreadyExists}">You have alreay a request for this individual</h:panelGroup>
 
-        <h:selectOneRadio id="idType" value="#{individualReq.idType}" required="true" requiredMessage="Mandatory field">
-            <f:selectItem itemValue="username" itemLabel="Username"/>
-            <f:selectItem itemValue="taxcode" itemLabel="Taxcode"/>
-        </h:selectOneRadio>
-        <h:message for="idType"/>
 
-        <br/>
-        <h:outputLabel value="Description"/><br/>
-        <h:inputTextarea value="#{individualReq.description}"/>
 
-        <h5>Check which eHealth data you want to access</h5>
-        <h:selectManyCheckbox id="views" value="#{individualReq.view}" required="true" requiredMessage="Mandatory field">
-            <f:selectItem itemValue="sleep" itemLabel="Sleep Time"/>
-            <f:selectItem itemValue="steps" itemLabel="Steps"/>
-            <f:selectItem itemValue="blood" itemLabel="Blood Pressure"/>
-            <f:selectItem itemValue="heart" itemLabel="Heart Rate"/>
-        </h:selectManyCheckbox>
-        <h:message for="views"/>
+    <div class="req-page">
+        <h2>New individual request</h2>
 
-        <h5>Check which attributes you want to access</h5>
-        <h:selectManyCheckbox id="attr" value="#{individualReq.attr}" required="true" requiredMessage="Mandatory field">
-            <f:selectItem itemValue="name" itemLabel="Name"/>
-            <f:selectItem itemValue="surname" itemLabel="Surname"/>
-            <f:selectItem itemValue="sex" itemLabel="Sex"/>
-            <f:selectItem itemValue="age" itemLabel="Age"/>
-            <f:selectItem itemValue="country" itemLabel="Country of birth"/>
-            <f:selectItem itemValue="position" itemLabel="Last position"/>
-        </h:selectManyCheckbox>
-        <h:message for="attr"/>
-        <br/>
+        <div class="form">
+            <h:form>
 
-        <h:commandButton value="Submit" action="#{individualReq.processRequest()}"/>
-        <input type="reset" value="Reset"/>
-    </h:form>
+
+                    <h:outputLabel value="Name of the request" for="name"/>
+
+                    <h:inputText id="name" value="#{individualReq.name}" required="true" pt:placeholder="name"/>
+                    <h:message for="name"/>
+
+
+
+
+
+                    <h:outputLabel value="Username or taxcode of the individual"/>
+                    <h:inputText id="individual" value="#{individualReq.identifier}" required="true" requiredMessage="Mandatory field" pt:placeholder="username or taxcode"/>
+                    <h:message for="individual"/>
+                    <h:panelGroup rendered="#{individualReq.usernameError}">Username not found</h:panelGroup>
+                    <h:panelGroup rendered="#{individualReq.taxcodeError}">Taxcode not found</h:panelGroup>
+                    <h:panelGroup rendered="#{individualReq.requestAlreadyExists}">You have alreay a request for this individual</h:panelGroup>
+
+
+
+
+                    <h:selectOneRadio id="idType" value="#{individualReq.idType}" required="true" requiredMessage="Mandatory field">
+                        <f:selectItem itemValue="username" itemLabel="Username"/>
+                        <f:selectItem itemValue="taxcode" itemLabel="Taxcode"/>
+                    </h:selectOneRadio>
+                    <h:message for="idType"/>
+
+
+                <br/>
+                <h:outputLabel value="Description"/><br/>
+                <h:inputTextarea value="#{individualReq.description}" pt:placeholder="description"/>
+
+                <h5>Check which eHealth data you want to access</h5>
+                <h:selectManyCheckbox id="views" value="#{individualReq.view}" required="true" requiredMessage="Mandatory field">
+                    <f:selectItem itemValue="sleep" itemLabel="Sleep Time"/>
+                    <f:selectItem itemValue="steps" itemLabel="Steps"/>
+                    <f:selectItem itemValue="blood" itemLabel="Blood Pressure"/>
+                    <f:selectItem itemValue="heart" itemLabel="Heart Rate"/>
+                </h:selectManyCheckbox>
+                <h:message for="views"/>
+
+                <h5>Check which attributes you want to access</h5>
+                <h:selectManyCheckbox id="attr" value="#{individualReq.attr}" required="true" requiredMessage="Mandatory field">
+                    <f:selectItem itemValue="name" itemLabel="Name"/>
+                    <f:selectItem itemValue="surname" itemLabel="Surname"/>
+                    <f:selectItem itemValue="sex" itemLabel="Sex"/>
+                    <f:selectItem itemValue="age" itemLabel="Age"/>
+                    <f:selectItem itemValue="country" itemLabel="Country of birth"/>
+                    <f:selectItem itemValue="position" itemLabel="Last position"/>
+                </h:selectManyCheckbox>
+                <h:message for="attr"/>
+                <br/>
+
+                <h:commandButton styleClass="button" value="Submit" action="#{individualReq.processRequest()}"/>
+                <input class="button" type="reset" value="Reset"/>
+            </h:form>
+        </div>
+
+    </div>
 
     <p>#{individualReq.print()}</p>
 </h:body>

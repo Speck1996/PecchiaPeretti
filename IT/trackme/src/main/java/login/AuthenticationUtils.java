@@ -94,4 +94,17 @@ public class AuthenticationUtils {
 
         return null;
     }
+
+    public static String getUsernameByCookiesArray(Cookie[] cookies) {
+        if(cookies == null)
+            return null;
+
+        for(Cookie c: cookies) {
+            if(c.getName().equals(WebAppLogin.COOKIE_NAME)) {
+                return AuthenticationUtils.getUsernameFromToken(c.getValue());
+            }
+        }
+
+        return null;
+    }
 }

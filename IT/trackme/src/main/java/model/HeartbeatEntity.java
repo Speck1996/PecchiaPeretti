@@ -1,6 +1,11 @@
 package model;
 
+import model.xml.TimestampAdapter;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -40,10 +45,17 @@ public class HeartbeatEntity {
     @MapsId("individual")
     @JoinColumn(name = "individual")
     private IndividualEntity individual;
-    //private Timestamp ts;
 
+    @Basic
+    @Column(name = "value")
     private short value;
+
+    @Basic
+    @Column(name = "latitude")
     private Double latitude;
+
+    @Basic
+    @Column(name = "longitude")
     private Double longitude;
 
     public HeartbeatEntity() {
@@ -61,7 +73,15 @@ public class HeartbeatEntity {
         return id;
     }
 
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
+    public Timestamp getTs() {
+        return getPK().getTs();
+    }
 
+    public void setTs(Timestamp ts) {
+    }
+
+    @XmlTransient
     public IndividualEntity getIndividual() {
         return individual;
     }
@@ -71,19 +91,6 @@ public class HeartbeatEntity {
     }
 
 
-//    @Id
-//    @MapsId("ts")
-//    @Column(name = "ts")
-//    public Timestamp getTs() {
-//        return ts;
-//    }
-//
-//    public void setTs(Timestamp ts) {
-//        this.ts = ts;
-//    }
-
-    @Basic
-    @Column(name = "value")
     public short getValue() {
         return value;
     }
@@ -92,8 +99,7 @@ public class HeartbeatEntity {
         this.value = value;
     }
 
-    @Basic
-    @Column(name = "latitude")
+    @XmlTransient
     public Double getLatitude() {
         return latitude;
     }
@@ -102,8 +108,7 @@ public class HeartbeatEntity {
         this.latitude = latitude;
     }
 
-    @Basic
-    @Column(name = "longitude")
+    @XmlTransient
     public Double getLongitude() {
         return longitude;
     }

@@ -8,106 +8,113 @@
 
 <h:head>
     <title>Individual Data Vidualization - Trackme</title>
+    <h:outputStylesheet library="css" name="groupData.css"/>
 </h:head>
 
 <h:body>
 
-    <a href="home.xhtml">HOME</a>
-    <a href="requests.xhtml">REQUEST</a>
-    <h2>Individual Data Vidualization</h2>
-    <br/>
+    <div class="header">
+        <div class="header-left">
+            <p>Hi, #{homeWebApp.retrieveUsername()}</p>
+        </div>
+        <div class="header-left">
+            <a href="home.xhtml" class="headerButton">HOME</a>
+        </div>
+        <div class="header-left">
+            <a href="requests.xhtml" class="headerButton">REQUESTS</a>
+        </div>
+        <div class="header-right">
+            <h:form>
+                <h:commandButton styleClass="headerButton" value="Logout" action="#{webAppLogout.logout()}"/>
+            </h:form>
+        </div>
+    </div>
 
-    <h4>Request name: #{indivData.getNameRequest()}</h4>
+    <div class="container">
+        <h2>Individual Data Vidualization: #{indivData.getNameRequest()}</h2>
 
 
-    <h:panelGroup rendered="#{indivData.wantsBlood()}">
-        <table border="1">
-            <caption>Blood Pressure</caption>
-            <tr>
-                <th>Timestamp</th>
-                <th>Value Min</th>
-                <th>Value Max</th>
-                <th>Location</th>
-            </tr>
+        <h:panelGroup rendered="#{indivData.wantsBlood()}">
+            <h:dataTable value="#{indivData.bloodPressureData}" var="o" styleClass="fixed_headers">
+                <f:facet name="caption">Blood Pressure <a href="download?t=i&amp;v=b&amp;n=#{indivData.taxcode}">download</a></f:facet>
+                <h:column>
+                    <f:facet name="header">Timestamp</f:facet>
+                    #{o.getPK().ts}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value Min</f:facet>
+                    #{o.valueMin}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value Max</f:facet>
+                    #{o.valueMax}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Location</f:facet>
+                    #{o.latitude}&nbsp;&nbsp;&nbsp;#{o.longitude}
+                </h:column>
+            </h:dataTable>
+        </h:panelGroup>
 
-            <tbody>
-            <ui:repeat value="#{indivData.bloodPressureData}" var="d">
-                <tr>
-                    <td>#{d.getPK().ts}</td>
-                    <td>#{d.valueMin}</td>
-                    <td>#{d.valueMax}</td>
-                    <td>#{d.latitude} &emsp; #{d.longitude}</td>
-                </tr>
-            </ui:repeat>
-            </tbody>
-        </table>
+
+        <h:panelGroup rendered="#{indivData.wantsHeart()}">
+            <h:dataTable value="#{indivData.heartBeatData}" var="o" styleClass="fixed_headers">
+                <f:facet name="caption">Heart Rate <a href="download?t=i&amp;v=h&amp;n=#{indivData.taxcode}">download</a></f:facet>
+                <h:column>
+                    <f:facet name="header">Timestamp</f:facet>
+                    #{o.getPK().ts}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value</f:facet>
+                    #{o.value}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Location</f:facet>
+                    #{o.latitude}&nbsp;&nbsp;&nbsp;#{o.longitude}
+                </h:column>
+            </h:dataTable>
+        </h:panelGroup>
+
+
+        <h:panelGroup rendered="#{indivData.wantsSleep()}">
+            <h:dataTable value="#{indivData.sleepTimeData}" var="o" styleClass="fixed_headers">
+                <f:facet name="caption">Sleep Time <a href="download?t=i&amp;v=s&amp;n=#{indivData.taxcode}">download</a></f:facet>
+                <h:column>
+                    <f:facet name="header">Day</f:facet>
+                    #{o.getPK().day}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value</f:facet>
+                    #{o.value}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Location</f:facet>
+                    #{o.latitude}&nbsp;&nbsp;&nbsp;#{o.longitude}
+                </h:column>
+            </h:dataTable>
+        </h:panelGroup>
+
+
+        <h:panelGroup rendered="#{indivData.wantsSteps()}">
+            <h:dataTable value="#{indivData.stepsData}" var="o" styleClass="fixed_headers">
+                <f:facet name="caption">Steps <a href="download?t=i&amp;v=st&amp;n=#{indivData.taxcode}">download</a></f:facet>
+                <h:column>
+                    <f:facet name="header">Day</f:facet>
+                    #{o.getPK().day}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value</f:facet>
+                    #{o.value}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Location</f:facet>
+                    #{o.latitude}&nbsp;&nbsp;&nbsp;#{o.longitude}
+                </h:column>
+            </h:dataTable>
+        </h:panelGroup>
         <br/>
-    </h:panelGroup>
-    <h:panelGroup rendered="#{indivData.wantsHeart()}">
-        <table border="1">
-            <caption>Heart Rate</caption>
-            <tr>
-                <th>Timestamp</th>
-                <th>Value</th>
-                <th>Location</th>
-            </tr>
 
-            <tbody>
-            <ui:repeat value="#{indivData.heartBeatData}" var="d">
-                <tr>
-                    <td>#{d.getPK().ts}</td>
-                    <td>#{d.value}</td>
-                    <td>#{d.latitude} &emsp; #{d.longitude}</td>
-                </tr>
-            </ui:repeat>
-            </tbody>
-        </table>
-        <br/>
-    </h:panelGroup>
-
-    <h:panelGroup rendered="#{indivData.wantsSleep()}">
-        <table border="1">
-            <caption>Sleep Time</caption>
-            <tr>
-                <th>Day</th>
-                <th>Value</th>
-                <th>Location</th>
-            </tr>
-
-            <tbody>
-            <ui:repeat value="#{indivData.sleepTimeData}" var="d">
-                <tr>
-                    <td>#{d.getPK().day}</td>
-                    <td>#{d.value}</td>
-                    <td>#{d.latitude} &emsp; #{d.longitude}</td>
-                </tr>
-            </ui:repeat>
-            </tbody>
-        </table>
-        <br/>
-    </h:panelGroup>
-
-    <h:panelGroup rendered="#{indivData.wantsSteps()}">
-        <table border="1">
-            <caption>Steps</caption>
-            <tr>
-                <th>Day</th>
-                <th>Value</th>
-                <th>Location</th>
-            </tr>
-
-            <tbody>
-            <ui:repeat value="#{indivData.stepsData}" var="d">
-                <tr>
-                    <td>#{d.getPK().day}</td>
-                    <td>#{d.value}</td>
-                    <td>#{d.latitude} &emsp; #{d.longitude}</td>
-                </tr>
-            </ui:repeat>
-            </tbody>
-        </table>
-    </h:panelGroup>
-    <br/>
+    </div>
 
 
 </h:body>

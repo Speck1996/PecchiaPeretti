@@ -7,41 +7,75 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
     <title>Requests - Trackme</title>
+    <h:outputStylesheet library="css" name="requests.css"/>
 </h:head>
 
 <h:body>
-    <a href="home.xhtml">HOME</a>
 
+    <div class="header">
+        <div class="header-left">
+            <p>Hi, #{homeWebApp.retrieveUsername()}</p>
+        </div>
+        <div class="header-left">
+            <a href="home.xhtml" class="headerButton">HOME</a>
+        </div>
+        <div class="header-right">
+            <h:form>
+                <h:commandButton styleClass="headerButton" value="Logout" action="#{webAppLogout.logout()}"/>
+            </h:form>
+        </div>
+    </div>
+
+
+
+    <div class="container">
     <h2>Requests</h2>
     <hr/>
     <h4>Individual requests</h4>
 
-    <ul>
+
         <ui:repeat value="#{requests.retrieveIndividualRequests()}" var="req">
-            <li>#{req.name} - Requested on:  #{req.ts} || Last update on: #{requests.lastUpdate(req.ts, req.frequency)} - Status: #{req.status} ->
-                <h:panelGroup rendered="#{req.accepted}"><a href="indivData.xhtml?#{req.link}">LINK</a></h:panelGroup> --
+            <div class="req">
+                <h4>#{req.name}</h4>
+                <p class="dates">Requested on:  #{req.ts} <br/> Last update on: #{requests.lastUpdate(req.ts, req.frequency)}</p>
+                <p>Status: <span class="#{req.status == 'ACCEPTED' ? 'accepted' : 'pending'}">#{req.status} </span></p>
+
+                <p>
+                <h:panelGroup rendered="#{req.accepted}"><a href="indivData.xhtml?#{req.link}">DATA</a></h:panelGroup>
                 <h:panelGroup rendered="#{req.subscribed and req.accepted}"><a href="unsub.xhtml?#{req.link}">Unsubscribe</a></h:panelGroup>
                 <h:panelGroup rendered="#{not req.subscribed and req.accepted}"><a href="sub.xhtml?#{req.link}">Subscribe</a></h:panelGroup>
-                --
                 <a href="delete.xhtml?#{req.link}">Delete</a>
-            </li>
+                </p>
+            </div>
+
         </ui:repeat>
-    </ul>
+
 
 
     <hr/>
     <h4>Group Requests</h4>
 
-    <ul>
+
         <ui:repeat value="#{requests.retrieveGroupRequests()}" var="req">
-            <li>#{req.name} - Requested on: #{req.ts} || Last update on: #{requests.lastUpdate(req.ts, req.frequency)}-> <a href="groupData.xhtml?#{req.link}">LINK</a> --
-                <h:panelGroup rendered="#{req.subscribed}"><a href="unsub.xhtml?#{req.link}">Unsubscribe</a></h:panelGroup>
-                <h:panelGroup rendered="#{not req.subscribed}"><a href="sub.xhtml?#{req.link}">Subscribe</a></h:panelGroup>
-                 --
-                <a href="delete.xhtml?#{req.link}">Delete</a>
-            </li>
+
+            <div class="req">
+                <h4>#{req.name}</h4>
+
+                <p class="dates">Requested on: #{req.ts} <br/> Last update on: #{requests.lastUpdate(req.ts, req.frequency)}</p>
+
+                <p>
+                    <a href="groupData.xhtml?#{req.link}">DATA</a>
+                    <h:panelGroup rendered="#{req.subscribed}"><a href="unsub.xhtml?#{req.link}">Unsubscribe</a></h:panelGroup>
+                    <h:panelGroup rendered="#{not req.subscribed}"><a href="sub.xhtml?#{req.link}">Subscribe</a></h:panelGroup>
+
+                    <a href="delete.xhtml?#{req.link}">Delete</a>
+                </p>
+            </div>
+
         </ui:repeat>
-    </ul>
+
+
+    </div>
 
 
 </h:body>

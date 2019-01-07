@@ -4,63 +4,82 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <title>Group request - Trackme</title>
+    <h:outputStylesheet library="css" name="request.css"/>
 </h:head>
 
 <h:body>
-    <a href="home.xhtml">HOME</a>
-    <h2>New group request</h2>
+    <div class="header">
+        <div class="header-left">
+            <p>Hi, #{homeWebApp.retrieveUsername()}</p>
+        </div>
+        <div class="header-left">
+            <a href="home.xhtml" class="headerButton">HOME</a>
+        </div>
+        <div class="header-right">
+            <h:form>
+                <h:commandButton styleClass="headerButton" value="Logout" action="#{webAppLogout.logout()}"/>
+            </h:form>
+        </div>
+    </div>
 
-    <h:form>
+    <div class="req-page">
+        <h2>New group request</h2>
 
-        <h:outputLabel value="Name of the request"/>
-        <h:inputText id="name" value="#{groupReq.name}" required="true" requiredMessage="Mandatory field"/>
-        <h:message for="name"/>
-        <h:panelGroup rendered="#{groupReq.nameError}">You have alreay a request with this name</h:panelGroup>
+    <div class="form">
+        <h:form>
 
-        <h5>eHealth data filters</h5>
-        <h:selectManyCheckbox value="#{groupReq.views}" layout="lineDirection" required="true" requiredMessage="Mandatory field" id="views">
-            <f:selectItem itemValue="steps" itemLabel="Steps" />
-            <f:selectItem itemValue="sleep" itemLabel="Sleep Time" />
-            <f:selectItem itemValue="heart" itemLabel="Heart Rate" />
-            <f:selectItem itemValue="blood" itemLabel="Blood Pressure" />
-        </h:selectManyCheckbox>
-        <h:message for="views"/>
+            <h:outputLabel value="Name of the request"/>
+            <h:inputText id="name" value="#{groupReq.name}" required="true" requiredMessage="Mandatory field" pt:placeholder="name"/>
+            <h:message for="name"/>
+            <h:panelGroup rendered="#{groupReq.nameError}">You have alreay a request with this name</h:panelGroup>
 
-        <h5>Individuals' attributes filters</h5>
-        <h:outputLabel value="Sex"/>
-        <h:selectOneRadio value="#{groupReq.sex}">
-            <f:selectItem itemValue="male" itemLabel="Male"/>
-            <f:selectItem itemValue="female" itemLabel="Female"/>
-        </h:selectOneRadio>
+            <h5>eHealth data filters</h5>
+            <h:selectManyCheckbox value="#{groupReq.views}" layout="lineDirection" required="true" requiredMessage="Mandatory field" id="views">
+                <f:selectItem itemValue="steps" itemLabel="Steps" />
+                <f:selectItem itemValue="sleep" itemLabel="Sleep Time" />
+                <f:selectItem itemValue="heart" itemLabel="Heart Rate" />
+                <f:selectItem itemValue="blood" itemLabel="Blood Pressure" />
+            </h:selectManyCheckbox>
+            <h:message for="views"/>
 
-        <h:outputLabel value="Age"/>
-        <h:inputText value="#{groupReq.minAge}" converterMessage="enter a number" id="minAge">
-            <f:convertNumber integerOnly="true"/>
-        </h:inputText>
-        <h:message for="minAge"/>
+            <h5>Individuals' attributes filters</h5>
 
-        <h:inputText value="#{groupReq.maxAge}" converterMessage="enter a number" id="maxAge">
-            <f:convertNumber integerOnly="true"/>
-        </h:inputText>
-        <h:message for="maxAge"/>
-        <br/>
+            <h:selectOneRadio value="#{groupReq.sex}">
+                <f:selectItem itemValue="male" itemLabel="Male"/>
+                <f:selectItem itemValue="female" itemLabel="Female"/>
+            </h:selectOneRadio><br/>
 
-        <h:outputLabel value="Country of birth"/>
-        <h:inputText value="#{groupReq.birthCountry}"/>
-        <br/>
+            <h:outputLabel value="Age"/>
+            <h:inputText value="#{groupReq.minAge}" converterMessage="enter a number" id="minAge" pt:placeholder="age min">
+                <f:convertNumber integerOnly="true"/>
+            </h:inputText>
+            <h:message for="minAge"/>
 
-        <h:outputLabel value="Location"/>
-        <h:inputText value="#{groupReq.location}"/>
+            <h:inputText value="#{groupReq.maxAge}" converterMessage="enter a number" id="maxAge" pt:placeholder="age max">
+                <f:convertNumber integerOnly="true"/>
+            </h:inputText>
+            <h:message for="maxAge"/>
+            <br/>
 
-        <br/><br/>
+            <h:outputLabel value="Country of birth"/>
+            <h:inputText value="#{groupReq.birthCountry}" pt:placeholder="country of birth"/>
+            <br/>
+
+            <h:outputLabel value="Location"/>
+            <h:inputText value="#{groupReq.location}" pt:placeholder="location"/>
+
+            <br/><br/>
 
 
-        <h:commandButton value="Submit" action="#{groupReq.processRequest()}"/>
-        <input type="reset" value="Reset"/>
-    </h:form>
+            <h:commandButton styleClass="button" value="Submit" action="#{groupReq.processRequest()}"/>
+            <input class="button" type="reset" value="Reset"/>
+        </h:form>
+    </div>
+    </div>
 
     <p>#{groupReq.print()}</p>
 </h:body>

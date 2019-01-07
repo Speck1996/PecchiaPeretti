@@ -4,133 +4,121 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <title>Group Data Visualization - Trackme</title>
+    <h:outputStylesheet library="css" name="groupData.css"/>
 </h:head>
 
 <h:body>
-    <a href="home.xhtml">HOME</a>
-    <a href="requests.xhtml">REQUEST</a>
-    <h2>Group Data Visualization</h2>
+    <div class="header">
+        <div class="header-left">
+            <p>Hi, #{homeWebApp.retrieveUsername()}</p>
+        </div>
+        <div class="header-left">
+            <a href="home.xhtml" class="headerButton">HOME</a>
+        </div>
+        <div class="header-left">
+            <a href="requests.xhtml" class="headerButton">REQUESTS</a>
+        </div>
+        <div class="header-right">
+            <h:form>
+                <h:commandButton styleClass="headerButton" value="Logout" action="#{webAppLogout.logout()}"/>
+            </h:form>
+        </div>
+    </div>
 
 
-    <br/><br/>
 
-    <h4>Group name: #{groupData.nameReq}</h4>
+    <div class="container">
+        <h2>Group Data Visualization: #{groupData.nameReq}</h2>
 
 
-    <h:panelGroup rendered="#{groupData.wantsBlood()}">
-    <table>
-        <caption>Blood Pressure</caption>
-        <tr>
-            <th>Timestamp</th>
-            <th>Value Min</th>
-            <th>Value Max</th>
-        </tr>
 
-        <tbody>
-            <ui:repeat value="#{groupData.bloodPressureData}" var="d">
-                <tr>
-                    <td>#{d.getPK().ts}</td>
-                    <td>#{d.valueMin}</td>
-                    <td>#{d.valueMax}</td>
-                </tr>
 
-                <h:panelGroup rendered="#{empty d}">
-                    <tr><td colspan="2">
-                        Not enough data to show
-                    </td></tr>
-                </h:panelGroup>
-            </ui:repeat>
-
+        <h:panelGroup rendered="#{groupData.wantsBlood()}">
+            <h:dataTable value="#{groupData.bloodPressureData}" var="o" styleClass="fixed_headers">
+                <f:facet name="caption">Blood Pressure <a href="download?t=g&amp;v=b&amp;n=#{groupData.nameReq}">download</a> </f:facet>
+                <h:column>
+                    <f:facet name="header">Timestamp</f:facet>
+                    #{o.getPK().ts}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value Min</f:facet>
+                    #{o.valueMin}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value Max</f:facet>
+                    #{o.valueMax}
+                </h:column>
+            </h:dataTable>
             <h:panelGroup rendered="#{groupData.bloodError}">
-                <tr><td colspan="2">
-                    Not enough data to show
-                </td></tr>
+                <p class="noData">Not enough data to show</p>
             </h:panelGroup>
-        </tbody>
-    </table>
-    <br/>
-    </h:panelGroup>
-
-    <h:panelGroup rendered="#{groupData.wantsHeart()}">
-    <table>
-        <caption>Heart Rate</caption>
-        <tr>
-            <th>Timestamp</th>
-            <th>Value</th>
-        </tr>
-
-        <tbody>
-        <ui:repeat value="#{groupData.heartBeatData}" var="d">
-            <tr>
-                <td>#{d.getPK().ts}</td>
-                <td>#{d.value}</td>
-            </tr>
-        </ui:repeat>
-
-        <h:panelGroup rendered="#{groupData.heartError}">
-            <tr><td colspan="2">
-                Not enough data to show
-            </td></tr>
         </h:panelGroup>
-        </tbody>
-    </table>
-    <br/>
-    </h:panelGroup>
 
-    <h:panelGroup rendered="#{groupData.wantsSleep()}">
-    <table>
-        <caption>Sleep Time</caption>
-        <tr>
-            <th>Day</th>
-            <th>Value</th>
-        </tr>
 
-        <tbody>
-        <ui:repeat value="#{groupData.sleepTimeData}" var="d">
-            <tr>
-                <td>#{d.getPK().day}</td>
-                <td>#{d.value}</td>
-            </tr>
-        </ui:repeat>
 
-        <h:panelGroup rendered="#{groupData.sleepError}">
-            <tr><td colspan="2">
-                Not enough data to show
-            </td></tr>
+        <h:panelGroup rendered="#{groupData.wantsHeart()}">
+            <h:dataTable value="#{groupData.heartBeatData}" var="o" styleClass="fixed_headers">
+                <f:facet name="caption">Heart Rate <a href="download?t=g&amp;v=h&amp;n=#{groupData.nameReq}">download</a></f:facet>
+                <h:column>
+                    <f:facet name="header">Timestamp</f:facet>
+                    #{o.getPK().ts}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value</f:facet>
+                    #{o.value}
+                </h:column>
+            </h:dataTable>
+            <h:panelGroup rendered="#{groupData.heartError}">
+                <p class="noData">Not enough data to show</p>
+            </h:panelGroup>
         </h:panelGroup>
-        </tbody>
-    </table>
-    <br/>
-    </h:panelGroup>
 
-    <h:panelGroup rendered="#{groupData.wantsSteps()}">
-    <table>
-        <caption>Steps</caption>
-        <tr>
-            <th>Day</th>
-            <th>Value</th>
-        </tr>
 
-        <tbody>
-        <ui:repeat value="#{groupData.stepsData}" var="d">
-            <tr>
-                <td>#{d.getPK().day}</td>
-                <td>#{d.value}</td>
-            </tr>
-        </ui:repeat>
 
-        <h:panelGroup rendered="#{groupData.stepsError}">
-            <tr><td colspan="2">
-                Not enough data to show
-            </td></tr>
+
+
+
+
+        <h:panelGroup rendered="#{groupData.wantsSleep()}">
+            <h:dataTable value="#{groupData.sleepTimeData}" var="o" styleClass="fixed_headers">
+                <f:facet name="caption">Sleep Time <a href="download?t=g&amp;v=s&amp;n=#{groupData.nameReq}">download</a></f:facet>
+                <h:column>
+                    <f:facet name="header">Day</f:facet>
+                    #{o.getPK().day}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value</f:facet>
+                    #{o.value}
+                </h:column>
+            </h:dataTable>
+            <h:panelGroup rendered="#{groupData.sleepError}">
+                <p class="noData">Not enough data to show</p>
+            </h:panelGroup>
         </h:panelGroup>
-        </tbody>
-    </table>
-    </h:panelGroup>
-    <br/>
+
+
+
+        <h:panelGroup rendered="#{groupData.wantsSteps()}">
+            <h:dataTable value="#{groupData.stepsData}" var="o" styleClass="fixed_headers">
+                <f:facet name="caption">Steps <a href="download?t=g&amp;v=st&amp;n=#{groupData.nameReq}">download</a></f:facet>
+                <h:column>
+                    <f:facet name="header">Day</f:facet>
+                    #{o.getPK().day}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Value</f:facet>
+                    #{o.value}
+                </h:column>
+            </h:dataTable>
+            <h:panelGroup rendered="#{groupData.stepsError}">
+                <p class="noData">Not enough data to show</p>
+            </h:panelGroup>
+        </h:panelGroup>
+        <br/>
+    </div>
 
 </h:body>
 </html>

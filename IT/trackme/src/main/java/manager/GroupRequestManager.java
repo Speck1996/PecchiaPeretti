@@ -60,13 +60,18 @@ public class GroupRequestManager {
             throw new RequestExistsException();
 
 
+
         //insert new GroupMonitoring in DB
         ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
-        tp.addGroupMonitorings(name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, location, age_min, age_max, sex, birthCountry);
+        GroupMonitoringEntity gm = tp.addGroupMonitorings(name, new Timestamp(Calendar.getInstance().getTimeInMillis()), frequency, views, location, age_min, age_max, sex, birthCountry);
+
+        //if the third party specified a location, construct the FoundLocation object calling external maps API and persist it
+        if(location != null) {
+            gm.setFoundLocation(getLocation(location));
+        }
 
         try {
             em.persist(tp);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,7 +83,25 @@ public class GroupRequestManager {
         dateMin = getDateFromAge(groupMonitoring.getAgeMax());
         dateMax = getDateFromAge(groupMonitoring.getAgeMin());
 
-        FoundLocation foundLocation = getLocation(groupMonitoring.getLocation());
+
+
+        FoundLocation foundLocation = groupMonitoring.getFoundLocation();
+
+        /*
+         This case happens when a new Group Monitoring is insert in the db without the precedent method
+         (e.g. directly via sql) and thus the binary object is left null.
+         In these cases the FoundLocation object is constructed and persisted during the first data query
+        */
+
+        if(foundLocation == null && groupMonitoring.getLocation() != null) {
+            foundLocation = getLocation(groupMonitoring.getLocation());
+
+            groupMonitoring.setFoundLocation(foundLocation);
+
+            //persist the new foundLocation object
+            em.merge(groupMonitoring);
+        }
+
         System.out.println("is foundLocation null: " + (foundLocation == null));
 
         setFlags(foundLocation, dateMin, dateMax, groupMonitoring.getSex());
@@ -115,6 +138,7 @@ public class GroupRequestManager {
 
 
     private FoundLocation getLocation(String location) {
+        System.out.println("Call to maps API: " + location);
         Geocoder geocoder = new GeocoderImpl();
         return geocoder.getLocation(location);
     }

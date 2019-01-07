@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -121,19 +122,31 @@ public class GroupData {
     }
 
     public boolean wantsBlood() {
-        return (groupMonitoring.getViews() & View.BLOOD_PRESSURE) > 0;
+        if(groupMonitoring != null) {
+            return (groupMonitoring.getViews() & View.BLOOD_PRESSURE) > 0;
+        }
+        return false;
     }
 
     public boolean wantsHeart() {
-        return (groupMonitoring.getViews() & View.HEARTBEAT) > 0;
+        if(groupMonitoring != null) {
+            return (groupMonitoring.getViews() & View.HEARTBEAT) > 0;
+        }
+        return false;
     }
 
     public boolean wantsSleep() {
-        return (groupMonitoring.getViews() & View.SLEEP_TIME) > 0;
+        if(groupMonitoring != null) {
+            return (groupMonitoring.getViews() & View.SLEEP_TIME) > 0;
+        }
+        return false;
     }
 
     public boolean wantsSteps() {
-        return (groupMonitoring.getViews() & View.STEPS) > 0;
+        if(groupMonitoring != null) {
+            return (groupMonitoring.getViews() & View.STEPS) > 0;
+        }
+        return false;
     }
 
     public List<BloodPressureEntity> getBloodPressureData() {

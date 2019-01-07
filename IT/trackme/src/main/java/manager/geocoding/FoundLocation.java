@@ -1,13 +1,15 @@
 package manager.geocoding;
 
 
+import java.io.Serializable;
+import java.util.Objects;
 
 /***
  * This class stores a location, with longitude, latitude, name, and northeast, sudwest coordinates of the box including the area,
  * when the location refers to a district
  * @Author Stefano P.
  */
-public class FoundLocation {
+public class FoundLocation implements Serializable {
 
     /**
      * latitude value of the location centre point
@@ -168,5 +170,37 @@ public class FoundLocation {
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FoundLocation that = (FoundLocation) o;
+        return Double.compare(that.latitude, latitude) == 0 &&
+                Double.compare(that.longitude, longitude) == 0 &&
+                Double.compare(that.boxNorth, boxNorth) == 0 &&
+                Double.compare(that.boxSouth, boxSouth) == 0 &&
+                Double.compare(that.boxEast, boxEast) == 0 &&
+                Double.compare(that.boxWest, boxWest) == 0 &&
+                name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(latitude, longitude, boxNorth, boxSouth, boxEast, boxWest, name);
+    }
+
+    @Override
+    public String toString() {
+        return "FoundLocation{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", boxNorth=" + boxNorth +
+                ", boxSouth=" + boxSouth +
+                ", boxEast=" + boxEast +
+                ", boxWest=" + boxWest +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

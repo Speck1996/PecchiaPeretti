@@ -1,0 +1,136 @@
+
+
+
+.req-page {
+    width: 70%;
+    padding: 5% 0 0;
+    margin: auto;
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 800px;
+    margin: 0 auto 100px;
+    padding: 45px 45px 20px 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.form input[type="text"], .form input[type="password"], .form textarea {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+textarea {
+    resize: none;
+}
+
+.button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 30%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 15px;
+    border-radius: 4px;
+}
+.button:hover {
+    background: #43A047;
+}
+
+.form label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+
+.form table {
+    display: inline-block;
+    text-align: center;
+}
+
+
+
+.header {
+    background: #578a3f;
+    height: 35px;
+}
+
+.header div {
+    clear: none;
+    height: 100%;
+}
+
+.header-left {
+    float: left;
+}
+
+.header-right {
+    float: right;
+}
+
+.header p {
+    color: #FFFFFF;
+    font-weight: bold;
+    margin: 0;
+    line-height: 35px;
+    padding-left: 20px;
+}
+
+.header form {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+body {
+    margin: 0;
+}
+
+
+.headerButton {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    outline: 0;
+    background: #578a3f;
+    width: 100%;
+    height: 35px;
+    padding: 0;
+    border: 0;
+    color: #FFFFFF;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+a.headerButton {
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    margin-left: 50px;
+    line-height: 35px;
+}
+
+.headerButton:hover {
+    background: #8DC26F;
+}
+
+
+.req-page h2 {
+    text-align: center;
+    margin-top: 0;
+}

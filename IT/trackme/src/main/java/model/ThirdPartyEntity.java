@@ -103,9 +103,11 @@ public class ThirdPartyEntity {
         this.groupMonitorings = groupMonitorings;
     }
 
-    public void addGroupMonitorings(String name, Timestamp ts, UpdateFrequency frequency, short views, String location, Byte ageMin, Byte ageMax, Sex sex, String birthCountry) {
+    public GroupMonitoringEntity addGroupMonitorings(String name, Timestamp ts, UpdateFrequency frequency, short views, String location, Byte ageMin, Byte ageMax, Sex sex, String birthCountry) {
         GroupMonitoringEntity monitoring = new GroupMonitoringEntity(name, ts, frequency, views, location, ageMin, ageMax, sex, birthCountry, this);
         groupMonitorings.add(monitoring);
+
+        return monitoring;
     }
 
     @Override
