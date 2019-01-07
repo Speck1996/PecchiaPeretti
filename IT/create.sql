@@ -53,6 +53,7 @@ CREATE TABLE GroupMonitoring
 	age_max TINYINT,
 	sex ENUM('MALE', 'FEMALE'),
 	birth_country VARCHAR (40),
+	found_location BLOB,
 
 	PRIMARY KEY (third_party, name),
 	FOREIGN KEY (third_party) REFERENCES ThirdParty(username) ON UPDATE CASCADE ON DELETE CASCADE
