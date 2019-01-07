@@ -38,7 +38,7 @@
             </h:form>
 
             <p class="message">Already registered? <a href="login.xhtml">Login</a></p>
-            <h:panelGroup rendered="#{webAppSignUp.error}" layout="block" class="error">Passwords do not match</h:panelGroup>
+            <h:panelGroup rendered="#{webAppSignUp.error}" layout="block" class="error">#{webAppSignUp.errorMsg}</h:panelGroup>
 
         </div>
     </div>
