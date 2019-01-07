@@ -38,6 +38,12 @@ public class ThirdPartyRequest {
         this.accepted = accepted;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "ThirdPartyRequest{" +
+                "sender='" + sender + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", accepted=" + accepted +
+                '}';
+    }
 }

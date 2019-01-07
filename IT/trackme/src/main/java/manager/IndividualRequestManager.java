@@ -227,15 +227,19 @@ public class IndividualRequestManager extends Application {
         if(individual == null)
             return null;
 
-        Query query = em.createNamedQuery("Monitoring.findPending",MonitoringEntity.class)
-                .setParameter("taxcode", individual.getTaxcode())
-                .setParameter("status", RequestStatus.PENDING);
+        Query query = em.createNamedQuery("Monitoring.findReq",MonitoringEntity.class)
+                .setParameter("taxcode", individual.getTaxcode());
 
         for(int i = 0; i < query.getResultList().size(); i++){
             MonitoringEntity e = (MonitoringEntity) query.getResultList().get(i);
             DataRequest request = new DataRequest();
             request.setSender(e.getThirdParty().getUsername());
             request.setReceiver(e.getIndividual().getUsername());
+            if(e.getStatus().equals(RequestStatus.PENDING)){
+                request.setAccepted(false);
+            }else{
+                request.setAccepted(true);
+            }
             pendingRequests.add(request);
         }
 
