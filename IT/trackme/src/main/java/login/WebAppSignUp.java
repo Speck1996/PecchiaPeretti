@@ -28,6 +28,7 @@ public class WebAppSignUp {
     private UIComponent confirmInput;
 
     private boolean error = false;
+    private String errorMsg;
 
     public String getUsername() {
         return username;
@@ -149,15 +150,44 @@ public class WebAppSignUp {
         this.error = error;
     }
 
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
     public String signup() {
         if(!password.equals(confPassword)) {
             error = true;
+            errorMsg = "Passwords do not match";
             return "";
         }
 
         System.out.println("username: " + username + " email: " + email + " password: " + password);
         ThirdPartyEntity tp = new ThirdPartyEntity(username, email, name, surname, password);
-        signupBean.registerThirdParty(tp);
+        try {
+            signupBean.registerThirdParty(tp);
+        } catch (Exception e) {
+            error = true;
+
+            System.out.println("Maremma");
+            Throwable ee = e.getCause().getCause();
+
+            System.out.println(ee.getMessage());
+
+            if(ee.getMessage().contains("'email'")) {
+                errorMsg = "Email already used";
+            }
+            else if(ee.getMessage().contains("PRIMARY")) {
+                errorMsg = "Username already used";
+            }
+            else
+                errorMsg = ee.getMessage();
+
+            return "";
+        }
 
         return "login.xhtml?faces-redirect=true";
     }
