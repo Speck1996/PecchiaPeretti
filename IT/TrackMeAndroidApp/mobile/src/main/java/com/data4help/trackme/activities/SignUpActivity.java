@@ -8,11 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.data4help.trackme.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import activityhelpers.DatePicker;
+import activityhelpers.Encryptor;
 import model.Individual;
 import model.Sex;
 import okhttp3.ResponseBody;
@@ -77,6 +81,9 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private RetrofitClient rClient;
 
+    boolean missingField;
+
+
     /**
      * {@inheritDoc}
      */
@@ -85,18 +92,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_actvity);
 
-        //action associated to the button tap
-        registerButton();
-    }
-
-    /**
-     * Method that takes care of the button tap, sending the given data to the server
-     */
-    public  void registerButton() {
 
         //initializing the client
         rClient = RetrofitClient.getInstance();
-        
+
         //view binding with the attributes
         sexSpin = findViewById(R.id.sex);
         nameText = findViewById(R.id.name);
@@ -110,130 +109,170 @@ public class SignUpActivity extends AppCompatActivity {
         confirmPasswordText = findViewById(R.id.confirmPassword);
         button = findViewById(R.id.register);
 
+
+
+        DatePicker picker = new DatePicker(this,R.id.dateofbirth);
+
+
+        //action associated to the button tap
+        registerButton();
+    }
+
+    /**
+     * Method that takes care of the button tap, sending the given data to the server
+     */
+    public  void registerButton() {
+
+
+
         //setting the action
         button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        //filling individual's attribute. Once the filling is terminated
-                        //the object is sent to the server (if no field is empty)
-                        Individual individual = new Individual();
 
-                        Sex sexValue = Sex.getEnum(sexSpin.getSelectedItem().toString());
-                        individual.setSex(sexValue);
+                        Individual individual = fillIndividual();
 
+                        if(!missingField && individual!=null) {
+                            //time to call the api
+                            Call call = rClient.getApi().signup(individual);
+                            call.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call call, Response response) {
 
-                        individual.setName(nameText.getText().toString());
-                        individual.setSurname(surnameText.getText().toString());
-                        individual.setCountry(countrySpin.getSelectedItem().toString());
+                                    //successful response obtained
+                                    if (response.isSuccessful()) {
 
-                        if(usernameText.getText() != null) {
-                            individual.setUsername(usernameText.getText().toString());
-                        }
-                        else {
-                            Toast.makeText(SignUpActivity.this, "Please fill all the mandatory field",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-
-                        individual.setEmail(emailText.getText().toString());
-
-                        if(taxCodeText.getText()!= null) {
-                            individual.setTaxcode(taxCodeText.getText().toString());
-                            Toast.makeText(SignUpActivity.this, "Please fill all the mandatory field",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        //special care for password: checking if the two password
-                        // fields are filled with the same string
-                        if(passwordText.getText()!= null && confirmPasswordText.getText()!= null) {
-
-                            String password = passwordText.getText().toString();
-                            String confirmPassword = confirmPasswordText.getText().toString();
-
-
-                            //password matches
-                            if (password.equals(confirmPassword)) {
-
-                                individual.setPassword(passwordText.getText().toString());
-
-                            } else {
-
-                                //passwords don't match
-                                Toast.makeText(SignUpActivity.this, "Passwords do not match!",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        }
-
-
-                        if(birthDateText.getText() != null) {
-                            //special care needed for the date, since there is some mess in json
-                            //handling the sql format, for the communication a string is used
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                            try {
-
-                                //getting date object from the first string
-                                Date date = formatter.parse(birthDateText.getText().toString());
-
-                                //transforming it in a sql compatible date
-                                java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-
-                                //associating it as a string to the individual
-                                individual.setBirthDate(sqlStartDate.toString());
-
-                            } catch (ParseException e) {
-
-                                //only the dd/MM/yyyy date formaat is accepted
-                                Toast.makeText(SignUpActivity.this, "Invalid date format",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        }
-
-
-                        //time to call the api
-                        Call call = rClient.getApi().signup(individual);
-                        call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call call, Response response) {
-
-                                //successful response obtained
-                                if (response.isSuccessful()) {
-
-                                    //notification to the user
-                                    Toast.makeText(SignUpActivity.this, "User registered",
-                                            Toast.LENGTH_SHORT).show();
-
-                                    //user redirected to the login page
-                                    Intent openStartingPoint = new Intent(SignUpActivity.this, MainActivity.class);
-                                    startActivity(openStartingPoint);
-                                }
-                                else{
-
-                                    //some error occurred
-                                    //TODO better error handling
-                                    Log.i("Response message: ", response.message() + " "+ response.code());
-                                    Toast.makeText(SignUpActivity.this, "username or taxcode already taken",
+                                        //notification to the user
+                                        Toast.makeText(SignUpActivity.this, "User registered",
                                                 Toast.LENGTH_SHORT).show();
 
+                                        //user redirected to the login page
+                                        Intent openStartingPoint = new Intent(SignUpActivity.this, MainActivity.class);
+                                        startActivity(openStartingPoint);
+                                    } else {
+
+                                        //some error occurred
+                                        Log.i("Response message: ", response.message() + " " + response.code());
+                                        Toast.makeText(SignUpActivity.this, "username or taxcode already taken",
+                                                Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
-                            }
 
-                            //call ailed
-                            @Override
-                            public void onFailure(Call call, Throwable t) {
-                                Toast.makeText(SignUpActivity.this, "Server not reachable",
-                                        Toast.LENGTH_SHORT).show();
+                                //call ailed
+                                @Override
+                                public void onFailure(Call call, Throwable t) {
+                                    Toast.makeText(SignUpActivity.this, "Server not reachable",
+                                            Toast.LENGTH_SHORT).show();
 
-                            }
-                        });
-
+                                }
+                            });
+                        }
                     }
                 });
 
+    }
+
+
+    private Individual fillIndividual(){
+
+        //filling individual's attribute. Once the filling is terminated
+        //the object is sent to the server (if no field is empty)
+        Individual individual = new Individual();
+
+        if(!sexSpin.getSelectedItem().toString().equals(R.string.form_sex)) {
+            Sex sexValue = Sex.getEnum(sexSpin.getSelectedItem().toString());
+            individual.setSex(sexValue);
+        }
+
+
+        individual.setName(nameText.getText().toString());
+        individual.setSurname(surnameText.getText().toString());
+
+
+
+        if(!countrySpin.getSelectedItem().toString().equals(getString(R.string.insert_country))) {
+            individual.setCountry(countrySpin.getSelectedItem().toString());
+        }
+
+
+        if(usernameText.getText().toString().length()> 0) {
+            individual.setUsername(usernameText.getText().toString());
+        }
+        else {
+            usernameText.setError("Obligatory field");
+            missingField=true;
+        }
+
+        if(emailText.getText().toString().length()>0) {
+            individual.setEmail(emailText.getText().toString());
+        }else{
+            usernameText.setError("Obligatory field");
+            missingField=true;
+        }
+
+        if(taxCodeText.getText().toString().length()> 0) {
+            individual.setTaxcode(taxCodeText.getText().toString());
+        }else{
+            taxCodeText.setError("Obligatory field");
+            missingField = true;
+        }
+
+        //special care for password: checking if the two password
+        // fields are filled with the same string
+        if(passwordText.getText().toString().length()>0 && confirmPasswordText.getText().toString().length()>0) {
+
+            String password = passwordText.getText().toString();
+            String confirmPassword = confirmPasswordText.getText().toString();
+
+
+            //password matches
+            if (password.equals(confirmPassword)) {
+
+                Encryptor encryptor = Encryptor.getInstance();
+
+                String digest =  encryptor.encrypt(password);
+
+                individual.setPassword(digest);
+
+            } else {
+
+                //passwords don't match
+                Toast.makeText(SignUpActivity.this, "Passwords do not match!",
+                        Toast.LENGTH_SHORT).show();
+                missingField= true;
+            }
+        }else{
+            passwordText.setError("Obligatory field");
+            confirmPasswordText.setError("Obligatory field");
+            missingField = true;
+        }
+
+
+
+        if(birthDateText.getText().toString().length()>0) {
+            //special care needed for the date, since there is some mess in json
+            //handling the sql format, for the communication a string is used
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+
+                //getting date object from the first string
+                Date date = formatter.parse(birthDateText.getText().toString());
+
+                //transforming it in a sql compatible date
+                java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+
+                //associating it as a string to the individual
+                individual.setBirthDate(sqlStartDate.toString());
+
+            } catch (ParseException e) {
+
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return individual;
     }
 }

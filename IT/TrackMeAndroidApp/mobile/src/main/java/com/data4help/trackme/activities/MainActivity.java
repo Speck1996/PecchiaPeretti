@@ -2,9 +2,6 @@ package com.data4help.trackme.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -16,7 +13,7 @@ import android.widget.Toast;
 import com.data4help.trackme.R;
 
 
-
+import activityhelpers.Encryptor;
 import model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,8 +58,24 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+
+        if (preferences.getBoolean("logged", false)) {
+            /* The user has already login, so start the dashboard */
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+            return;
+        }
+
+
+
         setContentView(R.layout.activity_main);
+
+
+
         loginButton();
         signUpTap();
     }
@@ -91,16 +104,22 @@ public class MainActivity extends AppCompatActivity {
 
                         //taking the fields value
                         final String username = usernameText.getText().toString();
+
+
                         String password = passwordText.getText().toString();
 
                         //fields filled
                         if(!username.isEmpty() && !password.isEmpty()){
 
-                            //TODO password encryption
+
+                            Encryptor encryptor = Encryptor.getInstance();
+
+                            String digest = encryptor.encrypt(password);
+
                             //object passed to the server
                             User user = new User();
                             user.setUsername(username);
-                            user.setPassword(password);
+                            user.setPassword(digest);
 
                             //setting the call to the corresponding api
                             Call call = rClient.getApi().login(user);
@@ -121,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                                         SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
                                         preferences.edit().putString("token", token).apply();
                                         preferences.edit().putString("username",username).apply();
+                                        preferences.edit().putBoolean("logged",true).apply();
 
                                         Log.d("Loggin: ", username + " with token: " + token);
 
@@ -131,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         //next screen
                                         Intent openStartingPoint = new Intent(MainActivity.this, HomeActivity.class);
+                                        openStartingPoint.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(openStartingPoint);
                                     }
                                     else{
@@ -191,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
     }
+
+
 
 
 }

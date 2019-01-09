@@ -179,44 +179,63 @@ public class IndividualRequestManager extends Application {
 
     }
 
+    /**
+     * Method used to change requests status
+     * @param request the request whose status will be set
+     * @return a response for the client
+     */
     @POST
     @Path("/response")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response receiveRequestResponse(DataRequest request){
 
+        //retrieving request status
         String individualUsername = request.getReceiver();
         String thirdPartyUsername = request.getSender();
         boolean accepted = request.isAccepted();
 
+        //setting up the key to find the request in the database
         MonitoringEntityPK primaryKey = new MonitoringEntityPK();
         primaryKey.setThirdParty(thirdPartyUsername);
 
+        //retrieving the individual bound to the request
         IndividualEntity individual = em.createNamedQuery("Individual.findByUsername", IndividualEntity.class)
                                         .setParameter("username", individualUsername)
                                         .getSingleResult();
 
+        //no individual found
         if(individual == null){
             return null;
         }
 
         if(accepted){
+
+            //request accepted
             acceptRequest(individual.getTaxcode(), thirdPartyUsername);
         }else{
+
+            //request refused
             rejectRequest(individual.getTaxcode(), thirdPartyUsername);
         }
 
+        //returning ok response
         return Response.ok().build();
-
     }
 
 
+    /**
+     * method used by individuals to access their requests (either accepted or refused)
+     * @param individualUsername the username needed to find the associated request
+     * @return the list of requests associated to the given individual, represented by his username
+     */
     @POST
     @Path("/get")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public List<DataRequest> getPendingRequests(String individualUsername){
 
+        //list containing the requests to be returned
         List<DataRequest> pendingRequests = new ArrayList<>();
 
         //finding the individual
@@ -224,26 +243,38 @@ public class IndividualRequestManager extends Application {
                 .setParameter("username", individualUsername)
                 .getSingleResult();
 
+        //individual not found
         if(individual == null)
             return null;
 
+        //creating the query
         Query query = em.createNamedQuery("Monitoring.findReq",MonitoringEntity.class)
                 .setParameter("taxcode", individual.getTaxcode());
 
+        //for each item retrieved by the query a new request is added to the lists
         for(int i = 0; i < query.getResultList().size(); i++){
+
             MonitoringEntity e = (MonitoringEntity) query.getResultList().get(i);
+
+            //setting up the request
             DataRequest request = new DataRequest();
             request.setSender(e.getThirdParty().getUsername());
             request.setReceiver(e.getIndividual().getUsername());
+
+            //setting up its accepted value based on its status
             if(e.getStatus().equals(RequestStatus.PENDING)){
+
+                //not accepted
                 request.setAccepted(false);
             }else{
+
+                //accepted
                 request.setAccepted(true);
             }
+
             pendingRequests.add(request);
         }
 
         return pendingRequests;
-
     }
 }

@@ -106,7 +106,7 @@ public class ReceivedData {
      * @param bloodPressureMax
      */
     public void setBloodPressureMax(int bloodPressureMax) {
-        this.bloodPressureMin = bloodPressureMax;
+        this.bloodPressureMax = bloodPressureMax;
     }
 
 

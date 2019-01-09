@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TrackMe</string>
+    <string name="app_name">Data4Help</string>
     <string name="register_here"><u>Register here</u></string>
     <string name="user">Username</string>
     <string name="password">Password</string>
@@ -8,20 +8,29 @@
     <string name="form_password">Insert Password</string>
     <string name="form_cpassword">Confirm Password</string>
     <string name="form_email">Insert Email</string>
-    <string name="form_dob">Birth date dd/MM/yyyy</string>
+    <string name="form_dob">Birth date</string>
+    <string name="form_sex">Leave blank</string>
     <string name="form_tc">Insert Tax Code</string>
     <string name="form_name">Insert Name</string>
     <string name="form_surname">Insert Surname</string>
     <string name="home_title">My Data</string>
     <string name="req_title">Third party requests</string>
+    <string name="logout">Logout</string>
     <string name="no_data">No data uploaded</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="insert_country">Pick a country</string>
+
+
     <string-array name="sex">
         <item>Mr</item>
         <item>Mrs</item>
+        <item>Leave blank</item>
     </string-array>
+
+
     <string-array name="countries" formatted="false" translatable="false">
+        <item>Pick a country</item>
         <item>Afghanistan</item>
         <item>Albania</item>
         <item>Algeria</item>

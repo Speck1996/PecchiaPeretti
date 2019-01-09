@@ -1,32 +1,67 @@
 package com.data4help.trackme.activities;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.data4help.trackme.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessStatusCodes;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.HealthDataTypes;
+import com.google.android.gms.fitness.data.Session;
+
+import java.sql.Date;
+import java.util.ArrayList;
 
 
 /**
- * Class in charge of handling home page activity: sending data to the server.
+ * Class in charge of handling home activity: from this activity the user
+ * have access to the data uploaded in the server and the third party data access request
  */
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * Drawer used to access the fragments of the app
+     */
     private DrawerLayout drawer;
 
     private TextView navSubTitle;
 
+
+    public static final String TAG = "SleepHistory";
+    private static final int REQUEST_OAUTH = 1;
+    private static final String DATE_FORMAT = "yyyy.MM.dd HH:mm:ss";
+
+    /**
+     *  Track whether an authorization activity is stacking over the current activity, i.e. when
+     *  a known auth error is being resolved, such as showing the account chooser or presenting a
+     *  consent dialog. This avoids common duplications as might happen on screen rotations, etc.
+     */
+    private static final String AUTH_PENDING = "auth_state_pending";
+    private static boolean authInProgress = false;
+
+    public static GoogleApiClient mClient = null;
 
 
     /**
@@ -35,74 +70,113 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         //setting up the activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
 
         //setting up the slide menu and the action bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        //binding the navigation view
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         SharedPreferences preferences = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
         String individualUsername = preferences.getString("username", "");
 
-
-/*
-        navSubTitle = drawer.findViewById(R.id.nav_subtitle);
-        navSubTitle.setText("Welcome: " + individualUsername);*/
-
+        View headerView = navigationView.getHeaderView(0);
+        navSubTitle= headerView.findViewById(R.id.nav_subtitle);
+        navSubTitle.setText("Welcome, " + individualUsername);
 
 
 
-
-
+        //setting up the listener for opening and closing action
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //when the app is reloaded or just opened it goes to my data fragment
         if(savedInstanceState == null) {
+
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new MyDataFragment()).commit();
 
+            //setting the current fragment as checked
             navigationView.setCheckedItem(R.id.nav_mydata);
         }
 
+
+
     }
 
+
+
+    /**
+     * {@inheritDoc}
+     * @param menuItem the item selected in the navigation drawer
+     * @return true after the drawer is closed and the right fragment is picked
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        //check which is the menu item selected
         switch (menuItem.getItemId()){
+
+            //third party requests fragment
             case R.id.nav_tpreq:
+
+                //setting up third party fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                       new RequestFragment()).commit();
                 break;
 
             case R.id.nav_mydata:
+
+                //setting up my data fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new MyDataFragment()).commit();
                 break;
+
+            case R.id.nav_logout:
+
+                SharedPreferences myPrefs = getSharedPreferences("myPrefs",
+                        MODE_PRIVATE);
+                SharedPreferences.Editor editor = myPrefs.edit();
+                editor.clear();
+                editor.commit();
+
+                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+
         }
 
+
+        //closing the drawer and returning
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBackPressed(){
+
+        //if the drawer is opened the back closes it otherwise it does the
+        //predefined back action
+
         if(drawer.isDrawerOpen(GravityCompat.START)){
+
+            //drawer open + back -> drawer close
             drawer.closeDrawer(GravityCompat.START);
         }else{
+
             super.onBackPressed();
         }
     }

@@ -9,7 +9,21 @@
             android:title="@string/home_title" />
         <item
             android:id="@+id/nav_tpreq"
-            android:icon="@drawable/mailogo"
+            android:icon="@drawable/ic_mail_black_24dp"
             android:title="@string/req_title" />
+
+
     </group>
+
+    <item android:title = "Other">
+
+        <menu>
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_exit"
+                android:title="@string/logout" />
+        </menu>
+
+    </item>
 </menu>

@@ -5,77 +5,101 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.data4help.trackme.R;
-import com.google.android.gms.common.internal.Constants;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import adapter.RequestAdapter;
-import gesture.SwipeListener;
 import model.ThirdPartyRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofitclient.RetrofitClient;
-
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * Fragment that handles third parties requests visualization and acceptance/refusal
+ */
 public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    /**
+     * Layout used for the swipe down action that will
+     * call the api for obtaining requests from the server
+     */
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+    /**
+     * Client used to communicate with the server
+     */
     private RetrofitClient rClient;
 
+    /**
+     * View that contains the various requests items
+     */
     private RecyclerView recyclerView;
 
+    /**
+     * Token of the individual that is necessary to communicate with the server
+     */
     private String token;
 
+    /**
+     * Username of the individual needed to build the {@link RequestAdapter}
+     */
     private String individualUsername;
 
+    /**
+     * List containing all the requests obtained from the server
+     */
     List<ThirdPartyRequest> requests;
 
+    /**
+     * View containing all what's necessary for the fragment visualization
+     */
     private View view;
 
 
     private RecyclerView.Adapter adapter;
 
-
+    /**
+     * {@inheritDoc}
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        //restoring the state
         super.onCreate(savedInstanceState);
-
-
     }
 
+    /**
+     * {@inheritDoc}
+     * In this method the view is set up in all its components
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        //binding the view
         view = inflater.inflate(R.layout.fragment_request, container, false);
 
+        //setting up the recycler view
         recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
+        //binding the client
         rClient = RetrofitClient.getInstance();
 
-
         // SwipeRefreshLayout
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
@@ -85,23 +109,23 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         //retrieving the token and the username from the shared preferences
         SharedPreferences preferences = getActivity().getSharedPreferences("myPrefs", MODE_PRIVATE);
-       individualUsername = preferences.getString("username", "");
+        individualUsername = preferences.getString("username", "");
         token = "Bearer " + preferences.getString("token", "");
 
+        //setting up the adapter with an empty list in order to not produce
+        //null pointer if there are no requests
         requests = new ArrayList<>();
         recyclerView.setAdapter(new RequestAdapter(requests,view.getContext(),rClient));
 
       //  callApi(token,individualUsername);
 
-        /**
-         * Showing Swipe Refresh animation on activity create
-         * As animation won't start on onCreate, post runnable is used
-         */
+        //post runnable used to bind refresh animation
         mSwipeRefreshLayout.post(new Runnable() {
 
             @Override
             public void run() {
 
+                //setting the refresh loading view
                 mSwipeRefreshLayout.setRefreshing(true);
 
                 // Fetching data from server
@@ -109,11 +133,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
             }
         });
 
-
-
-
         return view;
-
     }
 
     /**
@@ -140,30 +160,40 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 if (response.isSuccessful()) {
 
 
-                    requests= new ArrayList<>(response.body());
 
+                    if(response.body()!=null) {
 
-                    if(requests!= null) {
+                        //requests binding
+                        requests= new ArrayList<>(response.body());
+
+                        //setting up the adapter
                         adapter = new RequestAdapter(requests,view.getContext(),rClient);
                         recyclerView.setAdapter(new RequestAdapter(requests,view.getContext(),rClient));
 
+                        //log for testing purpose
                         for(ThirdPartyRequest request:requests){
                             Log.i("Received request: ", request.toString());
-
                         }
-                        //notification of success
+
+                        //notification of failure
                         Toast.makeText(view.getContext(), "Data received",
                                 Toast.LENGTH_SHORT).show();
+
+                        //stopping the refresh animation
                         mSwipeRefreshLayout.setRefreshing(false);
 
                     }else{
+
                         Toast.makeText(view.getContext(), "You don't have any request",
                                 Toast.LENGTH_SHORT).show();
-                        mSwipeRefreshLayout.setRefreshing(false);
 
+                        //stopping refresh animation
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
                 } else {
 
+
+                    //stopping refresh animation
                     mSwipeRefreshLayout.setRefreshing(false);
 
                     //server made some mess while handling data
@@ -182,6 +212,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
             @Override
             public void onFailure(Call call, Throwable t) {
 
+                //stopping refresh animation
                 mSwipeRefreshLayout.setRefreshing(false);
 
                 Toast.makeText(view.getContext(), "Server not reachable",

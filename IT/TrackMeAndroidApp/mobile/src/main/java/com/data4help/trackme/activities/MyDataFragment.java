@@ -19,23 +19,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.data4help.trackme.R;
-
 import java.sql.Time;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
 import model.IndividualData;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofitclient.RetrofitClient;
-
 import static android.content.Context.LOCATION_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
+
+/**
+ * Fragment in charge of handling individual data uploading to the server and its visualization
+ */
 public class MyDataFragment extends Fragment  {
 
     /**
@@ -102,7 +102,7 @@ public class MyDataFragment extends Fragment  {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                Log.d("Location: ", location.toString());
+           //     Log.d("Location: ", location.toString());
                 mLocation = location;
             }
 
@@ -127,12 +127,15 @@ public class MyDataFragment extends Fragment  {
         view = inflater.inflate(R.layout.fragment_mydata, container, false);
 
         //asking for permission
-        if (ActivityCompat.checkSelfPermission(inflater.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(inflater.getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this.getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-           // return;
+            return  null;
         }else{
+
             //setting up the providers
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
@@ -142,6 +145,18 @@ public class MyDataFragment extends Fragment  {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
+
+        if (ActivityCompat.checkSelfPermission(inflater.getContext(),
+                Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this.getActivity(),
+                Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{Manifest.permission.BODY_SENSORS},1);
+            return  null;
+        }else{
+
+
+        }
 
         //binding the view
         button = view.findViewById(R.id.send_data_button);
@@ -155,14 +170,11 @@ public class MyDataFragment extends Fragment  {
 
 
         //first upload
-        uploadData();
+        //uploadData();
 
 
         //binding menu button
         buttonClick();
-
-
-
 
 
         return view;
@@ -192,10 +204,6 @@ public class MyDataFragment extends Fragment  {
      * sends it to the server
      */
     public void uploadData() {
-
-
-
-
 
 
         //initializing the client
@@ -261,10 +269,11 @@ public class MyDataFragment extends Fragment  {
 
                 } else {
 
-                    //server made some mess while handling data
+                    //since some data has timestamp as part of the primary key, sending data in little time
+                    //may cause incompatibility problem with the database
                     Log.i("Response message: ", response.message() + " " + response.code());
                     if(response.code()==500) {
-                        Toast.makeText(getContext(), "Too many attempt in little time, please wait" +
+                        Toast.makeText(getContext(), "Too many attempt in little time, please wait " +
                                         "a second before clicking again",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -289,13 +298,11 @@ public class MyDataFragment extends Fragment  {
     private void buttonClick() {
 
 
-
         //setting the action on click
         button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         //upload data when button is clicked
                         uploadData();
 
