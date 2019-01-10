@@ -75,6 +75,15 @@ public class MyDataFragment extends Fragment  {
     private TextView steps;
 
 
+    /**
+     * Boolean used to store user location permission status
+     */
+    private boolean locationAllowed;
+
+
+
+
+
     private View view;
 
     /**
@@ -90,10 +99,17 @@ public class MyDataFragment extends Fragment  {
     private RetrofitClient rClient;
 
 
+    @Override
+    public void onPause() {
+
+        locationManager.removeUpdates(locationListener);
+
+        super.onPause();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
         //handling user localization
         locationManager = (LocationManager) inflater.getContext().getSystemService(LOCATION_SERVICE);
@@ -102,7 +118,7 @@ public class MyDataFragment extends Fragment  {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-           //     Log.d("Location: ", location.toString());
+                //     Log.d("Location: ", location.toString());
                 mLocation = location;
             }
 
@@ -133,7 +149,9 @@ public class MyDataFragment extends Fragment  {
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-            return  null;
+
+            locationAllowed = false;
+
         }else{
 
             //setting up the providers
@@ -141,37 +159,14 @@ public class MyDataFragment extends Fragment  {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         }
 
-        //this repetition of code is needed to handle change in permission
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-
-
-        if (ActivityCompat.checkSelfPermission(inflater.getContext(),
-                Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this.getActivity(),
-                Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(new String[]{Manifest.permission.BODY_SENSORS},1);
-            return  null;
-        }else{
-
-
+        if(locationAllowed) {
+            //this repetition of code is needed to handle change in status provider
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         }
 
-        //binding the view
-        button = view.findViewById(R.id.send_data_button);
 
-
-        //binding the view
-        heartbeat = view.findViewById(R.id.heartText);
-        sleepTime = view.findViewById(R.id.sleepText);
-        bloodPressure = view.findViewById(R.id.bloodText);
-        steps = view.findViewById(R.id.stepText);
-
-
-        //first upload
-        //uploadData();
-
+        bindView();
 
         //binding menu button
         buttonClick();
@@ -179,6 +174,20 @@ public class MyDataFragment extends Fragment  {
 
         return view;
 
+    }
+
+
+
+
+
+    private void bindView(){
+
+        //binding the view
+        button = view.findViewById(R.id.send_data_button);
+        heartbeat = view.findViewById(R.id.heartText);
+        sleepTime = view.findViewById(R.id.sleepText);
+        bloodPressure = view.findViewById(R.id.bloodText);
+        steps = view.findViewById(R.id.stepText);
     }
 
 
@@ -194,6 +203,7 @@ public class MyDataFragment extends Fragment  {
             if(ContextCompat.checkSelfPermission(getContext(),Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                locationAllowed = true;
 
             }
         }
@@ -243,6 +253,11 @@ public class MyDataFragment extends Fragment  {
         data.setUsername(preferences.getString("username", ""));
         String token = "Bearer " + preferences.getString("token", "");
 
+        callApi(data, token);
+
+    }
+
+    private void callApi(final IndividualData data, final String token){
         //calling the server
         Call call = rClient.getApi().sendData(data, token);
         call.enqueue(new Callback<ResponseBody>() {
@@ -255,7 +270,8 @@ public class MyDataFragment extends Fragment  {
                     //visualizing data
                     heartbeat.setText(String.valueOf(data.getHeartRate()));
                     heartbeat.append(" bpm");
-                    bloodPressure.setText(String.valueOf(data.getBloodPressureMax()) + "/" + String.valueOf(data.getBloodPressureMin()));
+                    bloodPressure.setText(String.valueOf(data.getBloodPressureMax()) + "/" +
+                            String.valueOf(data.getBloodPressureMin()));
                     bloodPressure.append(" mmHg");
                     steps.setText(String.valueOf(data.getSteps()));
                     steps.append(" steps");

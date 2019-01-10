@@ -96,6 +96,17 @@ public class SignUpActivity extends AppCompatActivity {
         //initializing the client
         rClient = RetrofitClient.getInstance();
 
+        //binding the view items with the attributes
+        bindView();
+
+
+        //action associated to the button tap
+        registerButton();
+    }
+
+    private void bindView(){
+
+
         //view binding with the attributes
         sexSpin = findViewById(R.id.sex);
         nameText = findViewById(R.id.name);
@@ -109,21 +120,16 @@ public class SignUpActivity extends AppCompatActivity {
         confirmPasswordText = findViewById(R.id.confirmPassword);
         button = findViewById(R.id.register);
 
-
-
+        //date picker is used to have better date selection
         DatePicker picker = new DatePicker(this,R.id.dateofbirth);
 
-
-        //action associated to the button tap
-        registerButton();
     }
+
 
     /**
      * Method that takes care of the button tap, sending the given data to the server
      */
     public  void registerButton() {
-
-
 
         //setting the action
         button.setOnClickListener(
@@ -131,45 +137,15 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+                        //this boolean will be later used to warn that there is
+                        //a mandatory field that is empty
                         missingField = false;
-                        
+
                         Individual individual = fillIndividual();
 
-                        if(!missingField && individual!=null) {
-                            //time to call the api
-                            Call call = rClient.getApi().signup(individual);
-                            call.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call call, Response response) {
-
-                                    //successful response obtained
-                                    if (response.isSuccessful()) {
-
-                                        //notification to the user
-                                        Toast.makeText(SignUpActivity.this, "User registered",
-                                                Toast.LENGTH_SHORT).show();
-
-                                        //user redirected to the login page
-                                        Intent openStartingPoint = new Intent(SignUpActivity.this, MainActivity.class);
-                                        startActivity(openStartingPoint);
-                                    } else {
-
-                                        //some error occurred
-                                        Log.i("Response message: ", response.message() + " " + response.code());
-                                        Toast.makeText(SignUpActivity.this, "username or taxcode already taken",
-                                                Toast.LENGTH_SHORT).show();
-
-                                    }
-                                }
-
-                                //call ailed
-                                @Override
-                                public void onFailure(Call call, Throwable t) {
-                                    Toast.makeText(SignUpActivity.this, "Server not reachable",
-                                            Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
+                        //individual filled
+                        if(!missingField && individual!= null) {
+                            callApi(individual);
                         }
                     }
                 });
@@ -177,6 +153,47 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+    private void callApi(Individual individual){
+        Call call = rClient.getApi().signup(individual);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                //successful response obtained
+                if (response.isSuccessful()) {
+
+                    //notification to the user
+                    Toast.makeText(SignUpActivity.this, "User registered",
+                            Toast.LENGTH_SHORT).show();
+
+                    //user redirected to the login page
+                    Intent openStartingPoint = new Intent(SignUpActivity.this, MainActivity.class);
+                    startActivity(openStartingPoint);
+                } else {
+
+                    //some error occurred
+                    Log.i("Response message: ", response.message() + " " + response.code());
+                    Toast.makeText(SignUpActivity.this, "username or taxcode already taken",
+                            Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            //call ailed
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(SignUpActivity.this, "Server not reachable",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    /**
+     * Method in charge of taking the input data from the view and creating
+     * an {@link Individual}
+     * @return the individual created
+     */
     private Individual fillIndividual(){
 
         //filling individual's attribute. Once the filling is terminated

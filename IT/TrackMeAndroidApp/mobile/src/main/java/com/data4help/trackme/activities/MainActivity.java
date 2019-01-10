@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         signUpTap();
     }
 
-
+    
     /**
      * Method that takes care of the action bound to the button click
      */
@@ -102,12 +102,7 @@ public class MainActivity extends AppCompatActivity {
         //initializing the client
         rClient = RetrofitClient.getInstance();
 
-        //binding view element with class attributes
-        usernameText = findViewById(R.id.username);
-
-        passwordText = findViewById(R.id.password);
-
-        login_btn = findViewById(R.id.loginButton);
+        bindView();
 
         //setting the click action
         login_btn.setOnClickListener(
@@ -134,68 +129,8 @@ public class MainActivity extends AppCompatActivity {
                             user.setUsername(username);
                             user.setPassword(digest);
 
-                            //setting the call to the corresponding api
-                            Call call = rClient.getApi().login(user);
-
-                            //calling
-                            call.enqueue(new Callback<String>() {
-                                @Override
-                                public void onResponse(Call call, Response response) {
-
-                                    //successful response
-                                    if (response.isSuccessful() && response.body() != null) {
-
-                                        //taking the token
-                                        String token = response.body().toString();
-
-                                        //storing it in the shared preferences in order to take it
-                                        //when needed
-                                        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-                                        preferences.edit().putString("token", token).apply();
-                                        preferences.edit().putString("username",username).apply();
-                                        preferences.edit().putBoolean("logged",true).apply();
-
-
-                                      //  scheduleJob();
-
-                                        Log.d("Loggin: ", username + " with token: " + token);
-
-
-                                        //notification of success
-                                        Toast.makeText(MainActivity.this, "User and Password is correct",
-                                                Toast.LENGTH_SHORT).show();
-
-                                        //next screen
-                                        Intent openStartingPoint = new Intent(MainActivity.this, HomeActivity.class);
-                                        openStartingPoint.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(openStartingPoint);
-                                    }
-                                    else{
-                                        //something went wrong when taking the response
-                                        Log.i("Response message: ", response.message() + " "+ response.code());
-
-                                        if(response.code() == 403){
-                                            Toast.makeText(MainActivity.this, "User or Password is not correct",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                        else if(response.code() == 404){
-                                            Toast.makeText(MainActivity.this, "Service not reachable",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }else{
-                                            Toast.makeText(MainActivity.this, "Something went wrong",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                }
-
-                                //something went wrong when calling the server
-                                @Override
-                                public void onFailure(Call call, Throwable t) {
-
-                                    Toast.makeText(MainActivity.this, "Server not reachable",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            //calling the server
+                            callApi(user);
 
 
                         } else {
@@ -207,6 +142,88 @@ public class MainActivity extends AppCompatActivity {
                     }
         );
     }
+
+
+    private void bindView(){
+
+
+        //binding view element with class attributes
+        usernameText = findViewById(R.id.username);
+        passwordText = findViewById(R.id.password);
+        login_btn = findViewById(R.id.loginButton);
+    }
+
+
+    /**
+     * Method in charge of handling the server api call, in this particular case
+     * it handles the registration of new users
+     * @param user needed to register the user
+     */
+    private void callApi(final User user){
+        //setting the call to the corresponding api
+        Call call = rClient.getApi().login(user);
+
+        //calling
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                //successful response
+                if (response.isSuccessful() && response.body() != null) {
+
+                    //taking the token
+                    String token = response.body().toString();
+
+                    //storing it in the shared preferences in order to take it
+                    //when needed
+                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                    preferences.edit().putString("token", token).apply();
+                    preferences.edit().putString("username", user.getUsername()).apply();
+                    preferences.edit().putBoolean("logged",true).apply();
+
+
+                    //  scheduleJob();
+
+                    Log.d("Loggin: ", user.getUsername() + " with token: " + token);
+
+
+                    //notification of success
+                    Toast.makeText(MainActivity.this, "User and Password is correct",
+                            Toast.LENGTH_SHORT).show();
+
+                    //next screen
+                    Intent openStartingPoint = new Intent(MainActivity.this, HomeActivity.class);
+                    openStartingPoint.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(openStartingPoint);
+                }
+                else{
+                    //something went wrong when taking the response
+                    Log.i("Response message: ", response.message() + " "+ response.code());
+
+                    if(response.code() == 403){
+                        Toast.makeText(MainActivity.this, "User or Password is not correct",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(response.code() == 404){
+                        Toast.makeText(MainActivity.this, "Service not reachable",
+                                Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(MainActivity.this, "Something went wrong",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            //something went wrong when calling the server
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+                Toast.makeText(MainActivity.this, "Server not reachable",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 
     /**
@@ -243,16 +260,13 @@ public class MainActivity extends AppCompatActivity {
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
         int resultCode = scheduler.schedule(info);
 
+
         if(resultCode == JobScheduler.RESULT_SUCCESS){
             Log.d(TAG, "scheduleJob: ");
         }else{
             Log.d(TAG, "Job scheduling failed");
         }
-
-
-
     }
-
 
 }
 

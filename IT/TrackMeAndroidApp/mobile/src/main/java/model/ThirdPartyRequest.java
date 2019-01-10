@@ -73,6 +73,28 @@ public class ThirdPartyRequest {
         this.accepted = accepted;
     }
 
+    @Override
+    public boolean equals( Object obj) {
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof ThirdPartyRequest))return false;
+        ThirdPartyRequest otherRequest = (ThirdPartyRequest) obj;
+
+        if(!otherRequest.getSender().equals(this.getSender())){
+            return false;
+        }
+
+        if(!otherRequest.getReceiver().equals(this.getReceiver())){
+            return false;
+        }
+
+        if(otherRequest.isAccepted() != this.isAccepted()){
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      * @return string representing the received data

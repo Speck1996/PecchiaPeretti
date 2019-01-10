@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.job.JobScheduler;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -50,23 +51,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
      */
     private DrawerLayout drawer;
 
+    private NavigationView navigationView;
+
     private TextView navSubTitle;
 
-
-    public static final String TAG = "SleepHistory";
-    private static final int REQUEST_OAUTH = 1;
-    private static final String DATE_FORMAT = "yyyy.MM.dd HH:mm:ss";
-
-    /**
-     *  Track whether an authorization activity is stacking over the current activity, i.e. when
-     *  a known auth error is being resolved, such as showing the account chooser or presenting a
-     *  consent dialog. This avoids common duplications as might happen on screen rotations, etc.
-     */
-    private static final String AUTH_PENDING = "auth_state_pending";
-    private static boolean authInProgress = false;
-
-    public static GoogleApiClient mClient = null;
-
+    private static final String TAG = "Home activity";
 
     /**
      * {@inheritDoc}
@@ -78,33 +67,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //setting up the slide menu and the action bar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        //binding the navigation view
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        SharedPreferences preferences = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
-        String individualUsername = preferences.getString("username", "");
-
-        View headerView = navigationView.getHeaderView(0);
-        navSubTitle= headerView.findViewById(R.id.nav_subtitle);
-        navSubTitle.setText("Welcome, " + individualUsername);
 
 
-
-        //setting up the listener for opening and closing action
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        createNavigationDrawer();
 
         //when the app is reloaded or just opened it goes to my data fragment
         if(savedInstanceState == null) {
-
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new MyDataFragment()).commit();
@@ -113,10 +81,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_mydata);
         }
 
-
-
     }
 
+    private void createNavigationDrawer(){
+        //setting up the slide menu and the action bar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //binding the navigation view
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        //getting the username for the header subtitle
+        SharedPreferences preferences = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
+        String individualUsername = preferences.getString("username", "");
+
+        //getting the header view and then the text field
+        View headerView = navigationView.getHeaderView(0);
+        navSubTitle= headerView.findViewById(R.id.nav_subtitle);
+        navSubTitle.setText("Welcome, " + individualUsername);
+
+
+        //setting up the listener for opening and closing action
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
 
 
     /**
@@ -139,7 +131,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if(navigationView.getCheckedItem().getItemId() != R.id.nav_tpreq){
 
 
-                    FragmentTransaction tpTransaction= getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestFragment());
+                    FragmentTransaction tpTransaction= getSupportFragmentManager().beginTransaction().
+                            replace(R.id.fragment_container, new RequestFragment());
 
                     tpTransaction.addToBackStack(null);
                     tpTransaction.commit();
@@ -156,7 +149,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 //creating mydata fragment only if the current isnt already it
                 if(navigationView.getCheckedItem().getItemId() != R.id.nav_mydata){
 
-                    FragmentTransaction mydTransaction= getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyDataFragment());
+                    FragmentTransaction mydTransaction= getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new MyDataFragment());
 
                     mydTransaction.addToBackStack(null);
                     mydTransaction.commit();
@@ -166,6 +160,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                break;
 
             case R.id.nav_logout:
+
                 //cancelJob();
 
                 SharedPreferences myPrefs = getSharedPreferences("myPrefs",
@@ -210,9 +205,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             //drawer open + back -> drawer close
             drawer.closeDrawer(GravityCompat.START);
         }else{
+
+            //setting the back action both for returning back to a fragment
             if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 getSupportFragmentManager().popBackStack();
             } else {
+
+                //no fragment to go back to
                 super.onBackPressed();
             }
         }

@@ -66,7 +66,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private View view;
 
 
-    private RecyclerView.Adapter adapter;
+    private RequestAdapter adapter;
 
     /**
      * {@inheritDoc}
@@ -167,20 +167,27 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         //requests binding
                         requests= new ArrayList<>(response.body());
 
+                        //log for testing purpose
+                        for(ThirdPartyRequest request:requests){
+                            Log.i("Received request: ", request.toString());
+                        }
 
-
-                        //setting up the adapter
-                        adapter = new RequestAdapter(requests,view.getContext(),rClient);
-                        recyclerView.setAdapter(new RequestAdapter(requests,view.getContext(),rClient));
+                        //updating the adapter
+                        adapter.updateAdapter(requests);
 
                         //log for testing purpose
                         for(ThirdPartyRequest request:requests){
                             Log.i("Received request: ", request.toString());
                         }
 
-                        //notification of failure
-                        Toast.makeText(view.getContext(), "Data received",
-                                Toast.LENGTH_SHORT).show();
+                        if(!requests.isEmpty()) {
+                            //notification of success
+                            Toast.makeText(view.getContext(), "Data received",
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(view.getContext(), "You don't have any request",
+                                    Toast.LENGTH_SHORT).show();
+                        }
 
                         //stopping the refresh animation
                         mSwipeRefreshLayout.setRefreshing(false);
@@ -222,9 +229,6 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
 
 }

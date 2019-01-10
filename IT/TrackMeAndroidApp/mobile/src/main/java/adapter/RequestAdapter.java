@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.data4help.trackme.R;
+
+import java.util.ArrayList;
 import java.util.List;
 import model.ThirdPartyRequest;
 import okhttp3.ResponseBody;
@@ -60,6 +62,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         this.rClient = rClient;
     }
 
+    public void updateAdapter(List<ThirdPartyRequest> requests){
+
+        this.requests.clear();
+
+        this.requests.addAll(requests);
+
+        notifyDataSetChanged();
+    }
 
     /**
      * {@inheritDoc}
@@ -290,4 +300,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         }
 
     }
+
+
+
 }
