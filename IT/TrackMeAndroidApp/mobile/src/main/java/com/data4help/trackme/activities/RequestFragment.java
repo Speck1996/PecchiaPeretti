@@ -115,7 +115,9 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
         //setting up the adapter with an empty list in order to not produce
         //null pointer if there are no requests
         requests = new ArrayList<>();
-        recyclerView.setAdapter(new RequestAdapter(requests,view.getContext(),rClient));
+
+        adapter = new RequestAdapter(requests,view.getContext(),rClient);
+        recyclerView.setAdapter(adapter);
 
       //  callApi(token,individualUsername);
 
@@ -160,11 +162,12 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 if (response.isSuccessful()) {
 
 
-
                     if(response.body()!=null) {
 
                         //requests binding
                         requests= new ArrayList<>(response.body());
+
+
 
                         //setting up the adapter
                         adapter = new RequestAdapter(requests,view.getContext(),rClient);

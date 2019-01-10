@@ -145,7 +145,7 @@
                 <ImageView
                     android:id="@+id/imageView6"
                     android:layout_width="147dp"
-                    android:layout_height="0dp"
+                    android:layout_height="126dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -397,13 +397,13 @@
             android:id="@+id/send_data_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_send_white_24dp"
-
             android:layout_alignParentBottom="true"
+
             android:layout_centerHorizontal="true"
             android:clickable="true"
             android:focusable="true"
             android:shape="oval"
+            android:src="@drawable/ic_send_white_24dp"
             app:backgroundTint="@color/design_default_color_primary_dark"
             app:elevation="10dp"
             app:fabSize="normal"
@@ -416,14 +416,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.04" />
+            app:layout_constraintGuide_percent="0.02" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline48"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.19" />
+            app:layout_constraintGuide_percent="0.22" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline49"
@@ -451,35 +451,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.39" />
+            app:layout_constraintGuide_percent="0.44" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline67"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.79" />
+            app:layout_constraintGuide_percent="0.88" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline68"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.44" />
+            app:layout_constraintGuide_percent="0.46" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline69"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.59" />
+            app:layout_constraintGuide_percent="0.66" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline76"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.64" />
+            app:layout_constraintGuide_percent="0.68" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline84"
@@ -500,14 +500,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.84" />
+            app:layout_constraintGuide_percent="0.88" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline87"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.97" />
+            app:layout_constraintGuide_percent="1.0" />
 
     </android.support.constraint.ConstraintLayout>
 

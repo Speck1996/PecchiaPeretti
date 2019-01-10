@@ -15,9 +15,9 @@ import javax.ws.rs.core.Application;
  * This class implements the singup process
  */
 @Stateless
-@Path("/home")
-@ApplicationPath("/register")
-public class SignUp extends Application {
+@Path("/signup")
+@ApplicationPath("/rest")
+public class SignUp {
 
     /**
      * Entity manager needed to add data to the DB
@@ -45,7 +45,7 @@ public class SignUp extends Application {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/signupin")
+    @Path("/individual")
     public void registerIndividual(IndividualEntity sentIndv){
         em.persist(sentIndv);
     }

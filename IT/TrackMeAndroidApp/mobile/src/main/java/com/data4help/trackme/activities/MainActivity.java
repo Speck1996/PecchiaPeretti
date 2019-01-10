@@ -1,5 +1,8 @@
 package com.data4help.trackme.activities;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import com.data4help.trackme.R;
 
 import activityhelpers.Encryptor;
 import model.User;
+import notification.NotificationService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private RetrofitClient rClient;
 
 
+    private static final String TAG = "Main activity";
+
+
     /**
      * {@inheritDoc}
      */
@@ -64,12 +71,18 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         if (preferences.getBoolean("logged", false)) {
+
+
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
             /* The user has already login, so start the dashboard */
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            startActivity(intent);
 
             return;
         }
-
 
 
         setContentView(R.layout.activity_main);
@@ -141,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
                                         preferences.edit().putString("token", token).apply();
                                         preferences.edit().putString("username",username).apply();
                                         preferences.edit().putBoolean("logged",true).apply();
+
+
+                                      //  scheduleJob();
 
                                         Log.d("Loggin: ", username + " with token: " + token);
 
@@ -214,6 +230,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void scheduleJob(){
+
+        ComponentName componentName = new ComponentName(this, NotificationService.class);
+
+        JobInfo info = new JobInfo.Builder(123, componentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .setPeriodic(1000 * 60)
+                .build();
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+
+        if(resultCode == JobScheduler.RESULT_SUCCESS){
+            Log.d(TAG, "scheduleJob: ");
+        }else{
+            Log.d(TAG, "Job scheduling failed");
+        }
+
+
+
+    }
 
 
 }

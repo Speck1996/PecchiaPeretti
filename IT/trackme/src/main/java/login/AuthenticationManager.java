@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 /**
  * Class that identify user credentials and generate a token
  */
-@ApplicationPath("/login")
+@ApplicationPath("/rest")
 @Path("/authenticate")
 public class AuthenticationManager{
 

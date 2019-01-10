@@ -1,11 +1,15 @@
 package com.data4help.trackme.activities;
 
 
+import android.app.Activity;
+import android.app.job.JobScheduler;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -101,6 +105,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //when the app is reloaded or just opened it goes to my data fragment
         if(savedInstanceState == null) {
 
+
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new MyDataFragment()).commit();
 
@@ -121,6 +126,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
 
         //check which is the menu item selected
         switch (menuItem.getItemId()){
@@ -128,19 +135,38 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             //third party requests fragment
             case R.id.nav_tpreq:
 
-                //setting up third party fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                      new RequestFragment()).commit();
+                //creating request fragment only if the current isnt already it
+                if(navigationView.getCheckedItem().getItemId() != R.id.nav_tpreq){
+
+
+                    FragmentTransaction tpTransaction= getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestFragment());
+
+                    tpTransaction.addToBackStack(null);
+                    tpTransaction.commit();
+
+                    navigationView.setCheckedItem(R.id.nav_tpreq);
+
+                }
+
+
                 break;
 
             case R.id.nav_mydata:
 
-                //setting up my data fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new MyDataFragment()).commit();
-                break;
+                //creating mydata fragment only if the current isnt already it
+                if(navigationView.getCheckedItem().getItemId() != R.id.nav_mydata){
+
+                    FragmentTransaction mydTransaction= getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyDataFragment());
+
+                    mydTransaction.addToBackStack(null);
+                    mydTransaction.commit();
+
+                    navigationView.setCheckedItem(R.id.nav_mydata);
+                }
+               break;
 
             case R.id.nav_logout:
+                //cancelJob();
 
                 SharedPreferences myPrefs = getSharedPreferences("myPrefs",
                         MODE_PRIVATE);
@@ -153,12 +179,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 finish();
 
+
         }
 
 
         //closing the drawer and returning
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    
+    
+    private void cancelJob(){
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(123);
+        Log.d(TAG, "cancelJob: JobCancelled");
     }
 
 
@@ -176,8 +210,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             //drawer open + back -> drawer close
             drawer.closeDrawer(GravityCompat.START);
         }else{
-
-            super.onBackPressed();
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 }

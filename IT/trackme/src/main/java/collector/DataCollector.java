@@ -23,8 +23,8 @@ import java.util.Calendar;
 
 @Stateless
 @Secured
-@Path("/sendata")
-@ApplicationPath("/datareceiver")
+@Path("/senddata")
+@ApplicationPath("/rest")
 public class DataCollector extends Application {
 
     @PersistenceContext(unitName = "NewPersistenceUnit")

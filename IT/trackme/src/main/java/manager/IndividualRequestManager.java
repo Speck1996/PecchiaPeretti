@@ -20,8 +20,8 @@ import java.util.List;
 @Stateless
 @Secured
 @Path("/requests")
-@ApplicationPath("/requestmanager")
-public class IndividualRequestManager extends Application {
+@ApplicationPath("/rest")
+public class IndividualRequestManager{
 
     @PersistenceContext(unitName = "NewPersistenceUnit")
     private EntityManager em;
@@ -185,7 +185,7 @@ public class IndividualRequestManager extends Application {
      * @return a response for the client
      */
     @POST
-    @Path("/response")
+    @Path("/giveresponse")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response receiveRequestResponse(DataRequest request){
@@ -230,10 +230,10 @@ public class IndividualRequestManager extends Application {
      * @return the list of requests associated to the given individual, represented by his username
      */
     @POST
-    @Path("/get")
+    @Path("/getrequests")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<DataRequest> getPendingRequests(String individualUsername){
+    public List<DataRequest> getIndividualRequests(String individualUsername){
 
         //list containing the requests to be returned
         List<DataRequest> pendingRequests = new ArrayList<>();

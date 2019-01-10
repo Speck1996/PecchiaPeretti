@@ -131,7 +131,8 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-
+                        missingField = false;
+                        
                         Individual individual = fillIndividual();
 
                         if(!missingField && individual!=null) {
@@ -209,7 +210,7 @@ public class SignUpActivity extends AppCompatActivity {
         if(emailText.getText().toString().length()>0) {
             individual.setEmail(emailText.getText().toString());
         }else{
-            usernameText.setError("Obligatory field");
+            emailText.setError("Obligatory field");
             missingField=true;
         }
 

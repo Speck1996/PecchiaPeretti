@@ -24,7 +24,7 @@ public interface TrackmeApi {
      * @param credentials credentials associated with the individual
      * @return the token string by the server
      */
-    @POST("login/authenticate")
+    @POST("authenticate")
     @Headers("Content-Type: application/json")
     Call<String> login(@Body User credentials);
 
@@ -33,7 +33,7 @@ public interface TrackmeApi {
      * @param individual to be passed to the server
      * @return response from the server
      */
-    @POST("register/home/signupin")
+    @POST("signup/individual")
     @Headers("Content-Type: application/json")
     Call<ResponseBody> signup(@Body Individual individual);
 
@@ -43,16 +43,16 @@ public interface TrackmeApi {
      * @param token token needed to authorize the client
      * @return response from the server
      */
-    @POST("datareceiver/sendata")
+    @POST("senddata")
     @Headers("Content-Type: application/json")
     Call<ResponseBody> sendData(@Body IndividualData data, @Header("Authorization") String token);
 
 
-    @POST("requestmanager/requests/get")
+    @POST("requests/getrequests")
     @Headers("Content-Type: text/plain")
     Call<List<ThirdPartyRequest>> getPendingRequests(@Body String username, @Header("Authorization") String token);
 
-    @POST("requestmanager/requests/response")
+    @POST("requests/giveresponse")
     @Headers("Content-Type: application/json")
     Call<ResponseBody> receiveRequestResponse(@Body ThirdPartyRequest request, @Header("Authorization") String token);
 
