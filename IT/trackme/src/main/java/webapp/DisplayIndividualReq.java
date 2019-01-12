@@ -5,6 +5,9 @@ import model.UpdateFrequency;
 
 import java.sql.Timestamp;
 
+/**
+ * Utility class used to display metadata about an individual request
+ */
 public class DisplayIndividualReq {
     private String name;
     private Timestamp ts;

@@ -1,0 +1,32 @@
+\section{Structure of the source code}
+The source code is clearly divided in two parts: the part that implements the TrackMe server and the part that implements the Android application.
+
+
+\subsection{Web server and Web App}
+
+The source code of the server side is subdivided in the following packages: \texttt{collector, login, manager, model, webapp}.
+
+\paragraph{Collector}
+In the \texttt{collector} package is located the fundamental \texttt{DataCollector} class whose task is, basically, to receive the data from the Android application and persist it in the database.
+
+\paragraph{Login}
+In the login package are located all the classes that implements functionality related to login, signup and authorization.
+
+\paragraph{Manager}
+In the \texttt{manager} package is located the logic that manages the request, forwarded by third parties by means of the web app, and the visualization of data.
+It also contains a sub package, called \texttt{geocoding}, in which are present interfaces and classes responsible for the maps external API.
+
+\paragraph{Model}
+The \texttt{model} package contains all the entities used in the Object-Relation Mapping, exploited by means of JPA specification.
+It contains also the definition of the enumeration and constant used in the database.
+In the sub package called \texttt{xml} are located some classes useful for marshalling data into xml.
+
+\paragraph{Webapp}
+In the \texttt{webapp} package are located the managed beans that constitute the back-end of the webapp (excluded those regarding login and signup that are located in the login package).
+
+\vspace{1em}
+\noindent
+Besides the Java source code, the server also contains, in the \texttt{web} folder, all the front-end of the webapp developed using JSF alongside to some CSS.
+
+
+\subsection{Android}

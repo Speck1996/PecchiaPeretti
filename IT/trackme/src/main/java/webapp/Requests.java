@@ -37,7 +37,6 @@ public class Requests {
             List<DisplayGroupReq> results = new ArrayList<>();
 
             for(GroupMonitoringEntity m: monitorings) {
-                //String display = m.getPK().getName() + " - Requested on: " + m.getTs().toString();
                 DisplayGroupReq display = new DisplayGroupReq(m.getPK().getName(), m.getTs(), m.getFrequency() != null, m.getFrequency());
                 results.add(display);
             }

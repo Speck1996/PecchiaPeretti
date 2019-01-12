@@ -4,6 +4,9 @@ import model.UpdateFrequency;
 
 import java.sql.Timestamp;
 
+/**
+ * Utility class used to display metadata about a group request
+ */
 public class DisplayGroupReq {
     private String name;
     private Timestamp ts;
@@ -46,7 +49,8 @@ public class DisplayGroupReq {
         this.link = link;
     }
 
-    public boolean getSubscribed() { ;return subscribed;
+    public boolean getSubscribed() {
+        return subscribed;
     }
 
     public void setSubscribed(boolean subscribed) {
