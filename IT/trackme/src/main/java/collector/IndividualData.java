@@ -4,7 +4,7 @@ package collector;
 /**
  * Class used to receive data from android app clients
  */
-public class ReceivedData {
+public class IndividualData {
 
     /**
      *

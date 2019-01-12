@@ -1,5 +1,10 @@
 package retrofitclient;
 
+import android.content.SharedPreferences;
+import android.webkit.URLUtil;
+
+import java.net.URL;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -23,33 +28,47 @@ public class RetrofitClient {
     /**
      * Class containing the properties to communicate with the server
      */
-    private Retrofit retrofit;
+    private static Retrofit retrofit;
 
     /**
      * Class instantiating the builder with all the properties needed to
      * communicate with the server
      */
-    private RetrofitClient(){
+    private RetrofitClient(String url) {
+
+        String serverString;
+        if(URLUtil.isHttpUrl(url)) {
+             serverString = url;
+        }else{
+            serverString = BASE_URL;
+        }
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+                    .baseUrl(serverString)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
     }
 
     /**
      * Getting an instance of the retrofit client
      * @return the retrofit client
      */
-    public static synchronized RetrofitClient getInstance(){
+    public static synchronized RetrofitClient getInstance(String url){
 
-        if(singleClient== null){
-            singleClient = new RetrofitClient();
+        if(singleClient== null ){
+            singleClient = new RetrofitClient(url);
         }
 
         return singleClient;
     }
+
+    public static synchronized void clearClient(){
+        singleClient = null;
+    }
+
+
 
     /**
      * Creating a retrofit client for the specific apis
@@ -59,7 +78,4 @@ public class RetrofitClient {
 
         return retrofit.create(TrackmeApi.class);
     }
-
-
-
 }

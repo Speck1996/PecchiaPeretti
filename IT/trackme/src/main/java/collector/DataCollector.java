@@ -211,7 +211,7 @@ public class DataCollector extends Application {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response sendData(ReceivedData data) {
+    public Response sendData(IndividualData data) {
 
         //boolean set to true if the data has location attributes set
         boolean locationSet = false;

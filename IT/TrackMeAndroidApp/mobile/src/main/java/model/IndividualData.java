@@ -187,4 +187,18 @@ public class IndividualData {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "IndividualData{" +
+                "username='" + username + '\'' +
+                ", heartRate=" + heartRate +
+                ", sleepTime='" + sleepTime + '\'' +
+                ", steps=" + steps +
+                ", bloodPressureMin=" + bloodPressureMin +
+                ", bloodPressureMax=" + bloodPressureMax +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                '}';
+    }
 }

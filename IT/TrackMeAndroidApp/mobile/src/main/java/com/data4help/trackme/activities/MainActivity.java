@@ -11,6 +11,7 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.data4help.trackme.R;
@@ -18,7 +19,6 @@ import com.data4help.trackme.R;
 
 import activityhelpers.Encryptor;
 import model.User;
-import notification.NotificationService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private CardView login_btn;
 
+    private ImageView logoView;
+
+    SharedPreferences preferences;
+
+    private int logoTaps = 0;
+
+    private final static int DEVTAP = 10;
+
 
     /**
      * Client used to communicate with server API
@@ -68,10 +76,14 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         if (preferences.getBoolean("logged", false)) {
 
+
+            if(preferences.getBoolean("activityLog",false) ){
+                Log.d(TAG, "onCreate: user already logged switching immediatly to homepage");
+            }
 
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
 
@@ -85,24 +97,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        //initializing the client
+        rClient = RetrofitClient.getInstance(preferences.getString("url","http://10.0.2.2:8080/trackme/rest/"));
+
         setContentView(R.layout.activity_main);
 
 
+        bindView();
+
+        logoTap();
 
         loginButton();
         signUpTap();
     }
 
-    
+
+
     /**
      * Method that takes care of the action bound to the button click
      */
     public  void loginButton() {
 
-        //initializing the client
-        rClient = RetrofitClient.getInstance();
 
-        bindView();
+        String customUrl = preferences.getString("url","http://10.0.2.2:8080/trackme/rest/");
+        if(!customUrl.equals("http://10.0.2.2:8080/trackme/rest/")){
+
+            rClient.clearClient();
+            rClient = RetrofitClient.getInstance(customUrl);
+        }
+
 
         //setting the click action
         login_btn.setOnClickListener(
@@ -123,6 +146,11 @@ public class MainActivity extends AppCompatActivity {
                             Encryptor encryptor = Encryptor.getInstance();
 
                             String digest = encryptor.encrypt(password);
+
+                            if(preferences.getBoolean("activityLog",false) ){
+                                Log.d(TAG, "loginButton: password encrypted");
+                            }
+
 
                             //object passed to the server
                             User user = new User();
@@ -148,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //binding view element with class attributes
+        logoView = findViewById(R.id.appLogo);
+        registerText = findViewById(R.id.signup);
         usernameText = findViewById(R.id.username);
         passwordText = findViewById(R.id.password);
         login_btn = findViewById(R.id.loginButton);
@@ -160,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
      * @param user needed to register the user
      */
     private void callApi(final User user){
+
+
         //setting the call to the corresponding api
         Call call = rClient.getApi().login(user);
 
@@ -176,15 +208,16 @@ public class MainActivity extends AppCompatActivity {
 
                     //storing it in the shared preferences in order to take it
                     //when needed
-                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
                     preferences.edit().putString("token", token).apply();
                     preferences.edit().putString("username", user.getUsername()).apply();
                     preferences.edit().putBoolean("logged",true).apply();
 
 
-                    //  scheduleJob();
 
-                    Log.d("Loggin: ", user.getUsername() + " with token: " + token);
+                    if(preferences.getBoolean("activityLog",false) ){
+                        Log.d(TAG, "CallApi: user.getUsername() "+ "with token: " + token);
+                    }
+
 
 
                     //notification of success
@@ -197,8 +230,11 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(openStartingPoint);
                 }
                 else{
-                    //something went wrong when taking the response
-                    Log.i("Response message: ", response.message() + " "+ response.code());
+
+                    if(preferences.getBoolean("activityLog",false) ){
+                        Log.d(TAG, "CallApi: error response" + response.message() + " "+ response.code());
+                    }
+
 
                     if(response.code() == 403){
                         Toast.makeText(MainActivity.this, "User or Password is not correct",
@@ -218,6 +254,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, Throwable t) {
 
+                if(preferences.getBoolean("activityLog",false) ){
+                    Log.d(TAG, "CallApi: error contacting server" + t.toString() + " with url" + preferences.getString("url",""));
+                }
+
                 Toast.makeText(MainActivity.this, "Server not reachable",
                         Toast.LENGTH_SHORT).show();
             }
@@ -225,13 +265,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void logoTap(){
+
+        logoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoTaps ++;
+
+                if(logoTaps > DEVTAP){
+
+                    logoTaps = 0;
+                    //notification of success
+                    Toast.makeText(MainActivity.this, "Developer Screen Activated",
+                            Toast.LENGTH_SHORT).show();
+
+                    //next screen
+                    Intent openStartingPoint = new Intent(MainActivity.this, DeveloperActivity.class);
+                    startActivity(openStartingPoint);
+                }
+            }
+        });
+
+    }
+
 
     /**
      * Method that takes care of the action bound to the text click
      */
     public void signUpTap(){
-        //binding the view with the attributes
-        registerText = findViewById(R.id.signup);
 
         //going to the signup screen
         registerText.setOnClickListener(
@@ -244,28 +305,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-    }
-
-
-    public void scheduleJob(){
-
-        ComponentName componentName = new ComponentName(this, NotificationService.class);
-
-        JobInfo info = new JobInfo.Builder(123, componentName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPersisted(true)
-                .setPeriodic(1000 * 60)
-                .build();
-
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int resultCode = scheduler.schedule(info);
-
-
-        if(resultCode == JobScheduler.RESULT_SUCCESS){
-            Log.d(TAG, "scheduleJob: ");
-        }else{
-            Log.d(TAG, "Job scheduling failed");
-        }
     }
 
 }

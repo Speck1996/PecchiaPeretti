@@ -20,6 +20,23 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="insert_country">Pick a country</string>
+    <string name="server">Insert Url</string>
+    <string name="main_log">LogInActivity Log</string>
+    <string name="dev_signup">SignUpActivity Log</string>
+    <string name="dev_data">MyDataFragment Log</string>
+    <string name="dev_req">RequestFragment Log</string>
+    <string name="dev_hb">HeartBeat Mean</string>
+    <string name="dev_hb_sd">HeartBeat StandardDev.</string>
+    <string name="bp_dev">BloodPressure Mean</string>
+    <string name="dev_bp_sd">BloodPressure SD</string>
+    <string name="dev_sleep_min">SleepTime Min</string>
+    <string name="dev_sleep_max">SleepTime Max</string>
+    <string name="dev_step_min">Steps Min</string>
+    <string name="dev_step_max">Steps Max</string>
+    <string name="res_but">Reset</string>
+    <string name="dev_conf">Confirm</string>
+    <string name="dev_bpmin_mean">BPMin Mean</string>
+    <string name="dev_bpmin_sd">BPMin Sd</string>
 
 
     <string-array name="sex">

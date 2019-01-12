@@ -1,6 +1,7 @@
 package com.data4help.trackme.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -81,6 +82,10 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private RetrofitClient rClient;
 
+    private SharedPreferences preferences;
+
+    private static final String TAG = "SignUpActivity";
+
     boolean missingField;
 
 
@@ -93,8 +98,12 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_actvity);
 
 
+        preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+
+
         //initializing the client
-        rClient = RetrofitClient.getInstance();
+        rClient = RetrofitClient.getInstance(preferences.getString("url","http://10.0.2.2:8080/trackme/rest/"));
+
 
         //binding the view items with the attributes
         bindView();
@@ -153,7 +162,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    private void callApi(Individual individual){
+    private void callApi(final Individual individual){
         Call call = rClient.getApi().signup(individual);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -161,6 +170,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                 //successful response obtained
                 if (response.isSuccessful()) {
+
+                    if(preferences.getBoolean("signupLog",false) ){
+                        Log.d(TAG, "callApi: user " + individual.toString()+ " successfully registed");
+                    }
 
                     //notification to the user
                     Toast.makeText(SignUpActivity.this, "User registered",
@@ -171,8 +184,11 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(openStartingPoint);
                 } else {
 
+                    if(preferences.getBoolean("signupLog",false) ){
+                        Log.d(TAG, "callApi: error Response message: "+ response.message() + " " + response.code());
+                    }
+
                     //some error occurred
-                    Log.i("Response message: ", response.message() + " " + response.code());
                     Toast.makeText(SignUpActivity.this, "username or taxcode already taken",
                             Toast.LENGTH_SHORT).show();
 
@@ -182,6 +198,10 @@ public class SignUpActivity extends AppCompatActivity {
             //call ailed
             @Override
             public void onFailure(Call call, Throwable t) {
+
+                if(preferences.getBoolean("signupLog",false) ){
+                    Log.d(TAG, "callApi: error Response message: " + t.toString());
+                }
                 Toast.makeText(SignUpActivity.this, "Server not reachable",
                         Toast.LENGTH_SHORT).show();
 

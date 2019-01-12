@@ -3,6 +3,7 @@ package com.data4help.trackme.activities;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
@@ -65,6 +66,10 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
      */
     private View view;
 
+    private static final String TAG = "RequestFragment";
+
+    private SharedPreferences preferences;
+
 
     private RequestAdapter adapter;
 
@@ -78,6 +83,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
         //restoring the state
         super.onCreate(savedInstanceState);
     }
+
 
     /**
      * {@inheritDoc}
@@ -95,8 +101,14 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //binding the client
-        rClient = RetrofitClient.getInstance();
+
+
+        preferences = getActivity().getSharedPreferences("myPrefs", MODE_PRIVATE);
+
+
+        //initializing the client
+        rClient = RetrofitClient.getInstance(preferences.getString("url","http://10.0.2.2:8080/trackme/rest/"));
+
 
         // SwipeRefreshLayout
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
@@ -108,7 +120,6 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 
         //retrieving the token and the username from the shared preferences
-        SharedPreferences preferences = getActivity().getSharedPreferences("myPrefs", MODE_PRIVATE);
         individualUsername = preferences.getString("username", "");
         token = "Bearer " + preferences.getString("token", "");
 
@@ -119,7 +130,6 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
         adapter = new RequestAdapter(requests,view.getContext(),rClient);
         recyclerView.setAdapter(adapter);
 
-      //  callApi(token,individualUsername);
 
         //post runnable used to bind refresh animation
         mSwipeRefreshLayout.post(new Runnable() {
@@ -134,6 +144,9 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 callApi(token,individualUsername);
             }
         });
+
+        setRetainInstance(true);
+
 
         return view;
     }
@@ -162,6 +175,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 if (response.isSuccessful()) {
 
 
+
                     if(response.body()!=null) {
 
                         //requests binding
@@ -169,16 +183,16 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                         //log for testing purpose
                         for(ThirdPartyRequest request:requests){
-                            Log.i("Received request: ", request.toString());
+
+                            if(preferences.getBoolean("requestLog",false) ){
+                                Log.d(TAG, "callApi: successfully received request " + request.toString());
+                            }
                         }
 
                         //updating the adapter
                         adapter.updateAdapter(requests);
 
-                        //log for testing purpose
-                        for(ThirdPartyRequest request:requests){
-                            Log.i("Received request: ", request.toString());
-                        }
+
 
                         if(!requests.isEmpty()) {
                             //notification of success
@@ -206,10 +220,11 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     //stopping refresh animation
                     mSwipeRefreshLayout.setRefreshing(false);
 
-                    //server made some mess while handling data
-                    Log.i("Response message: ", response.message() + " " + response.code());
+                    if(preferences.getBoolean("requestLog",false) ){
+                        Log.d(TAG, "callApi: Response message: " + response.message() + " " + response.code());
+                    }
 
-
+                    //some mess happened
                     Toast.makeText(getContext(), "Something went wrong",
                             Toast.LENGTH_SHORT).show();
 
