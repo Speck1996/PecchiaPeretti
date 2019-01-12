@@ -7,9 +7,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Managed Bean responsible for the logout of the third parties.
+ */
 @Named
 public class WebAppLogout {
 
+    /**
+     * Logout the third party and redirect to the login page.
+     */
     public void logout() {
 
         System.out.println("logging out");

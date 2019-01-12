@@ -3,6 +3,9 @@ package model.xml;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.sql.Timestamp;
 
+/**
+ * Xml Adapter for sql.Timestamp objects
+ */
 public class TimestampAdapter extends XmlAdapter<XmlTimestamp, Timestamp> {
     @Override
     public Timestamp unmarshal(XmlTimestamp v) throws Exception {

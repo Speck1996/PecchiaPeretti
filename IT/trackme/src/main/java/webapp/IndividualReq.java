@@ -14,6 +14,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.*;
 
+/**
+ * Managed Bean responsible for the forward of a new individual data request
+ */
 @Named
 public class IndividualReq {
 
@@ -106,6 +109,9 @@ public class IndividualReq {
         this.requestAlreadyExists = requestAlreadyExists;
     }
 
+    /**
+     * Process the data inserted in the form and try to create a new request
+     */
     public void processRequest() {
         System.out.println(print());
 

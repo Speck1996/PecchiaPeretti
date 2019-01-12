@@ -12,6 +12,9 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Managed Bean responsible for subscribe/unsubscribe to a request
+ */
 @Named
 public class SubscriptionController {
 
@@ -69,6 +72,9 @@ public class SubscriptionController {
         this.freq = freq;
     }
 
+    /**
+     * Unsubscribe from the request
+     */
     public void unsubscribe() {
 
         if(nameReq != null) {
@@ -85,6 +91,9 @@ public class SubscriptionController {
         }
     }
 
+    /**
+     * Subscribe to the request with the frequency in the form
+     */
     public void subscribe() {
 
         if(nameReq != null) {

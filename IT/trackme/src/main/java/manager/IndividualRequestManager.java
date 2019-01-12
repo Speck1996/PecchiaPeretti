@@ -111,9 +111,13 @@ public class IndividualRequestManager{
         deleteRequest(taxcode, usernameTP);
     }
 
+    /**
+     * Retrieve all the individual requests issued by the given third party
+     * @param usernameTP Username of the third party
+     * @return The requests, null if no request exists
+     */
     public List<MonitoringEntity> getRequests(String usernameTP) {
         ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, usernameTP);
-        IndividualEntity ind = em.find(IndividualEntity.class, "FGHI");
 
         if(tp == null)
             return null;
@@ -121,10 +125,21 @@ public class IndividualRequestManager{
         return tp.getMonitorings();
     }
 
+    /**
+     * Retrieve a specific individual request
+     * @param usernameTP Username of the third party
+     * @param taxcode Taxcode of the individual
+     * @return The requests, null if it does not exist
+     */
     public MonitoringEntity getRequest(String usernameTP, String taxcode) {
         return em.find(MonitoringEntity.class, new MonitoringEntityPK(taxcode, usernameTP));
     }
 
+    /**
+     * Retrieve blood pressure data of the given individual
+     * @param taxcode Taxcode of the individual
+     * @return The data
+     */
     public List<BloodPressureEntity> getBloodPressureData(String taxcode) {
         TypedQuery<BloodPressureEntity> query = em.createNamedQuery("BloodPressure.requestIndividual", BloodPressureEntity.class);
         query.setParameter("taxcode", taxcode);
@@ -133,6 +148,11 @@ public class IndividualRequestManager{
         return results;
     }
 
+    /**
+     * Retrieve heart beat data of the given individual
+     * @param taxcode Taxcode of the individual
+     * @return The data
+     */
     public List<HeartbeatEntity> getHeartBeatData(String taxcode) {
         TypedQuery<HeartbeatEntity> query = em.createNamedQuery("Heartbeat.requestIndividual", HeartbeatEntity.class);
         query.setParameter("taxcode", taxcode);
@@ -141,6 +161,11 @@ public class IndividualRequestManager{
         return results;
     }
 
+    /**
+     * Retrieve sleep time data of the given individual
+     * @param taxcode Taxcode of the individual
+     * @return The data
+     */
     public List<SleepTimeEntity> getSleepTimeData(String taxcode) {
         TypedQuery<SleepTimeEntity> query = em.createNamedQuery("SleepTime.requestIndividual", SleepTimeEntity.class);
         query.setParameter("taxcode", taxcode);
@@ -149,6 +174,11 @@ public class IndividualRequestManager{
         return results;
     }
 
+    /**
+     * Retrieve steps data of the given individual
+     * @param taxcode Taxcode of the individual
+     * @return The data
+     */
     public List<StepsEntity> getStepsData(String taxcode) {
         TypedQuery<StepsEntity> query = em.createNamedQuery("Steps.requestIndividual", StepsEntity.class);
         query.setParameter("taxcode", taxcode);
@@ -157,6 +187,12 @@ public class IndividualRequestManager{
         return results;
     }
 
+    /**
+     * Set the frequency of the request identified by usernameTP and taxcode
+     * @param usernameTP Username of the third party
+     * @param taxcode Taxcode of the individual
+     * @param frequency The new frequency
+     */
     public void setFrequency(String usernameTP, String taxcode, UpdateFrequency frequency) {
         System.out.println("freq: " + frequency);
         MonitoringEntity monitoring = em.find(MonitoringEntity.class, new MonitoringEntityPK(taxcode, usernameTP));
@@ -167,6 +203,11 @@ public class IndividualRequestManager{
         }
     }
 
+    /**
+     * Delete the request identified by usernameTP and taxcode
+     * @param taxcode Taxcode of the user
+     * @param usernameTP Username fo the individual
+     */
     public void deleteRequest(String taxcode, String usernameTP) {
         MonitoringEntity monitoring = em.find(MonitoringEntity.class, new MonitoringEntityPK(taxcode, usernameTP));
 

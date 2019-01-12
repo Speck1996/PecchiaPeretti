@@ -12,9 +12,7 @@ import java.util.Objects;
  */
 @Embeddable
 public class MonitoringEntityPK implements Serializable {
-    //@Column(name = "individual")
     private String individual;
-    //@Column(name = "third_party")
     private String thirdParty;
 
     public MonitoringEntityPK() {

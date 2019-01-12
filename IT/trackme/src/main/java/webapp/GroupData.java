@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Managed Bean responsible for the display of the group data
+ */
 @Named
 public class GroupData {
 

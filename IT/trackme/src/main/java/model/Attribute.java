@@ -18,6 +18,11 @@ public class Attribute {
     public static final short NAME = 16;
     public static final short SURNAME = 32;
 
+    /**
+     * Get the numeric value associated to the given array of strings
+     * @param stringAttr Array containing the attributed disired in string format
+     * @return The numeric value of the attributes
+     */
     public static short getNumericAttributes(String[] stringAttr) {
         short attributes = 0;
 
@@ -25,6 +30,8 @@ public class Attribute {
             return attributes;
 
         for(String a: stringAttr) {
+            a = a.toLowerCase();
+
             switch (a) {
                 case "name":
                     attributes = (short) (attributes | NAME);

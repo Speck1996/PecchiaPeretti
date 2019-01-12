@@ -13,14 +13,11 @@ import java.util.Objects;
                 query = "SELECT i FROM MonitoringEntity i WHERE i.individual.taxcode = :taxcode")
 })
 @Table(name = "Monitoring")
-//@IdClass(MonitoringEntityPK.class)
 public class MonitoringEntity {
 
     @EmbeddedId
     private MonitoringEntityPK id;
 
-//    private String individual;
-//    private String thirdParty;
 
     @ManyToOne
     @MapsId("individual")
@@ -32,22 +29,31 @@ public class MonitoringEntity {
     @JoinColumn(name = "third_party")
     private ThirdPartyEntity thirdParty;
 
+    @Basic
+    @Column(name = "name")
     private String name;
+
+    @Basic
+    @Column(name = "ts")
     private Timestamp ts;
 
     @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "frequency")
     private UpdateFrequency frequency;
+
+    @Basic
+    @Column(name = "views")
     private short views;
+
+    @Basic
+    @Column(name = "attributes")
     private short attributes;
 
     @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private RequestStatus status;
-    //private ThirdPartyEntity thirdPartyByThirdParty;
-
 
     public MonitoringEntity() {
     }
@@ -62,34 +68,12 @@ public class MonitoringEntity {
         this.attributes = attributes;
         this.status = RequestStatus.PENDING;
         this.id = new MonitoringEntityPK(individual.getTaxcode(), thirdParty.getUsername());
-
-        System.out.println("STATUS IN CONSTRUCTOR: " + this.status);
     }
 
     public MonitoringEntityPK getPk() {
         return id;
     }
 
-    /*@Id
-    @Column(name = "individual")
-    public String getIndividual() {
-        return individual;
-    }
-
-    public void setIndividual(String individual) {
-        this.individual = individual;
-    }
-
-    @Id
-    @Column(name = "third_party")
-    public String getThirdParty() {
-        return thirdParty;
-    }
-
-    public void setThirdParty(String thirdParty) {
-        this.thirdParty = thirdParty;
-    }
-    */
 
 
     public IndividualEntity getIndividual() {
@@ -110,8 +94,6 @@ public class MonitoringEntity {
         this.thirdParty = thirdParty;
     }
 
-    @Basic
-    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -120,8 +102,6 @@ public class MonitoringEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "ts")
     public Timestamp getTs() {
         return ts;
     }
@@ -138,8 +118,6 @@ public class MonitoringEntity {
         this.frequency = frequency;
     }
 
-    @Basic
-    @Column(name = "views")
     public short getViews() {
         return views;
     }
@@ -148,8 +126,6 @@ public class MonitoringEntity {
         this.views = views;
     }
 
-    @Basic
-    @Column(name = "attributes")
     public short getAttributes() {
         return attributes;
     }
@@ -182,15 +158,4 @@ public class MonitoringEntity {
     public int hashCode() {
         return Objects.hash(individual, thirdParty, ts, frequency, views);
     }
-
-    /*
-    @ManyToOne
-    @JoinColumn(name = "third_party", referencedColumnName = "username", nullable = false)
-    public ThirdPartyEntity getThirdPartyByThirdParty() {
-        return thirdPartyByThirdParty;
-    }
-
-    public void setThirdPartyByThirdParty(ThirdPartyEntity thirdPartyByThirdParty) {
-        this.thirdPartyByThirdParty = thirdPartyByThirdParty;
-    }*/
 }

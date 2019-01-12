@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter that prevents access to webapp's resources to all not authorized requester.
+ */
 @WebFilter(urlPatterns = "/webapp/*")
 public class WebAppFilter implements Filter {
 
@@ -16,9 +19,7 @@ public class WebAppFilter implements Filter {
         Cookie[] cookies = req.getCookies();
 
 
-
-
-        boolean trovato = false;
+        boolean found = false;
         if(cookies != null) {
             for (Cookie c : cookies) {
 
@@ -32,13 +33,13 @@ public class WebAppFilter implements Filter {
                     }
 
                     filterChain.doFilter(servletRequest, servletResponse);
-                    trovato = true;
+                    found = true;
                     break;
                 }
             }
         }
 
-        if(!trovato) {
+        if(!found) {
             System.out.println("token not found");
             HttpServletResponse resp = (HttpServletResponse) servletResponse;
             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);

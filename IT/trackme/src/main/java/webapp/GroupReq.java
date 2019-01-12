@@ -10,6 +10,9 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+/**
+ * Managed Bean responsible for the forward of a new group request
+ */
 @Named
 public class GroupReq {
 
@@ -91,6 +94,9 @@ public class GroupReq {
         this.nameError = nameError;
     }
 
+    /**
+     * Process the data inserted in the form and try to create a new request
+     */
     public void processRequest() {
         System.out.println(print());
 

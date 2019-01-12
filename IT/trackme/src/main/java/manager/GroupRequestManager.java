@@ -11,10 +11,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -51,7 +49,6 @@ public class GroupRequestManager {
      * @param age_max The maximum age indicated by the Third Party
      * @param sex The sex indicated by the Third Party
      * @param birthCountry The country of birth indicated by the Third Party
-     * @return
      */
     public void newGroupRequest(String usernameTP, String name, UpdateFrequency frequency, short views, String location, Byte age_min, Byte age_max, Sex sex, String birthCountry) throws RequestExistsException {
 
@@ -77,6 +74,14 @@ public class GroupRequestManager {
         }
     }
 
+    /**
+     * Retrieve all the data about the given view, with all the constraints specified in the given groupMonitoring
+     * @param groupMonitoring The group monitoring request
+     * @param view The desired view
+     * @return The data
+     * @see GroupMonitoringEntity
+     * @see View
+     */
     private List<?> getData(GroupMonitoringEntity groupMonitoring, short view) {
         Date dateMin, dateMax;
 
@@ -120,29 +125,65 @@ public class GroupRequestManager {
         return null;
     }
 
+    /**
+     * Retrieve blood pressure data with the constraints specified in the given groupMonitoring
+     * @param groupMonitoring The group monitoring request
+     * @return The data
+     */
+    @SuppressWarnings("unchecked")
     public List<BloodPressureEntity> getBloodPressureData(GroupMonitoringEntity groupMonitoring) {
         return (List<BloodPressureEntity>) getData(groupMonitoring, View.BLOOD_PRESSURE);
     }
 
+    /**
+     * Retrieve heart beat data with the constraints specified in the given groupMonitoring
+     * @param groupMonitoring The group monitoring request
+     * @return The data
+     */
+    @SuppressWarnings("unchecked")
     public List<HeartbeatEntity> getHeartBeatData(GroupMonitoringEntity groupMonitoring) {
         return (List<HeartbeatEntity>) getData(groupMonitoring, View.HEARTBEAT);
     }
 
+    /**
+     * Retrieve sleep time data with the constraints specified in the given groupMonitoring
+     * @param groupMonitoring The group monitoring request
+     * @return The data
+     */
+    @SuppressWarnings("unchecked")
     public List<SleepTimeEntity> getSleepTimeData(GroupMonitoringEntity groupMonitoring) {
         return (List<SleepTimeEntity>) getData(groupMonitoring, View.SLEEP_TIME);
     }
 
+    /**
+     * Retrieve steps data with the constraints specified in the given groupMonitoring
+     * @param groupMonitoring The group monitoring request
+     * @return The data
+     */
+    @SuppressWarnings("unchecked")
     public List<StepsEntity> getStepsData(GroupMonitoringEntity groupMonitoring) {
         return (List<StepsEntity>) getData(groupMonitoring, View.STEPS);
     }
 
-
+    /**
+     * Call external api to obtain location coordinates
+     * @param location The location to lookup
+     * @return All the location information
+     * @see FoundLocation
+     */
     private FoundLocation getLocation(String location) {
         System.out.println("Call to maps API: " + location);
         Geocoder geocoder = new GeocoderImpl();
         return geocoder.getLocation(location);
     }
 
+    /**
+     * Set appropriate flags in order to perform the right query
+     * @param foundLocation The location
+     * @param dateMin The earliest date of birth
+     * @param dateMax The latest date of birth
+     * @param sex The sex
+     */
     private void setFlags(FoundLocation foundLocation, Date dateMin, Date dateMax, Sex sex) {
         locationIsNull = (foundLocation == null);
         dateMinIsNull = (dateMin == null);
@@ -151,8 +192,10 @@ public class GroupRequestManager {
     }
 
 
-    /*
-    Get a date of birth given an age (and the current date)
+    /**
+     * Get a date of birth given an age (and the current date)
+     * @param age The age
+     * @return A consistent date of birth
      */
     private Date getDateFromAge(Byte age) {
         if(age == null)
@@ -168,7 +211,7 @@ public class GroupRequestManager {
     }
 
     /*
-    Set the given values as parameters of the given query
+    Methods to set the given values as parameters of the given query
      */
     private void setDates(Query query, Date dateMin, Date dateMax) {
         if(dateMin == null)
@@ -218,12 +261,17 @@ public class GroupRequestManager {
 
 
 
-
-    /*
-    Perform a query for Blood Pressure data with the given constraints
+    /**
+     * Perform a query for Blood Pressure data with the given constraints
+     * @param location The location
+     * @param dateMin The earliest date of birth
+     * @param dateMax The latest date of birth
+     * @param sex The sex
+     * @param birthCountry The birth country
+     * @param lastUpdate The timestamp for the last update, only data before this timestamp are returned
+     * @return The data
      */
     private List<?> bloodPressureQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
-        //System.out.println("blood query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
 
         TypedQuery<BloodPressureEntity> query = null;
 
@@ -275,8 +323,15 @@ public class GroupRequestManager {
         return results;
     }
 
-    /*
-    Perform a query for Heartbeat data with the given constraints
+    /**
+     * Perform a query for Heartbeat data with the given constraints
+     * @param location The location
+     * @param dateMin The earliest date of birth
+     * @param dateMax The latest date of birth
+     * @param sex The sex
+     * @param birthCountry The birth country
+     * @param lastUpdate The timestamp for the last update, only data before this timestamp are returned
+     * @return The data
      */
     private List<?> heartbeatQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
         //System.out.println("heart query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
@@ -328,8 +383,15 @@ public class GroupRequestManager {
         return results;
     }
 
-    /*
-    Perform a query for Sleep Time data with the given constraints
+    /**
+     * Perform a query for Sleep Time data with the given constraints
+     * @param location The location
+     * @param dateMin The earliest date of birth
+     * @param dateMax The latest date of birth
+     * @param sex The sex
+     * @param birthCountry The birth country
+     * @param lastUpdate The timestamp for the last update, only data before this timestamp are returned
+     * @return The data
      */
     private List<?> sleepTimeQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
         //System.out.println("sleep query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);
@@ -385,8 +447,15 @@ public class GroupRequestManager {
 
     }
 
-    /*
-    Perform a query for Steps data with the given constraints
+    /**
+     * Perform a query for Steps data with the given constraints
+     * @param location The location
+     * @param dateMin The earliest date of birth
+     * @param dateMax The latest date of birth
+     * @param sex The sex
+     * @param birthCountry The birth country
+     * @param lastUpdate The timestamp for the last update, only data before this timestamp are returned
+     * @return The data
      */
     private List<?> stepsQuery(FoundLocation location, Date dateMin, Date dateMax, Sex sex, String birthCountry, Timestamp lastUpdate) {
         //System.out.println("steps query: " + location.getName() + " " + dateMin + " " + dateMax + " " + sex + " " + birthCountry);

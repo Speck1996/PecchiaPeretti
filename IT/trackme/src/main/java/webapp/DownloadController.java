@@ -23,6 +23,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
+/**
+ * Servlet responsible to create and return data in xml format
+ */
 @WebServlet(urlPatterns = "/webapp/download")
 public class DownloadController extends HttpServlet {
 

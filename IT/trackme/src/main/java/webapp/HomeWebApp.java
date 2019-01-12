@@ -5,7 +5,9 @@ import login.AuthenticationUtils;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-
+/**
+ * Managed Bean responsible for the homepage
+ */
 @Named
 public class HomeWebApp {
 

@@ -31,10 +31,10 @@ public class DataCollector extends Application {
     private EntityManager em = null;
 
     /**
-     *
+     * Save new data about blood pressure
      * @param username The username of the individual
      * @param valueMin The min value of the Blood Pressure to be store
-        @param valueMax The max value of the Blood Pressure to be store
+     * @param valueMax The max value of the Blood Pressure to be store
      * @param latitude The latitude of the data collection
      * @param longitude The longitude of the data collection
      */
@@ -80,7 +80,7 @@ public class DataCollector extends Application {
     }
 
     /**
-     *
+     * Save new data about heart beat
      * @param username The username of the individual
      * @param value The value of the Heartbeat to be store
      * @param latitude The latitude of the data collection
@@ -128,7 +128,7 @@ public class DataCollector extends Application {
     }
 
     /**
-     *
+     * Save new data about sleep time
      * @param username The taxcode of the individual
      * @param value The time of sleeping to be store
      * @param latitude The latitude of the data collection
@@ -164,7 +164,7 @@ public class DataCollector extends Application {
     }
 
     /**
-     *
+     * Save new data about steps
      * @param username The taxcode of the individual
      * @param value The numbers of steps to be store
      * @param latitude The latitude of the data collection

@@ -11,6 +11,9 @@ import javax.inject.Named;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Managed Bean responsible for the display of individual data
+ */
 @Named
 public class IndivData {
 

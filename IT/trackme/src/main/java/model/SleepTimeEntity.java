@@ -36,7 +36,6 @@ import java.util.Objects;
         @NamedQuery(name = "SleepTime.requestIndividual", query = "SELECT s FROM SleepTimeEntity s WHERE s.id.individual = :taxcode"),
 })
 @Table(name = "SleepTime")
-//@IdClass(SleepTimeEntityPK.class)
 public class SleepTimeEntity {
     @EmbeddedId
     private SleepTimeEntityPK id;

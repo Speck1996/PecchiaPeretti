@@ -6,6 +6,10 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Primary key class for Group Monitoring entity
+ * @see GroupMonitoringEntity
+ */
 @Embeddable
 public class GroupMonitoringEntityPK implements Serializable {
 

@@ -34,7 +34,6 @@ import java.util.Objects;
         @NamedQuery(name = "Steps.requestIndividual", query = "SELECT s FROM StepsEntity s WHERE s.id.individual = :taxcode"),
 })
 @Table(name = "Steps")
-//@IdClass(StepsEntityPK.class)
 public class StepsEntity {
 
     @EmbeddedId
@@ -123,14 +122,14 @@ public class StepsEntity {
         if (o == null || getClass() != o.getClass()) return false;
         StepsEntity that = (StepsEntity) o;
         return value == that.value &&
-                Objects.equals(individual, that.individual) &&
-                //Objects.equals(day, that.day) &&
+                id.equals(that.id) &&
+                individual.equals(that.individual) &&
                 Objects.equals(latitude, that.latitude) &&
                 Objects.equals(longitude, that.longitude);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(individual,/* day,*/ value, latitude, longitude);
+        return Objects.hash(id, individual, value, latitude, longitude);
     }
 }

@@ -10,6 +10,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.util.Map;
 
+/**
+ * Managed Bean responsible for the deletion of a request (either individual or group)
+ */
 @Named
 public class DeletionController {
 
@@ -69,6 +72,10 @@ public class DeletionController {
         this.taxcode = taxcode;
     }
 
+    /**
+     * Delete the request
+     * @return The redirection page
+     */
     public String delete() {
 
         if(nameReq != null) {

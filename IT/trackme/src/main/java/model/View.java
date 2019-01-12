@@ -30,6 +30,7 @@ public class View {
             return views;
 
         for(String v: stringsView) {
+            v = v.toLowerCase();
             switch (v) {
                 case "steps":
                     views = (short) (views | View.STEPS);

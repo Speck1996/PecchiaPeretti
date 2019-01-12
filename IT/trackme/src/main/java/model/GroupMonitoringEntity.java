@@ -1,8 +1,6 @@
 package model;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import manager.geocoding.FoundLocation;
-import org.hibernate.annotations.ListIndexBase;
 
 import javax.persistence.*;
 import java.io.*;
@@ -27,8 +25,6 @@ public class GroupMonitoringEntity {
     @JoinColumn(name = "third_party")
     private ThirdPartyEntity thirdParty;
 
-    //private int id;
-    //private String name;
     @Basic
     @Column(name = "ts")
     private Timestamp ts;
@@ -74,10 +70,13 @@ public class GroupMonitoringEntity {
         return byteFoundLocation;
     }
 
+    /**
+     * Set a new FoundLocation by means of an array of byte
+     * @param byteFoundLocation The byte array represent a FoundLocation object
+     * @see FoundLocation
+     */
     public void setByteFoundLocation(byte[] byteFoundLocation) {
         this.byteFoundLocation = byteFoundLocation;
-        //TODO
-        System.out.println("Setto il bytarray");
 
         ByteArrayInputStream bais;
         ObjectInputStream in;
@@ -113,7 +112,6 @@ public class GroupMonitoringEntity {
 
     public void setFoundLocation(FoundLocation foundLocation) {
         this.foundLocation = foundLocation;
-        //TODO
 
         ByteArrayOutputStream baos;
         ObjectOutputStream out;

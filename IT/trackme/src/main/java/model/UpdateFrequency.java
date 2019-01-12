@@ -11,9 +11,16 @@ import java.util.Calendar;
 public enum UpdateFrequency {
     WEEK, MONTH, QUARTER, SEMESTER, YEAR;
 
+    /**
+     * Get the instance specified by the given string
+     * @param freq The string representing a frequency
+     * @return The UpdateFrequency instance desired or null if freq has no correspondence
+     */
     public static UpdateFrequency getFrequency(String freq) {
         if(freq == null)
             return null;
+
+        freq = freq.toLowerCase();
 
         switch (freq) {
             case "week":

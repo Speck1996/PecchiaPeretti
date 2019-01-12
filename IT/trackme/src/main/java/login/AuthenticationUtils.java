@@ -8,10 +8,17 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Utilities class that offers static method regarding authentication and authorization issue.
+ */
 public class AuthenticationUtils {
 
     /**
@@ -73,6 +80,11 @@ public class AuthenticationUtils {
     }
 
 
+    /**
+     * Retrieve the username from the given token
+     * @param token The token
+     * @return The username contained in the token
+     */
     static String getUsernameFromToken(String token) {
         if(token == null)
             return null;
@@ -83,6 +95,12 @@ public class AuthenticationUtils {
         return username;
     }
 
+    /**
+     * Retrieve the username from a map of cookies.
+     * The map must contained an authentication cookie with a valid token.
+     * @param cookies The map of cookies
+     * @return The username contained in the token, or null if the map is null, the map does not contain an authorization cookie or the token is invalid
+     */
     public static String getUsernameByCookiesMap(Map<String, Object> cookies) {
         if(cookies != null) {
             Cookie c = (Cookie) cookies.get(WebAppLogin.COOKIE_NAME);
@@ -95,6 +113,12 @@ public class AuthenticationUtils {
         return null;
     }
 
+    /**
+     * Retrieve the username from an array of cookies.
+     * The array must contained an authentication cookie witha a valid token.
+     * @param cookies The array of cookies
+     * @return The username contained in the token, or null if the array is null, the array does not contain an authorization cookie or the token is invalid
+     */
     public static String getUsernameByCookiesArray(Cookie[] cookies) {
         if(cookies == null)
             return null;
@@ -105,6 +129,26 @@ public class AuthenticationUtils {
             }
         }
 
+        return null;
+    }
+
+    /**
+     * Check if an error has occurred in the given faces component
+     * @param component The faces component
+     * @return The css class for error if an error occurred, null otherwise
+     */
+    public static String fieldError(UIComponent component) {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        String clientId = component.getClientId(context);
+        Iterator<FacesMessage> messages = context.getMessages(clientId);
+
+        while (messages.hasNext()) {
+            if (messages.next().getSeverity().compareTo(
+                    FacesMessage.SEVERITY_ERROR) >= 0) {
+                return "input-error";
+            }
+        }
         return null;
     }
 }

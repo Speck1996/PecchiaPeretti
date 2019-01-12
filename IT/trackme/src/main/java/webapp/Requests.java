@@ -15,6 +15,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Managed Bean responsible for the display of the requests
+ */
 @Named
 public class Requests {
 

@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Managed Bean responsible for the login of the third parties.
+ */
 @Named
 public class WebAppLogin {
 
@@ -29,6 +32,8 @@ public class WebAppLogin {
     @PersistenceContext(unitName = "NewPersistenceUnit")
     private EntityManager em;
 
+
+
     public UIComponent getUsernameInput() {
         return usernameInput;
     }
@@ -37,8 +42,12 @@ public class WebAppLogin {
         this.usernameInput = usernameInput;
     }
 
+    /**
+     * Check if there was an error in the username field
+     * @return The name of the css class for error if an error occurred, null otherwise
+     */
     public String getErrorUsername() {
-        return fieldError(usernameInput);
+        return AuthenticationUtils.fieldError(usernameInput);
     }
 
     public UIComponent getPasswordInput() {
@@ -50,25 +59,18 @@ public class WebAppLogin {
         this.passwordInput = passwordInput;
     }
 
+    /**
+     * Check if there was an error in the password field
+     * @return The name of the css class for error if an error occurred, null otherwise
+     */
     public String getErrorPassword() {
-        return fieldError(passwordInput);
+        return AuthenticationUtils.fieldError(passwordInput);
     }
 
-    private String fieldError(UIComponent component) {
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        String clientId = component.getClientId(context);
-        Iterator<FacesMessage> messages = context.getMessages(clientId);
-
-        while (messages.hasNext()) {
-            if (messages.next().getSeverity().compareTo(
-                    FacesMessage.SEVERITY_ERROR) >= 0) {
-                return "input-error";
-            }
-        }
-        return null;
-    }
-
+    /**
+     * Whether the username and/or the password are wrong
+     * @return true if an error occured, false otherwise
+     */
     public boolean isError() {
         return error;
     }
@@ -77,6 +79,10 @@ public class WebAppLogin {
         this.error = error;
     }
 
+    /**
+     * Try to login the third party
+     * @return The redirection page.
+     */
     public String login() {
 
 
@@ -97,7 +103,6 @@ public class WebAppLogin {
 
             error = false;
 
-            //return "/login/securedresource/message?faces-redirect=true";
             String r = "webapp/home.xhtml?faces-redirect=true";
             System.out.println("returning: " + r);
             return r;
@@ -109,6 +114,12 @@ public class WebAppLogin {
         }
     }
 
+    /**
+     * Check the validity of the given username and password
+     * @param username The username
+     * @param password The password
+     * @throws LoginException If the login fails
+     */
     private void authenticate(String username, String password) throws LoginException {
         ThirdPartyEntity tp = em.find(ThirdPartyEntity.class, username);
 

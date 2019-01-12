@@ -5,7 +5,6 @@ import model.xml.TimestampAdapter;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -35,7 +34,6 @@ import java.util.Objects;
         @NamedQuery(name = "Heartbeat.requestIndividual", query = "SELECT h FROM HeartbeatEntity h WHERE h.id.individual = :taxcode"),
 })
 @Table(name = "Heartbeat")
-//@IdClass(HeartbeatEntityPK.class)
 public class HeartbeatEntity {
 
     @EmbeddedId

@@ -35,7 +35,7 @@ import java.util.Objects;
 
 })
 @Table(name = "BloodPressure")
-//@IdClass(BloodPressureEntityPK.class)
+
 public class BloodPressureEntity {
 
     @EmbeddedId

@@ -9,6 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.util.Iterator;
 
+/**
+ * Managed Bean responsible for the signup of the third parties.
+ */
 @Named
 public class WebAppSignUp {
 
@@ -87,8 +90,12 @@ public class WebAppSignUp {
         this.usernameInput = usernameInput;
     }
 
+    /**
+     * Check if there was an error in the username field
+     * @return The name of the css class for error if an error occurred, null otherwise
+     */
     public String getErrorUsername() {
-        return fieldError(usernameInput);
+        return AuthenticationUtils.fieldError(usernameInput);
     }
 
     public UIComponent getEmailInput() {
@@ -99,8 +106,12 @@ public class WebAppSignUp {
         this.emailInput = emailInput;
     }
 
+    /**
+     * Check if there was an error in the email field
+     * @return The name of the css class for error if an error occurred, null otherwise
+     */
     public String getErrorEmail() {
-        return fieldError(emailInput);
+        return AuthenticationUtils.fieldError(emailInput);
     }
 
     public UIComponent getPasswordInput() {
@@ -111,8 +122,12 @@ public class WebAppSignUp {
         this.passwordInput = passwordInput;
     }
 
+    /**
+     * Check if there was an error in the password field
+     * @return The name of the css class for error if an error occurred, null otherwise
+     */
     public String getErrorPassword() {
-        return fieldError(passwordInput);
+        return AuthenticationUtils.fieldError(passwordInput);
     }
 
     public UIComponent getConfirmInput() {
@@ -123,25 +138,19 @@ public class WebAppSignUp {
         this.confirmInput = confirmInput;
     }
 
+    /**
+     * Check if there was an error in the password confirmation field
+     * @return The name of the css class for error if an error occurred, null otherwise
+     */
     public String getErrorConfirm() {
-        return fieldError(confirmInput);
+        return AuthenticationUtils.fieldError(confirmInput);
     }
 
-    private String fieldError(UIComponent component) {
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        String clientId = component.getClientId(context);
-        Iterator<FacesMessage> messages = context.getMessages(clientId);
-
-        while (messages.hasNext()) {
-            if (messages.next().getSeverity().compareTo(
-                    FacesMessage.SEVERITY_ERROR) >= 0) {
-                return "input-error";
-            }
-        }
-        return null;
-    }
-
+    /**
+     * Check if an error occurred in form submission.
+     * If it is the cast, show an error message on faces
+     * @return true if an error occured, false otherwise
+     */
     public boolean isError() {
         return error;
     }
@@ -150,6 +159,10 @@ public class WebAppSignUp {
         this.error = error;
     }
 
+    /**
+     * Retrieve the error message
+     * @return The error message
+     */
     public String getErrorMsg() {
         return errorMsg;
     }
@@ -158,6 +171,10 @@ public class WebAppSignUp {
         this.errorMsg = errorMsg;
     }
 
+    /**
+     * Try to signup the third party.
+     * @return The redirection page (the same if signup failed)
+     */
     public String signup() {
         if(!password.equals(confPassword)) {
             error = true;

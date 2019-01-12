@@ -3,6 +3,9 @@ package model.xml;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.sql.Time;
 
+/**
+ * Xml Adapter for sql.Time objects
+ */
 public class TimeAdapter extends XmlAdapter<XmlTime, Time> {
     @Override
     public Time unmarshal(XmlTime v) throws Exception {

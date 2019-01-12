@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter that redirect users.
+ * Already logged users are redirect from login and signup pages to the webapp's homepage.
+ */
 @WebFilter(urlPatterns = "/*")
 public class WebAppFilterRedirect implements Filter {
 
