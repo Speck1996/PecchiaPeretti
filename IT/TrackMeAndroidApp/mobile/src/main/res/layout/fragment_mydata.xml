@@ -11,10 +11,10 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/sleepView"
+            android:id="@+id/frag_sleepView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_below="@+id/stepView"
+            android:layout_below="@+id/frag_stepView"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             app:cardBackgroundColor="@color/colorPrimary"
@@ -58,7 +58,7 @@
                     app:layout_constraintGuide_percent="0.3" />
 
                 <ImageView
-                    android:id="@+id/sleepicoView"
+                    android:id="@+id/frag_sleepicoView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_alignParentStart="true"
@@ -70,12 +70,12 @@
                     app:srcCompat="@drawable/sleepico" />
 
                 <TextView
-                    android:id="@+id/sleepText"
+                    android:id="@+id/frag_sleepText"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/sleepicoView"
+                    android:layout_toEndOf="@+id/frag_sleepicoView"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/no_data"
                     android:textAlignment="center"
@@ -104,10 +104,10 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/stepView"
+            android:id="@+id/frag_stepView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_below="@+id/bloodView"
+            android:layout_below="@+id/frag_bloodView"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             app:cardBackgroundColor="@color/colorPrimary"
@@ -144,7 +144,7 @@
                     app:layout_constraintGuide_percent="0.3" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/frag_stepico"
                     android:layout_width="147dp"
                     android:layout_height="126dp"
                     android:layout_alignParentStart="true"
@@ -156,12 +156,12 @@
                     app:srcCompat="@drawable/stepico" />
 
                 <TextView
-                    android:id="@+id/stepText"
+                    android:id="@+id/frag_stepText"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/imageView6"
+                    android:layout_toEndOf="@+id/frag_stepico"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/no_data"
                     android:textAlignment="center"
@@ -197,10 +197,10 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/bloodView"
+            android:id="@+id/frag_bloodView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_below="@+id/heartView"
+            android:layout_below="@+id/frag_heartview"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             app:cardBackgroundColor="@color/colorPrimary"
@@ -244,7 +244,7 @@
                     app:layout_constraintGuide_percent="0.30" />
 
                 <ImageView
-                    android:id="@+id/bloodicoView"
+                    android:id="@+id/frag_bloodico"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_alignParentStart="true"
@@ -256,12 +256,12 @@
                     app:srcCompat="@drawable/bloodico" />
 
                 <TextView
-                    android:id="@+id/bloodText"
+                    android:id="@+id/frag_bloodtext"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/bloodicoView"
+                    android:layout_toEndOf="@+id/frag_bloodico"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/no_data"
                     android:textAlignment="center"
@@ -290,7 +290,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/heartView"
+            android:id="@+id/frag_heartview"
             android:layout_width="0dp"
             android:layout_height="0dp"
 
@@ -335,7 +335,7 @@
                     app:layout_constraintGuide_percent="0.04" />
 
                 <ImageView
-                    android:id="@+id/heartVIew"
+                    android:id="@+id/frag_heartico"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
 
@@ -346,13 +346,13 @@
                     app:srcCompat="@drawable/heartico" />
 
                 <TextView
-                    android:id="@+id/heartText"
+                    android:id="@+id/frag_heartText"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
-                    android:layout_toEndOf="@+id/heartVIew"
+                    android:layout_toEndOf="@+id/frag_heartico"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/no_data"
                     android:textAlignment="center"
@@ -395,7 +395,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/send_data_button"
+            android:id="@+id/frag_send_data_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.data4help.trackme.R;
 import java.sql.Time;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+
 import model.IndividualData;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -32,6 +32,7 @@ import retrofit2.Response;
 import retrofitclient.RetrofitClient;
 import static android.content.Context.LOCATION_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static retrofitclient.RetrofitClient.BASE_URL;
 
 
 /**
@@ -61,23 +62,37 @@ public class MyDataFragment extends Fragment  {
     private TextView heartBeatView;
 
 
-    private static final String HEART_KEY = "heart";
 
     /**
      * TextView showing the last registered sleep time
      */
     private TextView sleepTimeView;
 
-    private static final String SLEEP_KEY = "sleep";
 
     /**
      * TextView showing the last registered blood pressure
      */
     private TextView bloodPressureView;
 
+    /**
+     * String to restore the blood pressure last value
+     */
     private static final String BP_KEY = "blood";
 
+    /**
+     * String to restore the heart rate last value
+     */
+    private static final String HEART_KEY = "heart";
 
+    /**
+     * String to restore  sleep time last value
+     */
+    private static final String SLEEP_KEY = "sleep";
+
+    /**
+     * String to restore steps taken last value
+     */
+    private static final String STEPS_KEY = "steps";
 
 
     /**
@@ -85,16 +100,11 @@ public class MyDataFragment extends Fragment  {
      */
     private TextView stepsView;
 
-    private static final String STEPS_KEY = "steps";
-
 
     /**
      * Boolean used to store user location permission status
      */
     private boolean locationAllowed;
-
-
-    private final static  String TAG = "MyData Fragment";
 
 
     private View view;
@@ -104,6 +114,9 @@ public class MyDataFragment extends Fragment  {
      */
     private FloatingActionButton button;
 
+    /**
+     * Preference needed to communicate with the server
+     */
     private SharedPreferences preferences;
 
 
@@ -113,14 +126,27 @@ public class MyDataFragment extends Fragment  {
     private RetrofitClient rClient;
 
 
+    /**
+     * Tag for the data fragment
+     */
+    private final static  String TAG = "MyData Fragment";
+
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onPause() {
 
+        //stopping location updates
         locationManager.removeUpdates(locationListener);
 
         super.onPause();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -186,7 +212,7 @@ public class MyDataFragment extends Fragment  {
         setRetainInstance(true);
 
         //initializing the client
-        rClient = RetrofitClient.getInstance(preferences.getString("url","http://10.0.2.2:8080/trackme/rest/"));
+        rClient = RetrofitClient.getInstance(preferences.getString("url",BASE_URL));
 
 
         if(view == null) {
@@ -207,6 +233,9 @@ public class MyDataFragment extends Fragment  {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
@@ -227,6 +256,10 @@ public class MyDataFragment extends Fragment  {
 
     }
 
+    /**
+     * Method used to restore the view from saved instances
+     * @param savedInstanceState the instance from wich the view will be restored
+     */
     private void restoreView(Bundle savedInstanceState){
 
         String heartString = savedInstanceState.getString(HEART_KEY);
@@ -247,15 +280,17 @@ public class MyDataFragment extends Fragment  {
 
 
 
-
+    /**
+     * Method used to bind the view with activity attributes
+     */
     private void bindView(){
 
         //binding the view
-        button = view.findViewById(R.id.send_data_button);
-        heartBeatView = view.findViewById(R.id.heartText);
-        sleepTimeView = view.findViewById(R.id.sleepText);
-        bloodPressureView = view.findViewById(R.id.bloodText);
-        stepsView = view.findViewById(R.id.stepText);
+        button = view.findViewById(R.id.frag_send_data_button);
+        heartBeatView = view.findViewById(R.id.frag_heartText);
+        sleepTimeView = view.findViewById(R.id.frag_sleepText);
+        bloodPressureView = view.findViewById(R.id.frag_bloodtext);
+        stepsView = view.findViewById(R.id.frag_stepText);
     }
 
 
@@ -347,6 +382,11 @@ public class MyDataFragment extends Fragment  {
 
     }
 
+    /**
+     * Method used to call the api of the server, in order to send the data
+     * @param data Data sent to the server
+     * @param token the token needed to access protected resources
+     */
     private void callApi(final IndividualData data, final String token){
 
 
@@ -372,6 +412,7 @@ public class MyDataFragment extends Fragment  {
                     bloodPressureView.append(" mmHg");
                     stepsView.setText(String.valueOf(data.getSteps()));
                     stepsView.append(" steps");
+                    
                     sleepTimeView.setText(data.getSleepTime());
                     sleepTimeView.append(" time asleep");
 

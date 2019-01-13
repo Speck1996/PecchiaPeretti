@@ -10,13 +10,41 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+
+/**
+ * Class that manages the calendar view used during the signup activity
+ */
 public class DatePicker  implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+    /**
+     * Edit text used to access the calendar
+     */
     EditText dateView;
+
+    /**
+     * Day selected
+     */
     private int day;
+
+    /**
+     * Month selected
+     */
     private int month;
+    /**
+     * Year selected
+     */
     private int birthYear;
+
+    /**
+     * Context in which the calendar will pop up
+     */
     private Context context;
 
+
+    /**
+     * Constructor for the date picker
+     * @param context in which the calendar appears
+     * @param textViewId id of the edit text bound to the calendar
+     */
     public DatePicker(Context context, int textViewId) {
         Activity act = (Activity)context;
         this.dateView = act.findViewById(textViewId);
@@ -24,6 +52,10 @@ public class DatePicker  implements View.OnClickListener, DatePickerDialog.OnDat
         this.context = context;
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         birthYear = year;
@@ -33,7 +65,10 @@ public class DatePicker  implements View.OnClickListener, DatePickerDialog.OnDat
     }
 
 
-
+    /**
+     *
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
@@ -45,6 +80,9 @@ public class DatePicker  implements View.OnClickListener, DatePickerDialog.OnDat
 
     }
 
+    /**
+     * Updates the edit text with the new data
+     */
     // updates the date in the birth date EditText
     private void updateDisplay() {
 

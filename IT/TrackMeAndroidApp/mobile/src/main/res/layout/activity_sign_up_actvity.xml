@@ -7,11 +7,11 @@
     tools:context=".activities.SignUpActivity">
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/signup_name"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/sex"
+        android:layout_toEndOf="@+id/signup_sex"
         android:ems="10"
         android:maxLength="25"
         android:hint="@string/form_name"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.571" />
 
     <Spinner
-        android:id="@+id/sex"
+        android:id="@+id/signup_sex"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
@@ -35,13 +35,13 @@
         app:layout_constraintTop_toTopOf="@+id/guideline25" />
 
     <EditText
-        android:id="@+id/surname"
+        android:id="@+id/signup_surname"
         android:maxLength="25"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/name"
+        android:layout_toEndOf="@+id/signup_name"
         android:ems="10"
         android:hint="@string/form_surname"
         android:inputType="textPersonName"
@@ -52,10 +52,10 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/dateofbirth"
+        android:id="@+id/signup_dateofbirth"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/sex"
+        android:layout_below="@+id/signup_sex"
         android:layout_alignParentStart="true"
         android:clickable="true"
         android:cursorVisible="false"
@@ -72,11 +72,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline32" />
 
     <EditText
-        android:id="@+id/taxcode"
+        android:id="@+id/signup_taxcode"
         android:maxLength="25"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/dateofbirth"
+        android:layout_below="@+id/signup_dateofbirth"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:ems="10"
@@ -88,11 +88,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline36" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/signup_username"
         android:maxLength="25"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/taxcode"
+        android:layout_below="@+id/signup_taxcode"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:ems="10"
@@ -104,11 +104,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline38" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/signup_email"
         android:layout_width="0dp"
         android:maxLength="25"
         android:layout_height="0dp"
-        android:layout_below="@+id/username"
+        android:layout_below="@+id/signup_username"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:ems="10"
@@ -120,11 +120,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline42" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/signup_password"
         android:maxLength="25"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/email"
+        android:layout_below="@+id/signup_email"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:ems="10"
@@ -136,11 +136,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline44" />
 
     <EditText
-        android:id="@+id/confirmPassword"
+        android:id="@+id/signup_confirmPassword"
         android:maxLength="25"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/password"
+        android:layout_below="@+id/signup_password"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:ems="10"
@@ -153,10 +153,10 @@
 
     <android.support.v7.widget.CardView
         android:maxLength="25"
-        android:id="@+id/register"
+        android:id="@+id/signup_register"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/confirmPassword"
+        android:layout_below="@+id/signup_confirmPassword"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -189,12 +189,12 @@
     </android.support.v7.widget.CardView>
 
     <Spinner
-        android:id="@+id/country"
+        android:id="@+id/signup_country"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/surname"
+        android:layout_below="@+id/signup_surname"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/dateofbirth"
+        android:layout_toEndOf="@+id/signup_dateofbirth"
         android:entries="@array/countries"
         app:layout_constraintBottom_toTopOf="@+id/guideline34"
         app:layout_constraintEnd_toStartOf="@+id/guideline31"

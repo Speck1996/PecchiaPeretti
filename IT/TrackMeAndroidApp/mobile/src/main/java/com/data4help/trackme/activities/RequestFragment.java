@@ -24,6 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofitclient.RetrofitClient;
 import static android.content.Context.MODE_PRIVATE;
+import static retrofitclient.RetrofitClient.BASE_URL;
 
 /**
  * Fragment that handles third parties requests visualization and acceptance/refusal
@@ -66,12 +67,24 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
      */
     private View view;
 
-    private static final String TAG = "RequestFragment";
 
+    /**
+     * Adapter needed to render new requests in the recycler view
+     */
+    private RequestAdapter adapter;
+
+    /**
+     * Preferences needed to communicate with the server
+     */
     private SharedPreferences preferences;
 
+    /**
+     * Tag used in the log
+     */
+    private static final String TAG = "RequestFragment";
 
-    private RequestAdapter adapter;
+
+
 
     /**
      * {@inheritDoc}
@@ -107,7 +120,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 
         //initializing the client
-        rClient = RetrofitClient.getInstance(preferences.getString("url","http://10.0.2.2:8080/trackme/rest/"));
+        rClient = RetrofitClient.getInstance(preferences.getString("url",BASE_URL));
 
 
         // SwipeRefreshLayout
@@ -161,6 +174,12 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
         callApi(token,individualUsername);
     }
 
+
+    /**
+     * Method used to retrieve requests from the server
+     * @param token Needed to access protected resources
+     * @param individualUsername Needed to access individual's specific requests
+     */
     private void callApi(String token, String individualUsername){
 
         mSwipeRefreshLayout.setRefreshing(true);

@@ -203,7 +203,6 @@ public class DataCollector extends Application {
 
     /**
      * Method called to send data to the collector.
-     * TODO replace -1 with something more elegant if data is not sent
      * @param data object containing eHealth data and some value decorating it, such as the sender username
      *             and coordinates
      * @return a response to confirm the receipt of data

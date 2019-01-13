@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.data4help.trackme.R;
 import java.text.ParseException;
@@ -25,6 +24,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofitclient.RetrofitClient;
+
+import static retrofitclient.RetrofitClient.BASE_URL;
 
 /**
  * Activity containing the form for individual's registration
@@ -82,10 +83,19 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private RetrofitClient rClient;
 
+    /**
+     * Preferences used to get the url of the server
+     */
     private SharedPreferences preferences;
 
+    /**
+     * Tag for the signup activity
+     */
     private static final String TAG = "SignUpActivity";
 
+    /**
+     * boolean set to true if a necessary form field is empty
+     */
     boolean missingField;
 
 
@@ -102,7 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         //initializing the client
-        rClient = RetrofitClient.getInstance(preferences.getString("url","http://10.0.2.2:8080/trackme/rest/"));
+        rClient = RetrofitClient.getInstance(preferences.getString("url",BASE_URL));
 
 
         //binding the view items with the attributes
@@ -113,24 +123,27 @@ public class SignUpActivity extends AppCompatActivity {
         registerButton();
     }
 
+    /**
+     * Method used to bind the view with activity attributes
+     */
     private void bindView(){
 
 
         //view binding with the attributes
-        sexSpin = findViewById(R.id.sex);
-        nameText = findViewById(R.id.name);
-        surnameText = findViewById(R.id.surname);
-        birthDateText = findViewById(R.id.dateofbirth);
-        countrySpin = findViewById(R.id.country);
-        usernameText = findViewById(R.id.username);
-        emailText = findViewById(R.id.email);
-        taxCodeText = findViewById(R.id.taxcode);
-        passwordText = findViewById(R.id.password);
-        confirmPasswordText = findViewById(R.id.confirmPassword);
-        button = findViewById(R.id.register);
+        sexSpin = findViewById(R.id.signup_sex);
+        nameText = findViewById(R.id.signup_name);
+        surnameText = findViewById(R.id.signup_surname);
+        birthDateText = findViewById(R.id.signup_dateofbirth);
+        countrySpin = findViewById(R.id.signup_country);
+        usernameText = findViewById(R.id.signup_username);
+        emailText = findViewById(R.id.signup_email);
+        taxCodeText = findViewById(R.id.signup_taxcode);
+        passwordText = findViewById(R.id.signup_password);
+        confirmPasswordText = findViewById(R.id.signup_confirmPassword);
+        button = findViewById(R.id.signup_register);
 
         //date picker is used to have better date selection
-        DatePicker picker = new DatePicker(this,R.id.dateofbirth);
+        DatePicker picker = new DatePicker(this,R.id.signup_dateofbirth);
 
     }
 
@@ -161,7 +174,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Method used to call the server api for the signup process
+     * @param individual Object containing all necessary user information
+     */
     private void callApi(final Individual individual){
         Call call = rClient.getApi().signup(individual);
         call.enqueue(new Callback<ResponseBody>() {

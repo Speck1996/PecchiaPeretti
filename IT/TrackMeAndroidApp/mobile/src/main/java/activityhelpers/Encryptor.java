@@ -5,13 +5,24 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Ckass used to encrypt password with a SHA-256 algorithm
+ */
 public class Encryptor {
 
-
+    /**
+     * Encryptor that will be in charge of applying the encription
+     */
     private static Encryptor encryptor;
 
+
+    /**
+     * Method used to get the encryptor
+     * @return the encryptor
+     */
     public static synchronized Encryptor getInstance(){
 
+        //singleton patter: if there is no encryptor it is created
         if(encryptor== null){
             encryptor = new Encryptor();
         }
@@ -19,7 +30,11 @@ public class Encryptor {
         return encryptor;
     }
 
-
+    /**
+     * Method used to encrypt password with SHA-256 algorithm
+     * @param baseString the string to be encrypted
+     * @return the digest
+     */
     public String encrypt(String baseString){
 
             try {

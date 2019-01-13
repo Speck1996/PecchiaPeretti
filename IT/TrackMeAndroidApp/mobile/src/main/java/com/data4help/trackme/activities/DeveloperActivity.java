@@ -13,41 +13,104 @@ import android.widget.Toast;
 
 import com.data4help.trackme.R;
 
+import org.apache.commons.validator.routines.UrlValidator;
+
+/**
+ * Class for the developer screen, in which the user will set some parameters
+ */
 public class DeveloperActivity extends AppCompatActivity {
 
-    EditText serverUrl;
+    /**
+     * Edit text for the server url
+     */
+   private EditText serverUrl;
 
-    EditText hbMean;
+    /**
+     * Edit text for the heart beat mean value
+     */
+    private EditText hbMean;
 
-    EditText hbSD;
+    /**
+     * Edit text for the heart beat standard deviation value
+     */
+    private EditText hbSD;
 
-    EditText maxBpMean;
+    /**
+     * Edit text for the systolic mean value of blood pressure
+     */
+    private EditText maxBpMean;
 
-    EditText maxBpSD;
+    /**
+     * Edit text for the systolic standard deviation value of blood pressure
+     */
+    private EditText maxBpSD;
 
-    EditText minBpMean;
+    /**
+     * Edit text for the diastolic mean value of blood pressure
+     */
+    private EditText minBpMean;
 
-    EditText minBpSD;
+    /**
+     * Edit text for the diastolic standard deviation value of blood pressure
+     */
+    private EditText minBpSD;
 
-    EditText sleepMean;
 
-    EditText sleepSD;
+    /**
+     * Edit text for the sleep mean value
+     */
+    private EditText sleepMean;
 
-    EditText stepsMean;
+    /**
+     * Edit text for the sleep standard deviation value
+     */
+    private EditText sleepSD;
 
-    EditText stepsSD;
 
-    Switch activitySwitch;
+    /**
+     * Edit text for the steps mean value
+     */
+    private EditText stepsMean;
 
-    Switch signupSwitch;
+    /**
+     * Edit text for the steps standard deviation value
+     */
+    private EditText stepsSD;
 
-    Switch mydataSwitch;
+    /**
+     * Switch used to enable MainActivity Log
+     */
+    private Switch activitySwitch;
 
-    Switch requestsSwitch;
+    /**
+     * Switch used to enable SignUpActivity Log
+     */
+    private Switch signupSwitch;
 
-    MaterialButton confirmButton;
+    /**
+     * Switch used to enable MyDataActivity Log
+     */
+    private Switch mydataSwitch;
 
-    MaterialButton resetButton;
+    /**
+     * Switch used to enable RequestActivity Log
+     */
+    private Switch requestsSwitch;
+
+    /**
+     * Switched used to enable password encryption
+     */
+    private Switch encryptionSwitch;
+
+    /**
+     * Button used to apply user choices
+     */
+    private MaterialButton confirmButton;
+
+    /**
+     * Button used to reset the configuration to the standard one
+     */
+    private MaterialButton resetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +121,9 @@ public class DeveloperActivity extends AppCompatActivity {
         setButtons();
     }
 
+    /**
+     * Method used to bind the view elements with activity attributes
+     */
     private void bindView(){
 
         serverUrl = findViewById(R.id.dev_serv);
@@ -75,11 +141,15 @@ public class DeveloperActivity extends AppCompatActivity {
         signupSwitch = findViewById(R.id.signup_log);
         mydataSwitch = findViewById(R.id.mydata_log);
         requestsSwitch = findViewById(R.id.req_log);
+        encryptionSwitch = findViewById(R.id.dev_encrswitch);
         confirmButton = findViewById(R.id.dev_confirm);
         resetButton = findViewById(R.id.dev_reset);
 
     }
 
+    /**
+     * Method used to set click actions for buttons
+     */
     private  void setButtons(){
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +159,7 @@ public class DeveloperActivity extends AppCompatActivity {
 
                 try {
 
+                    //retrieving and setting values from the edit texts
                     if(hbMean.getText().toString().trim().length() > 0) {
                         int hbMeanValue = Integer.parseInt(hbMean.getText().toString());
                         preferences.edit().putInt("hbMean",hbMeanValue).apply();
@@ -146,22 +217,28 @@ public class DeveloperActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
 
-
+                //retrieving and setting values for the switchs
                 boolean activityLog = activitySwitch.isChecked();
                 boolean signupLog = signupSwitch.isChecked();
                 boolean mydataLog = mydataSwitch.isChecked();
                 boolean requestLog = requestsSwitch.isChecked();
+                boolean encryption = encryptionSwitch.isChecked();
 
                 preferences.edit().putBoolean("activityLog", activityLog).apply();
                 preferences.edit().putBoolean("signupLog",signupLog).apply();
                 preferences.edit().putBoolean("mydataLog",mydataLog).apply();
                 preferences.edit().putBoolean("requestLog",requestLog).apply();
+                preferences.edit().putBoolean("encryption", encryption).apply();
 
 
+                //setting the serverl url
                 String serverString = serverUrl.getText().toString();
 
                 if(serverString.length()>0){
-                    if(URLUtil.isHttpUrl(serverString)) {
+
+                    UrlValidator urlValidator = new UrlValidator();
+
+                    if(urlValidator.isValid(serverString)) {
                         preferences.edit().putString("url", serverString).apply();
                     }else{
                         Toast.makeText(DeveloperActivity.this, "Please  insert a valid url",

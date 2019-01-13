@@ -135,11 +135,11 @@
         android:id="@+id/dev_serv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:hint="@string/server"
         android:ems="10"
+        android:hint="@string/server"
         android:inputType="textUri"
         app:layout_constraintBottom_toTopOf="@+id/guideline91"
-        app:layout_constraintEnd_toStartOf="@+id/guideline93"
+        app:layout_constraintEnd_toStartOf="@+id/guideline111"
         app:layout_constraintStart_toStartOf="@+id/guideline94"
         app:layout_constraintTop_toTopOf="@+id/guideline100" />
 
@@ -355,5 +355,15 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline93"
         app:layout_constraintStart_toStartOf="@+id/guideline110"
         app:layout_constraintTop_toTopOf="@+id/guideline108" />
+
+    <Switch
+        android:id="@+id/dev_encrswitch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/dev_encrtext"
+        app:layout_constraintBottom_toTopOf="@+id/guideline91"
+        app:layout_constraintEnd_toStartOf="@+id/guideline93"
+        app:layout_constraintStart_toStartOf="@+id/guideline110"
+        app:layout_constraintTop_toTopOf="@+id/guideline100" />
 
 </android.support.constraint.ConstraintLayout>

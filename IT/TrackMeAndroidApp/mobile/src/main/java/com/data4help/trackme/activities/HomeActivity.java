@@ -32,16 +32,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
      */
     private DrawerLayout drawer;
 
+    /**
+     * View element used to set the drawer
+     */
     private NavigationView navigationView;
 
+    /**
+     * Text in the navigation drawer header
+     */
     private TextView navSubTitle;
 
+    /**
+     * Fragment used to render mydata screen
+     */
     private MyDataFragment dataFrag;
 
+    /**
+     * Fragment used to render request screen
+     */
     private RequestFragment reqFrag;
 
+    /**
+     * Preferences used to retrieve individual's username
+     */
     private SharedPreferences preferences;
 
+    /**
+     * Tag used for the LOG
+     */
     private static final String TAG = "Home activity";
 
     /**
@@ -212,6 +230,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }else{
                 super.onBackPressed();
 
+                //retrieving current fragment
                 Fragment currentFrag =   getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
                 if(currentFrag  instanceof MyDataFragment){

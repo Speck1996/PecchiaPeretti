@@ -1,8 +1,5 @@
 package com.data4help.trackme.activities;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +20,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofitclient.RetrofitClient;
+
+import static retrofitclient.RetrofitClient.BASE_URL;
 
 
 /**
@@ -50,12 +49,24 @@ public class MainActivity extends AppCompatActivity {
      */
     private CardView login_btn;
 
+    /**
+     * Logo of the screen, used to access the developer screend
+     */
     private ImageView logoView;
 
-    SharedPreferences preferences;
+    /**
+     * Preferences used to store individual's data and set the url for the server
+     */
+    private SharedPreferences preferences;
 
+    /**
+     * Counter for logo taps
+     */
     private int logoTaps = 0;
 
+    /**
+     * Threshold used to access the developer screen
+     */
     private final static int DEVTAP = 10;
 
 
@@ -64,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private RetrofitClient rClient;
 
-
+    /**
+     * Tag for the log
+     */
     private static final String TAG = "Main activity";
 
 
@@ -119,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     public  void loginButton() {
 
 
-        String customUrl = preferences.getString("url","http://10.0.2.2:8080/trackme/rest/");
+        String customUrl = preferences.getString("url",BASE_URL);
         if(!customUrl.equals("http://10.0.2.2:8080/trackme/rest/")){
 
             rClient.clearClient();
@@ -142,20 +155,30 @@ public class MainActivity extends AppCompatActivity {
                         //fields filled
                         if(!username.isEmpty() && !password.isEmpty()){
 
+                            boolean encryption = preferences.getBoolean("encryption", false);
 
-                            Encryptor encryptor = Encryptor.getInstance();
 
-                            String digest = encryptor.encrypt(password);
 
-                            if(preferences.getBoolean("activityLog",false) ){
-                                Log.d(TAG, "loginButton: password encrypted");
-                            }
 
 
                             //object passed to the server
                             User user = new User();
                             user.setUsername(username);
-                            user.setPassword(digest);
+
+                            if(encryption) {
+
+                                if(preferences.getBoolean("activityLog",false) ){
+                                    Log.d(TAG, "loginButton: password encrypted");
+                                }
+
+                                Encryptor encryptor = Encryptor.getInstance();
+
+                                String digest = encryptor.encrypt(password);
+                                user.setPassword(digest);
+
+                            }else{
+                                user.setPassword(password);
+                            }
 
                             //calling the server
                             callApi(user);
@@ -172,15 +195,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Method used to bind the view with activity attributes
+     */
     private void bindView(){
 
 
         //binding view element with class attributes
-        logoView = findViewById(R.id.appLogo);
-        registerText = findViewById(R.id.signup);
-        usernameText = findViewById(R.id.username);
-        passwordText = findViewById(R.id.password);
-        login_btn = findViewById(R.id.loginButton);
+        logoView = findViewById(R.id.main_appLogo);
+        registerText = findViewById(R.id.main_signup);
+        usernameText = findViewById(R.id.main_username);
+        passwordText = findViewById(R.id.main_password);
+        login_btn = findViewById(R.id.main_login);
     }
 
 
@@ -255,7 +281,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call call, Throwable t) {
 
                 if(preferences.getBoolean("activityLog",false) ){
-                    Log.d(TAG, "CallApi: error contacting server" + t.toString() + " with url" + preferences.getString("url",""));
+                    Log.d(TAG, "CallApi: error contacting server" + t.toString() + " with url" +
+                            preferences.getString("url",""));
                 }
 
                 Toast.makeText(MainActivity.this, "Server not reachable",

@@ -10,10 +10,10 @@
 
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/main_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/main_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:ems="10"
@@ -29,11 +29,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/main_password"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_below="@+id/username"
-        android:layout_alignLeft="@+id/username"
+        android:layout_below="@+id/main_username"
+        android:layout_alignLeft="@+id/main_username"
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
         android:ems="10"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <ImageView
-        android:id="@+id/appLogo"
+        android:id="@+id/main_appLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clickable="true"
@@ -64,10 +64,10 @@
         app:srcCompat="@drawable/logo" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/main_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/appLogo"
+        android:layout_below="@+id/main_appLogo"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/title"
@@ -79,10 +79,10 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <android.support.v7.widget.CardView
-        android:id="@+id/loginButton"
+        android:id="@+id/main_login"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_below="@id/password"
+        android:layout_below="@id/main_password"
         android:layout_centerHorizontal="true"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
@@ -97,7 +97,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignTop="@+id/loginButton">
+            android:layout_alignTop="@+id/main_login">
 
             <TextView
                 android:id="@+id/textView2"
@@ -113,7 +113,7 @@
 
     <TextView
 
-        android:id="@+id/signup"
+        android:id="@+id/main_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 

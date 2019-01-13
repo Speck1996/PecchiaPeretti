@@ -26,17 +26,18 @@
     <string name="dev_data">MyDataFragment Log</string>
     <string name="dev_req">RequestFragment Log</string>
     <string name="dev_hb">HeartBeat Mean</string>
-    <string name="dev_hb_sd">HeartBeat StandardDev.</string>
+    <string name="dev_hb_sd">HeartBeat SD</string>
     <string name="bp_dev">BloodPressure Mean</string>
     <string name="dev_bp_sd">BloodPressure SD</string>
-    <string name="dev_sleep_min">SleepTime Min</string>
-    <string name="dev_sleep_max">SleepTime Max</string>
-    <string name="dev_step_min">Steps Min</string>
-    <string name="dev_step_max">Steps Max</string>
+    <string name="dev_sleep_min">SleepTime Mean (ms)</string>
+    <string name="dev_sleep_max">SleepTime SD (ms)</string>
+    <string name="dev_step_min">Steps Mean</string>
+    <string name="dev_step_max">Steps SD</string>
     <string name="res_but">Reset</string>
     <string name="dev_conf">Confirm</string>
     <string name="dev_bpmin_mean">BPMin Mean</string>
     <string name="dev_bpmin_sd">BPMin Sd</string>
+    <string name="dev_encrtext">Encryption</string>
 
 
     <string-array name="sex">
