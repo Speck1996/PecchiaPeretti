@@ -45,7 +45,7 @@
     <string name="too_many_att">Too many attempt in little time, please wait a second before clicking again"</string>
     <string name="data_up">Data uploaded</string>
     <string name="user_registered">User registered</string>
-    <string name="cred_taken">Username or taxcode already taken</string>
+    <string name="cred_taken">Username, taxcode or email already taken</string>
     <string name="passw_notmatch">Passwords do not match!</string>
     <string-array name="sex">
         <item>Mr</item>
