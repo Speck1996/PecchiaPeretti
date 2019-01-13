@@ -34,6 +34,9 @@ In order to execute those sql you can type in the terminal
 and enter your password.
 Alternatively, you can use MySql Workbench with \textit{File/Run sql script}.
 
+\vspace{1em}
+\noindent
+Please note the individual's password  of the samples are not hashed, so when trying to login on the Android App be sure that the encryption is disabled, as explained later in Section \ref{setting_android}
 
 \subsection{Connection pool configuration}
 Assuming \textit{domain1} is in use on glassfish, copy \texttt{mysql-connector-java-5.1.47-bin.jar} in the folder
@@ -78,6 +81,8 @@ From the glassfish administration panel:
 \item Click \textit{OK}.
 \end{enumerate}
 
+For more details or if you encountered other problems, you can refer to the administration guide of Glassfish linked in the references section.
+
 
 \subsection{Certificate issue for Nominatim API}
 It can happen that the call the to Nominatim API fails due to certification issue.
@@ -88,7 +93,7 @@ If the problem is not fixed, the location constraints for group data request are
 \noindent
 A possible fix is to use the certificates distributed along with the JDK 8.
 From the installation folder of the JDK, go to Contents/Home/jre/lib/security and copy the \texttt{cacerts} file.
-Go to the Glassfish installaton folder and then, assuming domain1 is in use, to glassfish/domains/domain1/config.
+Go to the Glassfish installation folder and then, assuming domain1 is in use, to glassfish/domains/domain1/config.
 Here there should be an already exiting \texttt{cacerts.jks}, replace this file with the previously copied from the JDK (adding the extension could be necessary).
 
 
@@ -102,7 +107,7 @@ After downloaded the \texttt{trackme.war} from the repository, follow the next s
 \item Open the administration panel (usually on port 4848).
 \item Select \textit{Applications} on the tree on the left.
 \item If not already selected, select \textit{Packaged File to Be Uploaded to the Server} and choose the \texttt{trackme.war} previously downloaded.
-\item In the \textit{Contex Root} field enter \texttt{trackme}.
+\item In the \textit{Context Root} field enter \texttt{trackme}.
 \item Click \textit{OK}.
 \end{enumerate}
 Now the trackme server should have been correctly deployed, to verify this, go to
@@ -114,7 +119,7 @@ the login page (or the homepage if the browser sent a valid authentication cooki
 To install the app on your android phone first enable the installation from unknown sources. Then download the app from the delivery folder in your phone, find it with a file manager and tap on it. Allow the installation and wait for the process to finish. The app should now have been installed.
 
 \begin{center}
-   \includegraphics[scale=0.15]{resources/unknowsources.jpg}
+   \includegraphics[scale=0.18]{resources/unknowsources.jpg}
    \captionof{figure}{Unknown sources screen}
 \end{center}
 
@@ -135,7 +140,7 @@ By tapping more than 10 times on the App logo in the main screen the user can ha
 
 
 \begin{center}
-   \includegraphics[scale=0.5]{resources/developerscreen.png}
+   \includegraphics[scale=0.7]{resources/developerscreen.png}
    \captionof{figure}{Developer Screen screenshot}
 \end{center}
 
