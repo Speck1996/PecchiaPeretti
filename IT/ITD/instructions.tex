@@ -25,7 +25,7 @@ As their name suggest, the first one create the database and the tables, the sec
 Notice that running any of these files will drop the existing data currently stored in the database.
 \vspace{1em}
 
-\noindent
+\noindent 
 In order to execute those sql you can type in the terminal
 
 \begin{center}
@@ -33,17 +33,13 @@ In order to execute those sql you can type in the terminal
 \end{center}
 and enter your password.
 Alternatively, you can use MySql Workbench with \textit{File/Run sql script}.
-\vspace{1em}
-
-\noindent
-Please note the individuals' passwords of the samples are not hashed, so when trying to login on the Android App be sure that the encryption is disabled, as explained later in Section \ref{setting_android}.
 
 
 \subsection{Connection pool configuration}
 Assuming \textit{domain1} is in use on glassfish, copy \texttt{mysql-connector-java-5.1.47-bin.jar} in the folder
 
 \begin{center}
-glassfish5/glassfish/domains/domain1/lib
+glassfish5/glassfish/domains/domain1/lib 
 \end{center}
 Now follow the next steps.
 \begin{enumerate}
@@ -65,6 +61,7 @@ Now follow the next steps.
 	\end{itemize}
 \item Click \texttt{Finish}.
 \end{enumerate}
+
 Now your database connection pool should be configured, you can check selecting the connection pool and clicking \textit{Ping} (be sure that the MySql server is running).
 A \textit{Ping Succeeded} message should show up.\vspace{1em}
 
@@ -81,7 +78,7 @@ From the glassfish administration panel:
 \item Click \textit{OK}.
 \end{enumerate}
 
-For more details or if you encountered other problems, you can refer to the administration guide of Glassfish linked in the references section.
+
 \subsection{Certificate issue for Nominatim API}
 It can happen that the call the to Nominatim API fails due to certification issue.
 This problem can be noted in the Glassfish log file when trying to perform a call for a location coordinates.
@@ -117,7 +114,7 @@ the login page (or the homepage if the browser sent a valid authentication cooki
 To install the app on your android phone first enable the installation from unknown sources. Then download the app from the delivery folder in your phone, find it with a file manager and tap on it. Allow the installation and wait for the process to finish. The app should now have been installed.
 
 \begin{center}
-   \includegraphics[scale=0.18]{resources/unknowsources.jpg}
+   \includegraphics[scale=0.15]{resources/unknowsources.jpg}
    \captionof{figure}{Unknown sources screen}
 \end{center}
 
@@ -132,20 +129,23 @@ The apk should now have been installed.
 Note: In case of multiple emulator error, run the command adb devices, pick the id of your emulator (it is usually emulator-5554) and then run the command adb -s <your emulator id> install <apk name> from the folder where the apk was moved before.
 
 
-\subsection{Setting up the App}\label{setting_android}
+\subsection{Setting up the App}
 
 By tapping more than 10 times on the App logo in the main screen the user can have access to the developer screen.
 
 
 \begin{center}
-   \includegraphics[scale=0.7]{resources/developerscreen.png}
+   \includegraphics[scale=0.5]{resources/developerscreen.png}
    \captionof{figure}{Developer Screen screenshot}
 \end{center}
 
 
 
 As can be seen from the image various settings can be specified, but the most important is the serverl url: by default the url provided bundled with the apk is the one that lets the emulator connect to the localhost. Of course this cannot be used if the App has been launched on the phone, so in the Url text field it should be specified the host url of the server. This corresponds  to http://ipv4netip:8080/trackme/rest/ in the case that both the smartphone and the device running the server are under the same network, where the ipv4netip is the network ip of the machine that runs the server.
-Moreover, to use the preloaded individual tuples that come with the DB, the encryption should be disables (it is disabled by default) since that the password contained in the DB are not hashed.
-In the end some other parameters like activating various log for the activities, or setting up the parameters for the gaussian distribution for each data can be set.
+Moreover, to use the preloaded individual tuples that come with the DB, the encryption should be disabled (it is disabled by default) since that the password contained in the DB are not hashed.
+In the end some other parameters like activating various log for the activities, or setting up the parameters for the Gaussian distribution for each data can be set.
 To apply the changes tap on the confirm button.
 In the end remember that this choices are kept as long as they are not cleared by tapping on the reset button in the developer screen.
+
+
+

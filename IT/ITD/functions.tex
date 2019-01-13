@@ -1,15 +1,15 @@
 \section{Requirements Implemented}
 
 The developing of the system started with the design and  the implementation of the DB. As stated in the DD, the server is considered as the main component in whole system. This is because it handles both the controller and the model in the MVC pattern used to build Data4Help.
-This also is coherent with what stated in the RASD, where Data4Help is described as a central hub for eHealth data.
+This also is coherent with what was stated in the RASD, where Data4Help is described as a central hub for eHealth data.
 \vspace{1em}
 
 \noindent
-After finishing the DB, the development of the RequestManager component started. This component handles all the necessary operations to distribute and perform data requests to the DB. In particular in addition to the data retrieving it checks for privacy constraints for both individual and group requests, and it also is in charge to transform location string filters in coordinates, using an external service: Nominatim.
+After finishing the DB, the development of the RequestManager component started. This component handles all the necessary operations to distribute and perform data requests to the DB. In particular in addition to the data retrieving it checks for privacy constraints for both individual and group requests, and it is also in charge of transforming location string filters in coordinates, using an external service: Nominatim.
 \vspace{1em}
 
 \noindent
-Then the next item to be implemented was the DataCollector: this component is in charge of taking individual's data and inserting it into the DB.
+Then the next item to be implemented was the DataCollector: this component takes individual's data and inserts it into the DB.
 \vspace{1em}
 
 \noindent
@@ -18,8 +18,8 @@ After having the eHealth data handling components ready the development of the l
 
 \noindent
 Once the login service was ready the android app implementation started, from the login itself. 
-Some of the app features provided in the RASD were not implemented: for example there is no way to simulate sensors eHealth data from emulated smartwatches and neither one of the two team member has an android wearOS smartwatch. During the development there was an attempt to gather the data from google fit servers using Google Fit History API, but since Google itself states in the documentation that the data gathered is not reliable, the feature was dropped for impossibility of testing it. This lead to the decision of not implementing the data history visualization process for AndroidApp, as it was mainly focused on keeping real data coming from smartwatches on Data4Help DB, so that individuals could have a backup of their eHealth Data indipendently from the owned smartwatch.
-The data gathered indeed is just some random data distributed with a gaussian, with its parameter settable from a proper screen.
+Some of the app features provided in the RASD were not implemented: for example there is no way to simulate sensors eHealth data from emulated smartwatches and neither one of the two team member has an android wearOS smartwatch. During the development there was an attempt to gather the data from google fit servers using Google Fit History API, but since Google itself states in the documentation that the data gathered is not reliable, since there is a mismatch between the Google Fit App and the google fit services, the feature was dropped for impossibility of testing it, because the data visualized in the app was different from the one sent by Google servers. This lead to the decision of not implementing the data history visualization process for AndroidApp, as it was mainly focused on keeping real data coming from smartwatches on Data4Help DB, so that individuals could have a backup of their eHealth Data independently from the owned smartwatch.
+The data gathered indeed is just some random data distributed with a Gaussian, with its parameter settable from a proper screen.
 Then the requests are fully functioning with the user that can accept or refuse requests.
 \vspace{1em}
 
