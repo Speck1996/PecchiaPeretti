@@ -14,4 +14,9 @@ Once the development of the server and of the webapp have been overall completed
 \item Subscription and deletion of requests (either individual and group).
 \end{enumerate}
 
+In the development phase of the REST API layer needed for the communication with the Android App for what regards the login process and the data sending/downloading from the server, an external tool was used, Postman, in order to make http client requests without developing a full client.
 
+
+For what regards the Android App the testing phase used both black box testing and unit testing.
+In particular black box texting was used for the integration part of the app, that is the most important one since the Android app itself it's only in charge of the view part in the MVC pattern.
+Unit tests considered the handling of some basic operation such as taking view information from the UI, with the server operations that were mocked maintain the test a unit test. 
