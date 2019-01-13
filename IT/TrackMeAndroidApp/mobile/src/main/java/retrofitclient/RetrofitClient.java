@@ -18,7 +18,7 @@ public class RetrofitClient {
      * Base string of the server
      * NOTE: use value 10.0.2.2 instead of localhost for local test purpose
      */
-    public final static String BASE_URL = "http://10.0.2.2:8080/aaaa/rest/";
+    public final static String BASE_URL = "http://10.0.2.2:8080/trackme/rest/";
 
     /**
      * Attribute containing the client singleton object

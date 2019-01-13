@@ -412,7 +412,7 @@ public class MyDataFragment extends Fragment  {
                     bloodPressureView.append(" mmHg");
                     stepsView.setText(String.valueOf(data.getSteps()));
                     stepsView.append(" steps");
-                    
+
                     sleepTimeView.setText(data.getSleepTime());
                     sleepTimeView.append(" time asleep");
 
