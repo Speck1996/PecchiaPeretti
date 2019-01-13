@@ -98,6 +98,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * Method used to create the navigation drawer
+     */
     private void createNavigationDrawer(){
         //setting up the slide menu and the action bar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -220,8 +223,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =findViewById(R.id.drawer_layout);

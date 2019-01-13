@@ -192,7 +192,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
                     //notification to the user
-                    Toast.makeText(SignUpActivity.this, "User registered",
+                    Toast.makeText(SignUpActivity.this, R.string.user_registered,
                             Toast.LENGTH_SHORT).show();
 
                     //user redirected to the login page
@@ -205,7 +205,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
                     //some error occurred
-                    Toast.makeText(SignUpActivity.this, "username or taxcode already taken",
+                    Toast.makeText(SignUpActivity.this, R.string.cred_taken,
                             Toast.LENGTH_SHORT).show();
 
                 }
@@ -218,7 +218,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if(preferences.getBoolean("signupLog",false) ){
                     Log.d(TAG, "callApi: error Response message: " + t.toString());
                 }
-                Toast.makeText(SignUpActivity.this, "Server not reachable",
+                Toast.makeText(SignUpActivity.this, R.string.error_server,
                         Toast.LENGTH_SHORT).show();
 
             }
@@ -294,13 +294,19 @@ public class SignUpActivity extends AppCompatActivity {
             } else {
 
                 //passwords don't match
-                Toast.makeText(SignUpActivity.this, "Passwords do not match!",
+                Toast.makeText(SignUpActivity.this, R.string.passw_notmatch,
                         Toast.LENGTH_SHORT).show();
                 missingField= true;
             }
         }else{
-            passwordText.setError("Obligatory field");
-            confirmPasswordText.setError("Obligatory field");
+            if(passwordText.getText().toString().length()>0){
+                confirmPasswordText.setError("Obligatory field");
+            }
+
+            if(confirmPasswordText.getText().toString().length()>0){
+                passwordText.setError("Obligatory field");
+            }
+
             missingField = true;
         }
 

@@ -25,7 +25,7 @@ As their name suggest, the first one create the database and the tables, the sec
 Notice that running any of these files will drop the existing data currently stored in the database.
 \vspace{1em}
 
-\noindent 
+\noindent
 In order to execute those sql you can type in the terminal
 
 \begin{center}
@@ -43,7 +43,7 @@ Please note the individuals' passwords of the samples are not hashed, so when tr
 Assuming \textit{domain1} is in use on glassfish, copy \texttt{mysql-connector-java-5.1.47-bin.jar} in the folder
 
 \begin{center}
-glassfish5/glassfish/domains/domain1/lib 
+glassfish5/glassfish/domains/domain1/lib
 \end{center}
 Now follow the next steps.
 \begin{enumerate}
@@ -144,11 +144,8 @@ By tapping more than 10 times on the App logo in the main screen the user can ha
 
 
 
-As can be seen from the image various settings can be specified, but the most important is the server url: by default the url provided bundled with the apk is the one that lets the emulator connect to the localhost. Of course this cannot be used if the App has been launched on the phone, so in the Url text field it should be specified the host url of the server. This corresponds  to http://ipv4netip:8080/trackme/rest/ in the case that both the smartphone and the device running the server are under the same network, where the ipv4netip is the ip in the network to which it is connected.
+As can be seen from the image various settings can be specified, but the most important is the serverl url: by default the url provided bundled with the apk is the one that lets the emulator connect to the localhost. Of course this cannot be used if the App has been launched on the phone, so in the Url text field it should be specified the host url of the server. This corresponds  to http://ipv4netip:8080/trackme/rest/ in the case that both the smartphone and the device running the server are under the same network, where the ipv4netip is the network ip of the machine that runs the server.
 Moreover, to use the preloaded individual tuples that come with the DB, the encryption should be disables (it is disabled by default) since that the password contained in the DB are not hashed.
 In the end some other parameters like activating various log for the activities, or setting up the parameters for the gaussian distribution for each data can be set.
 To apply the changes tap on the confirm button.
-In the end remember that this choices are ketp as long as they are not cleared by tapping on the reset button in the developer screen.
-
-
-
+In the end remember that this choices are kept as long as they are not cleared by tapping on the reset button in the developer screen.

@@ -413,12 +413,12 @@ public class MyDataFragment extends Fragment  {
                     stepsView.setText(String.valueOf(data.getSteps()));
                     stepsView.append(" steps");
 
-                    sleepTimeView.setText(data.getSleepTime());
-                    sleepTimeView.append(" time asleep");
+                    sleepTimeView.setText(fancyTime(data.getSleepTime()));
+                    sleepTimeView.append(" sleep time");
 
 
                     //notification of success
-                    Toast.makeText(getContext(), "Data uploaded",
+                    Toast.makeText(getContext(), R.string.data_up,
                             Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -430,8 +430,7 @@ public class MyDataFragment extends Fragment  {
                     //since some data has timestamp as part of the primary key, sending data in little time
                     //may cause incompatibility problem with the database
                     if(response.code()==500) {
-                        Toast.makeText(getContext(), "Too many attempt in little time, please wait " +
-                                        "a second before clicking again",
+                        Toast.makeText(getContext(), R.string.too_many_att,
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -442,10 +441,34 @@ public class MyDataFragment extends Fragment  {
             //something went wrong when calling the server
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(getContext(), "Server not reachable",
+                Toast.makeText(getContext(), R.string.error_server,
                         Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /**
+     * Method used to display time in a better way
+     * @param time the string to be improved
+     * @return
+     */
+    private String fancyTime(String time){
+
+        String[] tokens = time.split(":");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < tokens.length; i++) {
+            stringBuilder.append(tokens[i]);
+            if(i == 0){
+                stringBuilder.append("h");
+            }
+            if(i == 1){
+                stringBuilder.append("m");
+            }
+            if (i == 2) {
+                stringBuilder.append("s");
+            }
+        }
+        return stringBuilder.toString();
     }
 
 
