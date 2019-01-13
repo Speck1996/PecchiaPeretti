@@ -112,7 +112,7 @@ public class IndivData {
                         sb.append(" ").append(indiv.getSurname());
 
                     if((attr & Attribute.SEX) != 0 && indiv.getSex() != null)
-                        sb.append(", ").append(indiv.getSex().toString().toLowerCase());
+                        sb.append(" ").append(indiv.getSex().toString().toLowerCase());
 
                     if((attr & Attribute.AGE) != 0 && indiv.getBirthDate() != null)
                         sb.append(" ").append(indiv.getBirthDate().toString());
