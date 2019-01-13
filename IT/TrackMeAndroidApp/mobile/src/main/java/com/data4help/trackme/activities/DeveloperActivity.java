@@ -112,6 +112,9 @@ public class DeveloperActivity extends AppCompatActivity {
      */
     private MaterialButton resetButton;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

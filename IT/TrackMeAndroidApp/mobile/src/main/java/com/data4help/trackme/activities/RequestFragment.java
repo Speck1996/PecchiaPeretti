@@ -215,10 +215,10 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                         if(!requests.isEmpty()) {
                             //notification of success
-                            Toast.makeText(view.getContext(), "Data received",
+                            Toast.makeText(view.getContext(), R.string.data_rec,
                                     Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(view.getContext(), "You don't have any request",
+                            Toast.makeText(view.getContext(), R.string.no_req,
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -227,7 +227,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                     }else{
 
-                        Toast.makeText(view.getContext(), "You don't have any request",
+                        Toast.makeText(view.getContext(), R.string.no_req,
                                 Toast.LENGTH_SHORT).show();
 
                         //stopping refresh animation
@@ -244,7 +244,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     }
 
                     //some mess happened
-                    Toast.makeText(getContext(), "Something went wrong",
+                    Toast.makeText(getContext(), R.string.something_wrong,
                             Toast.LENGTH_SHORT).show();
 
                 }
@@ -259,7 +259,7 @@ public class RequestFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 //stopping refresh animation
                 mSwipeRefreshLayout.setRefreshing(false);
 
-                Toast.makeText(view.getContext(), "Server not reachable",
+                Toast.makeText(view.getContext(), R.string.error_server,
                         Toast.LENGTH_SHORT).show();
             }
         });

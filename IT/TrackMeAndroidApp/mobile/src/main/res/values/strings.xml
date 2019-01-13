@@ -38,8 +38,15 @@
     <string name="dev_bpmin_mean">BPMin Mean</string>
     <string name="dev_bpmin_sd">BPMin Sd</string>
     <string name="dev_encrtext">Encryption</string>
-
-
+    <string name="error_server">Server not reachable</string>
+    <string name="no_req">You don\'t have any request</string>
+    <string name="data_rec">Data received</string>
+    <string name="something_wrong">Something went wrong</string>
+    <string name="too_many_att">Too many attempt in little time, please wait a second before clicking again"</string>
+    <string name="data_up">Data uploaded</string>
+    <string name="user_registered">User registered</string>
+    <string name="cred_taken">Username or taxcode already taken</string>
+    <string name="passw_notmatch">Passwords do not match!</string>
     <string-array name="sex">
         <item>Mr</item>
         <item>Mrs</item>

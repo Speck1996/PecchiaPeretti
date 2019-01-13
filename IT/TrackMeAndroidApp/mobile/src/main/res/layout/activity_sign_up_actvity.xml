@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/signup_sex"
         android:ems="10"
-        android:maxLength="25"
+        android:maxLength="254"
         android:hint="@string/form_name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/guideline23"
@@ -36,7 +36,7 @@
 
     <EditText
         android:id="@+id/signup_surname"
-        android:maxLength="25"
+        android:maxLength="254"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
@@ -63,7 +63,7 @@
         android:ems="10"
         android:hint="@string/form_dob"
         android:inputType="date"
-        android:maxLength="25"
+        android:maxLength="254"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline34"
@@ -73,7 +73,7 @@
 
     <EditText
         android:id="@+id/signup_taxcode"
-        android:maxLength="25"
+        android:maxLength="254"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_below="@+id/signup_dateofbirth"
@@ -89,7 +89,7 @@
 
     <EditText
         android:id="@+id/signup_username"
-        android:maxLength="25"
+        android:maxLength="254"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_below="@+id/signup_taxcode"
@@ -106,7 +106,7 @@
     <EditText
         android:id="@+id/signup_email"
         android:layout_width="0dp"
-        android:maxLength="25"
+        android:maxLength="254"
         android:layout_height="0dp"
         android:layout_below="@+id/signup_username"
         android:layout_alignParentStart="true"
@@ -121,7 +121,7 @@
 
     <EditText
         android:id="@+id/signup_password"
-        android:maxLength="25"
+        android:maxLength="254"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_below="@+id/signup_email"
@@ -137,7 +137,7 @@
 
     <EditText
         android:id="@+id/signup_confirmPassword"
-        android:maxLength="25"
+        android:maxLength="254"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_below="@+id/signup_password"
@@ -152,7 +152,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline40" />
 
     <android.support.v7.widget.CardView
-        android:maxLength="25"
+        android:maxLength="254"
         android:id="@+id/signup_register"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //initializing the client
-        rClient = RetrofitClient.getInstance(preferences.getString("url","http://10.0.2.2:8080/trackme/rest/"));
+        rClient = RetrofitClient.getInstance(preferences.getString("url",BASE_URL));
 
         setContentView(R.layout.activity_main);
 
@@ -285,13 +285,15 @@ public class MainActivity extends AppCompatActivity {
                             preferences.getString("url",""));
                 }
 
-                Toast.makeText(MainActivity.this, "Server not reachable",
+                Toast.makeText(MainActivity.this, R.string.error_server,
                         Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
+    /**
+     * Method used to set up the logo tap functionality
+     */
     private void logoTap(){
 
         logoView.setOnClickListener(new View.OnClickListener() {

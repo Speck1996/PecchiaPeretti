@@ -17,6 +17,4 @@ Once the development of the server and of the webapp have been overall completed
 In the development phase of the REST API layer needed for the communication with the Android App for what regards the login process and the data sending/downloading from the server, an external tool was used, Postman, in order to make http client requests without developing a full client.
 
 
-For what regards the Android App the testing phase used both black box testing and unit testing.
-In particular black box texting was used for the integration part of the app, that is the most important one since the Android app itself it's only in charge of the view part in the MVC pattern.
-Unit tests considered the handling of some basic operation such as taking view information from the UI, with the server operations that were mocked maintain the test a unit test. 
+For what regards the Android App the testing phase used mainly black box texting. This is due to the fact that the app only handles the view parts and requires a persistent connection in all its functionalities. Indeed the unit tests that were developed initially were only assertion on the input fields or click listening with a mocked server, and due limited time they were dropped in favor of black box testing integrated with the whole system.
