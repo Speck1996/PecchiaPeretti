@@ -3,7 +3,6 @@ package webapp;
 import login.AuthenticationUtils;
 import manager.IndividualRequestManager;
 import model.*;
-import org.w3c.dom.Attr;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

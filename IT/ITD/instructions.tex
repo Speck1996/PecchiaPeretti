@@ -36,7 +36,7 @@ Alternatively, you can use MySql Workbench with \textit{File/Run sql script}.
 
 
 \subsection{Connection pool configuration}
-Assuming you are using \textit{domain1} on glassfish, copy the \texttt{mysql-connector-java-5.1.47-bin} in the folder
+Assuming \textit{domain1} is in use on glassfish, copy \texttt{mysql-connector-java-5.1.47-bin.jar} in the folder
 
 \begin{center}
 glassfish5/glassfish/domains/domain1/lib 
@@ -50,7 +50,7 @@ Now follow the next steps.
 \item In the \textit{Pool Name} field enter \texttt{TrackmePool}.
 \item As \textit{Resource Type} select \texttt{javax.sql.DataSource}.
 \item As \textit{Database Driver Vendor} select \texttt{MySql}.
-\item Click \textit{Next}
+\item Click \textit{Next}.
 \item Make sure that \textit{Data Source Classname} is \texttt{com.mysql.jdbc.jdbc2.optional.MysqlDataSource}.
 \item In \textit{Additional Properties}, you can delete all the default ones and set the following:
 	\begin{itemize}
