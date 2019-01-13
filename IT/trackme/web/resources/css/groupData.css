@@ -43,7 +43,7 @@ body {
     display: block;
     overflow: auto;
     width: 100%;
-    max-height: 150px;
+    max-height: 300px;
 }
 .fixed_headers tr:nth-child(even) {
     background-color: rgba(118, 184, 82, 0.3);

@@ -168,4 +168,23 @@ public class GroupData {
         return stepsData;
     }
 
+    public String getConstraints() {
+        if(groupMonitoring == null)
+            return null;
+
+        StringBuilder sb = new StringBuilder();
+        if(groupMonitoring.getLocation() != null)
+            sb.append(" Location: ").append(groupMonitoring.getLocation());
+        if(groupMonitoring.getAgeMin() != null)
+            sb.append(" Min Age: ").append(groupMonitoring.getAgeMin().toString());
+        if(groupMonitoring.getAgeMax() != null)
+            sb.append(" Max Age: ").append(groupMonitoring.getAgeMax());
+        if(groupMonitoring.getSex() != null)
+            sb.append(" Sex: ").append(groupMonitoring.getSex());
+        if(groupMonitoring.getCountry() != null)
+            sb.append(" Birth Country: ").append(groupMonitoring.getCountry());
+
+        return sb.toString();
+    }
+
 }

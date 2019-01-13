@@ -10,9 +10,11 @@ import model.View;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.*;
+import java.io.IOException;
 
 /**
  * Managed Bean responsible for the forward of a new individual data request
@@ -32,6 +34,12 @@ public class IndividualReq {
     private String description;
     private String[] view;
     private String[] attr;
+
+    private UIComponent nameInput;
+    private UIComponent usernameInput;
+    private UIComponent idTypeInput;
+    private UIComponent viewsInput;
+    private UIComponent attrInput;
 
     private boolean usernameError;
     private boolean taxcodeError;
@@ -85,6 +93,46 @@ public class IndividualReq {
         this.attr = attr;
     }
 
+    public UIComponent getNameInput() {
+        return nameInput;
+    }
+
+    public void setNameInput(UIComponent nameInput) {
+        this.nameInput = nameInput;
+    }
+
+    public UIComponent getUsernameInput() {
+        return usernameInput;
+    }
+
+    public void setUsernameInput(UIComponent usernameInput) {
+        this.usernameInput = usernameInput;
+    }
+
+    public UIComponent getIdTypeInput() {
+        return idTypeInput;
+    }
+
+    public void setIdTypeInput(UIComponent idTypeInput) {
+        this.idTypeInput = idTypeInput;
+    }
+
+    public UIComponent getViewsInput() {
+        return viewsInput;
+    }
+
+    public void setViewsInput(UIComponent viewsInput) {
+        this.viewsInput = viewsInput;
+    }
+
+    public UIComponent getAttrInput() {
+        return attrInput;
+    }
+
+    public void setAttrInput(UIComponent attrInput) {
+        this.attrInput = attrInput;
+    }
+
     public boolean isUsernameError() {
         return usernameError;
     }
@@ -107,6 +155,26 @@ public class IndividualReq {
 
     public void setRequestAlreadyExists(boolean requestAlreadyExists) {
         this.requestAlreadyExists = requestAlreadyExists;
+    }
+
+    public String getErrorName() {
+        return AuthenticationUtils.fieldError(nameInput);
+    }
+
+    public String getErrorUsername() {
+        return AuthenticationUtils.fieldError(usernameInput);
+    }
+
+    public String getErrorIdType() {
+        return AuthenticationUtils.fieldError(idTypeInput);
+    }
+
+    public String getErrorViews() {
+        return AuthenticationUtils.fieldError(viewsInput);
+    }
+
+    public String getErrorAttr() {
+        return AuthenticationUtils.fieldError(attrInput);
     }
 
     /**
@@ -156,6 +224,11 @@ public class IndividualReq {
         }
 
         System.out.println("Request completed");
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }

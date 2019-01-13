@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,9 @@ public class IndivData {
 
     @EJB
     IndividualRequestManager requestManager;
+
+    @PersistenceContext
+    EntityManager em;
 
     private String usernameTP;
     private String taxcode;
@@ -83,5 +88,50 @@ public class IndivData {
 
     public List<StepsEntity> getStepsData() {
         return requestManager.getStepsData(taxcode);
+    }
+
+    public String getAttributes() {
+            if(monitoring == null)
+                return null;
+
+            StringBuilder sb = new StringBuilder();
+            short attr = monitoring.getAttributes();
+            if(attr != 0) {
+                IndividualEntity indiv;
+
+                try {
+                    indiv = em.find(IndividualEntity.class, monitoring.getPk().getIndividual());
+
+                    if(indiv == null)
+                        return null;
+
+                    if ((attr & Attribute.NAME) != 0)
+                        sb.append(" ").append(indiv.getName());
+
+                    if((attr & Attribute.SURNAME) != 0)
+                        sb.append(" ").append(indiv.getSurname());
+
+                    if((attr & Attribute.SEX) != 0 && indiv.getSex() != null)
+                        sb.append(", ").append(indiv.getSex().toString().toLowerCase());
+
+                    if((attr & Attribute.AGE) != 0 && indiv.getBirthDate() != null)
+                        sb.append(" ").append(indiv.getBirthDate().toString());
+
+                    if((attr & Attribute.COUNTRY) != 0)
+                        sb.append(" born in ").append(indiv.getCountry());
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Individual not found: " + monitoring.getPk().getIndividual());
+                    return null;
+                }
+
+
+            }
+
+            return sb.toString();
+
+
     }
 }
