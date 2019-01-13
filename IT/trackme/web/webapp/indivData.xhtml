@@ -33,6 +33,8 @@
     <div class="container">
         <h2>Individual Data Vidualization: #{indivData.getNameRequest()}</h2>
 
+        <p>Attributes: #{indivData.getAttributes()}</p>
+
 
         <h:panelGroup rendered="#{indivData.wantsBlood()}">
             <h:dataTable value="#{indivData.bloodPressureData}" var="o" styleClass="fixed_headers">

@@ -7,8 +7,10 @@ import model.Sex;
 import model.View;
 
 import javax.ejb.EJB;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 
 /**
  * Managed Bean responsible for the forward of a new group request
@@ -26,6 +28,9 @@ public class GroupReq {
     private Integer maxAge;
     private String birthCountry;
     private String location;
+
+    private UIComponent nameInput;
+    private UIComponent viewsInput;
 
     private boolean nameError;
 
@@ -86,6 +91,30 @@ public class GroupReq {
         this.location = location;
     }
 
+    public UIComponent getNameInput() {
+        return nameInput;
+    }
+
+    public void setNameInput(UIComponent nameInput) {
+        this.nameInput = nameInput;
+    }
+
+    public UIComponent getViewsInput() {
+        return viewsInput;
+    }
+
+    public void setViewsInput(UIComponent viewsInput) {
+        this.viewsInput = viewsInput;
+    }
+
+    public String getErrorName() {
+        return AuthenticationUtils.fieldError(nameInput);
+    }
+
+    public String getErrorViews() {
+        return AuthenticationUtils.fieldError(viewsInput);
+    }
+
     public boolean isNameError() {
         return nameError;
     }
@@ -121,6 +150,11 @@ public class GroupReq {
         }
 
         System.out.println("Request forwarded");
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
