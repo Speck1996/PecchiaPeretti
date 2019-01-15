@@ -1,0 +1,78 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{graphicx}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fancyhdr}
+
+% header and footer
+\setlength{\headheight}{14pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\color{gray}{\small{TrackMe project by Stefano Pecchia and Edoardo Peretti}}}
+\lfoot{\textcolor{gray}{\small{Copyright © 2018, Stefano Pecchia and Edoardo Peretti – All rights reserved}}}
+\rfoot{\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+	\fancyhf{}
+	\lfoot{\textcolor{gray}{\small{Copyright © 2018, Stefano Pecchia and Edoardo Peretti – All rights reserved}}}
+\rfoot{\textcolor{gray}{\thepage}}
+}
+
+\title{IDT}
+\author{Stefano Pecchia \and Edoardo Peretti}
+\date{\today}
+\begin{document}
+
+\begin{titlepage}
+\centering
+
+\textcolor{black}{\textbf{Politecnico di Milano}} \par
+\textcolor{black}{\textbf{AA 2018/2019}} \par  \vspace{2em}
+\includegraphics[scale=0.7]{resources/PolimiLogo}\par \vspace{1em}
+
+Software Engineering 2 \par \vspace{1.5cm}
+\textcolor{Blue}{\Large\textbf{TrackMe}} \par \vspace{3cm}
+ 
+{\textcolor{Blue}{\textbf{\Huge{Acceptance Test Deliverable}}}} \vfill
+\renewcommand\tabcolsep{4.5em}
+\begin{tabular}{cc}
+Stefano Pecchia & Edoardo Peretti   \\
+921201  & 921286
+\end{tabular}
+\renewcommand\tabcolsep{6pt}
+
+\vspace{4cm}
+\end{titlepage}
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{rl}
+\hline
+\textbf{Deliverable:} & ADT\\
+\textbf{Title:} & Acceptance Test Deliverable\\
+\textbf{Authors:} & Stefano Pecchia and Edoardo Peretti\\
+\textbf{Version:} & 1.0 \\ 
+\textbf{Date:} & \today \\
+\textbf{Download:} & https://github.com/Speck1996/PecchiaPeretti \\
+\textbf{Copyright:} & Copyright © 2019, S. Pecchia and E. Peretti – All rights reserved \\
+\hline
+\end{tabular}
+\end{table}
+
+\newpage
+\tableofcontents
+
+\include{introduction}
+\include{testing}
+\include{other}
+\end{document}
