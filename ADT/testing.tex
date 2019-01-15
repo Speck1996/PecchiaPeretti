@@ -38,6 +38,7 @@ Here is a list of bugs that were noticed while testing the app, with the corresp
 \item[] In the profile page of the individual's App section no check is made on the user input, meaning that an user could set a random series of number and characters for its name, surname, cellphone and so on. This bug was presented because in the Signup Form instead there was a rigid check on the TC.
 \item[] In the wearable page of the individual's App, editing the wearable name caused a crash of the app. The fix for this issue is presented in picture <insert name of picture>
 \item[] The selection of countries for third parties and cities for individuals doesn't work
+\item[] Sometimes, when trying to visualize the data about an individual who has accepted the request, the application crashes. This happens with some specific individuals, apparently without any reason. For example, we observed this issue with the individual in Figure \ref{fig:indiv_crash}.
 \end{itemize}
 
 
@@ -68,3 +69,9 @@ Here is a list of bugs that were noticed while testing the app, with the corresp
    \includegraphics[scale=0.7]{resources/profilebug.png}
    \captionof{figure}{Example of profile input not checked}
 \end{center}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{resources/individual_crash}
+\caption{Individual who causes the crash}\label{fig:indiv_crash}
+\end{figure}
