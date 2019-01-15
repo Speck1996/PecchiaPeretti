@@ -1,0 +1,12 @@
+\section{Installation}
+During the Android apk installation we didn't encounter any problem, it can be easily installed both on a real device and on an emulator.
+Sadly, this was not the case for the server.
+Following the instructions provided in the ITD we were not able to deploy the application.
+When trying to import as a project in NetBeans the files extracted from the war, the IDE complains that we are trying to import compiled .class files and then fails to deploy the project.
+In any case, we didn't find in the war archive any glassfish-resource.xml that should automatically create and configure the Connections Pool as stated in the ITD.
+
+\vspace{1em}
+In order to deploy the server we had to manually configure the JDBC Resource and Connections Pool by means of the Glassfish Administration Panel (contrary to what stated in the ITD and with the MySql Connector properly installed into Glassfish).
+We also deployed directly the war file from the Administration Panel, not without difficulties because it seems that at the first try Glassfish will ever throw some errors.
+Furthermore, if Glassfish is stopped and relaunched, the application, even if it seems correctly deployed, will not working anymore and requires to be undeployed and Glassfish Server need to be relaunched before trying to redeploy the application.
+The previously problems were encountered both with Glassfish 4.1.2 (the suggested version) and Glassfish 5.0.
