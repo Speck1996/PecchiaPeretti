@@ -27,8 +27,9 @@ In the application, the location of the user or the coordinates of his data is n
 \subsection{Major Issues}
 The main major issue that came out from the testing phase derived from an architectural decision: the thick client with a local database and server with another persistent database. The advantage of this architecture is that the client doesn't require a permanent connection but on the other hand this architectural design is very dangerous and needs a lot of care since the changes between the two database have to be synchronized in order to avoid inconsistencies between the two.
 One very simple case is the following one: there are two App connected to the server and logged with the same account. One of the two changes the profile name: this change is registered by the server, but the App running on the phone where the profile was not changed doesn't update, creating inconsistency between its local DB and the server.
+Moreover, if the connection of the phone drops the data gathered from the disconnection to the reconnection is lost by the central server.
 Another case that can prove this behavior is changing the profile name, closing the app and then reopening it. For this case an example is provided below.
-Another major issue that was noted while analyzing the project is the model used in the server DB. In this model there are tables that do not map real entities and could be removed: for example the user daily activities table can be replaced by doing queries for minimum or maximum values of the heart rate and the other kind of data.
+Another major issue that was noticed while analyzing the code was the view handling: grouping together the recyclerView adapters of different fragments lead to some crashes during the test phase. Some more specific examples are provided in minor issues.
 
 
 \begin{figure}
@@ -55,6 +56,7 @@ Here is a list of bugs that were noticed while testing the app, with the corresp
 \item[] In the login page, the notification for unsuccessful login doesn't have text or displays raw data coming from an html document.
 \item[] In the profile page of the individual's App section no check is made on the user input, meaning that an user could set a random series of number and characters for its name, surname, cellphone and so on. This bug was presented because in the Signup Form instead there was a rigid check on the TC.
 \item[] In the wearable page of the individual's App, editing the wearable name caused a crash of the app. The fix for this issue is presented in picture
+\item[] In third parties requests page, if multiple requests are deleted, the app crashes.
 \item[] The selection of countries for third parties and cities for individuals doesn't work
 \item[] If a user tries to change its taxcode with a taxcode already present in the database, the application  crashes.
 \item[] Sometimes, when trying to visualize the data about an individual who has accepted the request, the application crashes. This happens with some specific individuals, apparently without any reason. For example, we observed this issue with the individual in Figure \ref{fig:indiv_crash}.
@@ -94,3 +96,8 @@ Here is a list of bugs that were noticed while testing the app, with the corresp
 \includegraphics[scale=0.8]{resources/individual_crash}
 \caption{Individual who causes the crash}\label{fig:indiv_crash}
 \end{figure}
+
+
+\subsection{Suggestions}
+The DB could be modeled in a different way: some tables are useless, for example the userdailyactivities one that contains data which could be retrieved with simple queries. 
+Another problem could be the fact that each eHealth data type coming from the individuals is only a column in the table userhealthstatus: the problem of doing this is poor upgradability in the case of inserting new eHealth data types, since all the previous tuples fields associated to the new data type should be set to null.
